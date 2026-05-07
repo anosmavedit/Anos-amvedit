@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anosカミ | Profile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* --- FIXED VIDEO SECTION --- */
+        #bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%); /* This pulls it into the center */
+            object-fit: cover;
+            filter: brightness(35%); 
+        }
+        /* --------------------------- */
+
+        #music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 195, 255, 0.1);
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            color: #00c3ff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        #music-btn:hover {
+            background: rgba(0, 195, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+        }
+
+        .card-container {
+            position: relative;
+            padding: 10px;
+            z-index: 1;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .scifi-frame {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 1px solid rgba(0, 195, 255, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 195, 255, 0.4), inset 0 0 15px rgba(0, 195, 255, 0.2);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .scifi-frame span {
+            position: absolute;
+            width: 25px; height: 25px;
+            border: 3px solid #00c3ff;
+            filter: drop-shadow(0 0 8px #00c3ff);
+        }
+        .scifi-frame span.tl { top: -2px; left: -2px; border-right: none; border-bottom: none; border-radius: 15px 0 0 0; }
+        .scifi-frame span.tr { top: -2px; right: -2px; border-left: none; border-bottom: none; border-radius: 0 15px 0 0; }
+        .scifi-frame span.bl { bottom: -2px; left: -2px; border-right: none; border-top: none; border-radius: 0 0 0 15px; }
+        .scifi-frame span.br { bottom: -2px; right: -2px; border-left: none; border-top: none; border-radius: 0 0 15px 0; }
+
+        .card {
+            background: rgba(0, 10, 25, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 18px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 2px solid #00c3ff;
+            object-fit: cover;
+            box-shadow: 0 0 25px rgba(0, 195, 255, 0.6);
+            z-index: 2;
+        }
+
+        .neon-ring-1, .neon-ring-2 {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            z-index: 1;
+        }
+
+        .neon-ring-1 {
+            width: 130px;
+            height: 130px;
+            border-top: 2px solid #00c3ff;
+            border-bottom: 2px solid #00c3ff;
+            box-shadow: 0 0 10px rgba(0, 195, 255, 0.5), inset 0 0 10px rgba(0, 195, 255, 0.5);
+            animation: spin 3s linear infinite;
+        }
+
+        .neon-ring-2 {
+            width: 120px;
+            height: 120px;
+            border-left: 2px solid rgba(0, 195, 255, 0.7);
+            border-right: 2px solid rgba(0, 195, 255, 0.7);
+            animation: spin-reverse 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spin-reverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .name { 
+            color: #ffffff; 
+            font-size: 26px; 
+            margin-bottom: 8px; 
+            font-weight: 800; 
+            text-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .bio {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-style: italic;
+            text-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+            padding: 0 10px;
+        }
+
+        .role { 
+            color: #00c3ff; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            margin-bottom: 25px; 
+            letter-spacing: 5px; 
+            font-weight: bold;
+            opacity: 0.9;
+        }
+
+        .links { display: flex; flex-direction: column; gap: 12px; }
+
+        .links a {
+            text-decoration: none;
+            color: #ffffff;
+            background: rgba(0, 195, 255, 0.1);
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 195, 255, 0.3);
+        }
+
+        .links a:hover { 
+            background: rgba(0, 195, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
+            transform: scale(1.02);
+            border-color: #00c3ff;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="music-btn" onclick="toggleMusic()">🔈 AUDIO: OFF</button>
+
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="https://cdn.discordapp.com/attachments/1214907872488595467/1502061981212086342/RE_-_UPSolo_LevelingAMV_EDIT4K_100_subs720P_60FPS.mp4?ex=69fe57bb&is=69fd063b&hm=b51c5acd2ac59c8cd678527addda8ea80e49710c8198fa52321ab8491843a8fe&" type="video/mp4">
+    </video>
+
+    <div class="card-container">
+        <div class="scifi-frame">
+            <span class="tl"></span><span class="tr"></span>
+            <span class="bl"></span><span class="br"></span>
+        </div>
+
+        <div class="card">
+            <div class="avatar-container">
+                <div class="neon-ring-1"></div>
+                <div class="neon-ring-2"></div>
+                <img src="https://i.postimg.cc/vBB8c8Zz/images-(76).jpg" class="avatar" alt="Anosカミ">
+            </div>
+
+            <div class="name">Anosカミ</div>
+            
+            <div class="bio">
+                The faintest ray of hope.<br>
+                Only those who reach out toward even the faintest ray of hope will be granted a MIRACLE.
+            </div>
+
+            <div class="role">Editor</div>
+
+            <div class="links">
+                <a href="https://www.youtube.com/@anosamvedit" target="_blank">Access Discord</a>
+                <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMusic() {
+            const video = document.getElementById('bg-video');
+            const btn = document.getElementById('music-btn');
+            
+            if (video.muted) {
+                video.muted = false;
+                btn.innerText = "🔊 AUDIO: ON";
+            } else {
+                video.muted = true;
+                btn.innerText = "🔈 AUDIO: OFF";
+            }
+        }
+    </script>
+</body>
+</html>
