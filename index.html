@@ -1,352 +1,636 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anosカミ | Profile</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Segoe UI',sans-serif;
-        }
+<title>Anosカミ | Profile</title>
 
-        body{
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            padding:20px;
-            overflow:hidden;
-            background:#000;
-        }
+<style>
 
-        /* BACKGROUND VIDEO */
-        #bg-video{
-            position:fixed;
-            top:50%;
-            left:50%;
-            min-width:100%;
-            min-height:100%;
-            width:auto;
-            height:auto;
-            transform:translate(-50%,-50%);
-            object-fit:cover;
-            z-index:-2;
-            filter:brightness(35%);
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
 
-        /* DARK OVERLAY */
-        .overlay{
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,0.2);
-            z-index:-1;
-        }
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:#000;
+    padding:20px;
+}
 
-        /* MUSIC BUTTON */
-        #music-btn{
-            position:fixed;
-            top:20px;
-            right:20px;
-            background:rgba(0,195,255,0.1);
-            border:1px solid rgba(0,195,255,0.3);
-            color:#00c3ff;
-            padding:10px 14px;
-            border-radius:8px;
-            cursor:pointer;
-            z-index:100;
-            backdrop-filter:blur(10px);
-            font-size:11px;
-            font-weight:bold;
-            letter-spacing:1px;
-            transition:0.3s;
-        }
+/* VIDEO BACKGROUND */
 
-        #music-btn:hover{
-            background:rgba(0,195,255,0.3);
-            box-shadow:0 0 15px rgba(0,195,255,0.5);
-            transform:scale(1.05);
-        }
+#bg-video{
+    position:fixed;
+    top:50%;
+    left:50%;
+    min-width:100%;
+    min-height:100%;
+    width:auto;
+    height:auto;
+    transform:translate(-50%,-50%);
+    object-fit:cover;
+    z-index:-5;
+    filter:brightness(35%);
+}
 
-        /* CARD CONTAINER */
-        .card-container{
-            position:relative;
-            width:100%;
-            max-width:380px;
-            padding:10px;
-            z-index:1;
-        }
+/* CYBER GRID */
 
-        /* SCI-FI FRAME */
-        .scifi-frame{
-            position:absolute;
-            inset:0;
-            border:1px solid rgba(0,195,255,0.5);
-            border-radius:20px;
-            box-shadow:
-                0 0 20px rgba(0,195,255,0.4),
-                inset 0 0 15px rgba(0,195,255,0.2);
-            pointer-events:none;
-        }
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
 
-        .scifi-frame span{
-            position:absolute;
-            width:25px;
-            height:25px;
-            border:3px solid #00c3ff;
-            filter:drop-shadow(0 0 8px #00c3ff);
-        }
+    background:
+    linear-gradient(rgba(0,195,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,195,255,0.08) 1px, transparent 1px);
 
-        .tl{
-            top:-2px;
-            left:-2px;
-            border-right:none;
-            border-bottom:none;
-            border-radius:15px 0 0 0;
-        }
+    background-size:40px 40px;
 
-        .tr{
-            top:-2px;
-            right:-2px;
-            border-left:none;
-            border-bottom:none;
-            border-radius:0 15px 0 0;
-        }
+    animation:gridMove 12s linear infinite;
 
-        .bl{
-            bottom:-2px;
-            left:-2px;
-            border-right:none;
-            border-top:none;
-            border-radius:0 0 0 15px;
-        }
+    z-index:-3;
 
-        .br{
-            bottom:-2px;
-            right:-2px;
-            border-left:none;
-            border-top:none;
-            border-radius:0 0 15px 0;
-        }
+    pointer-events:none;
+}
 
-        /* MAIN CARD */
-        .card{
-            background:rgba(0,10,25,0.7);
-            backdrop-filter:blur(20px);
-            -webkit-backdrop-filter:blur(20px);
-            border-radius:18px;
-            padding:40px 30px;
-            text-align:center;
-        }
+@keyframes gridMove{
 
-        /* AVATAR */
-        .avatar-container{
-            position:relative;
-            width:110px;
-            height:110px;
-            margin:0 auto 20px;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-        }
+    from{
+        transform:translateY(0px);
+    }
 
-        .avatar{
-            width:110px;
-            height:110px;
-            border-radius:50%;
-            object-fit:cover;
-            border:2px solid #00c3ff;
-            box-shadow:0 0 25px rgba(0,195,255,0.6);
-            z-index:2;
-        }
+    to{
+        transform:translateY(40px);
+    }
 
-        .neon-ring-1,
-        .neon-ring-2{
-            position:absolute;
-            border-radius:50%;
-            border:2px solid transparent;
-        }
+}
 
-        .neon-ring-1{
-            width:130px;
-            height:130px;
-            border-top:2px solid #00c3ff;
-            border-bottom:2px solid #00c3ff;
-            animation:spin 3s linear infinite;
-            box-shadow:
-                0 0 10px rgba(0,195,255,0.5),
-                inset 0 0 10px rgba(0,195,255,0.5);
-        }
+/* DARK OVERLAY */
 
-        .neon-ring-2{
-            width:120px;
-            height:120px;
-            border-left:2px solid rgba(0,195,255,0.7);
-            border-right:2px solid rgba(0,195,255,0.7);
-            animation:spinReverse 2s linear infinite;
-        }
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.25);
+    z-index:-4;
+}
 
-        @keyframes spin{
-            from{ transform:rotate(0deg); }
-            to{ transform:rotate(360deg); }
-        }
+/* FLOATING PARTICLES */
 
-        @keyframes spinReverse{
-            from{ transform:rotate(360deg); }
-            to{ transform:rotate(0deg); }
-        }
+.particles{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-2;
+    pointer-events:none;
+}
 
-        /* TEXT */
-        .name{
-            color:#fff;
-            font-size:28px;
-            font-weight:800;
-            margin-bottom:10px;
-            text-shadow:0 0 15px rgba(0,195,255,0.8);
-            letter-spacing:1px;
-        }
+.particles::before,
+.particles::after{
 
-        .bio{
-            color:rgba(255,255,255,0.85);
-            font-size:12px;
-            line-height:1.6;
-            margin-bottom:15px;
-            font-style:italic;
-            padding:0 10px;
-            text-shadow:0 0 5px rgba(0,195,255,0.3);
-        }
+    content:"";
 
-        .role{
-            color:#00c3ff;
-            font-size:11px;
-            text-transform:uppercase;
-            letter-spacing:5px;
-            font-weight:bold;
-            margin-bottom:25px;
-        }
+    position:absolute;
 
-        /* LINKS */
-        .links{
-            display:flex;
-            flex-direction:column;
-            gap:12px;
-        }
+    width:4px;
+    height:4px;
 
-        .links a{
-            text-decoration:none;
-            color:#fff;
-            background:rgba(0,195,255,0.1);
-            border:1px solid rgba(0,195,255,0.3);
-            padding:14px;
-            border-radius:10px;
-            font-size:13px;
-            font-weight:bold;
-            letter-spacing:1px;
-            transition:0.3s;
-            text-transform:uppercase;
-        }
+    border-radius:50%;
 
-        .links a:hover{
-            background:rgba(0,195,255,0.3);
-            border-color:#00c3ff;
-            box-shadow:0 0 15px rgba(0,195,255,0.5);
-            transform:scale(1.03);
-        }
-    </style>
+    background:#00c3ff;
+
+    box-shadow:
+    0 0 10px #00c3ff,
+    120px 100px #00c3ff,
+    250px 200px #00c3ff,
+    400px 300px #00c3ff,
+    600px 150px #00c3ff,
+    800px 400px #00c3ff,
+    1000px 250px #00c3ff,
+    1300px 500px #00c3ff;
+
+    animation:floatParticles 18s linear infinite;
+}
+
+.particles::after{
+    animation-duration:25s;
+    opacity:0.6;
+}
+
+@keyframes floatParticles{
+
+    from{
+        transform:translateY(100vh);
+    }
+
+    to{
+        transform:translateY(-120vh);
+    }
+
+}
+
+/* MUSIC BUTTON */
+
+#music-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+
+    z-index:100;
+
+    border:none;
+    outline:none;
+    cursor:pointer;
+
+    background:rgba(0,195,255,0.12);
+    border:1px solid rgba(0,195,255,0.35);
+
+    color:#00c3ff;
+
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    font-size:12px;
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    backdrop-filter:blur(10px);
+
+    transition:0.3s;
+
+    animation:musicGlow 2s infinite alternate;
+}
+
+#music-btn:hover{
+
+    transform:scale(1.05);
+
+    background:rgba(0,195,255,0.28);
+
+    box-shadow:0 0 18px rgba(0,195,255,0.5);
+}
+
+@keyframes musicGlow{
+
+    from{
+        box-shadow:0 0 8px rgba(0,195,255,0.2);
+    }
+
+    to{
+        box-shadow:0 0 20px rgba(0,195,255,0.7);
+    }
+
+}
+
+/* CARD */
+
+.card-container{
+    position:relative;
+    width:100%;
+    max-width:390px;
+    z-index:2;
+}
+
+.card-container:hover .card{
+
+    box-shadow:
+    0 0 35px rgba(0,195,255,0.25),
+    0 0 80px rgba(0,195,255,0.12);
+
+    transition:0.4s;
+}
+
+/* SCI-FI FRAME */
+
+.scifi-frame{
+    position:absolute;
+    inset:0;
+
+    border-radius:22px;
+
+    border:1px solid rgba(0,195,255,0.45);
+
+    box-shadow:
+    0 0 22px rgba(0,195,255,0.4),
+    inset 0 0 15px rgba(0,195,255,0.2);
+
+    pointer-events:none;
+}
+
+.scifi-frame span{
+
+    position:absolute;
+
+    width:26px;
+    height:26px;
+
+    border:3px solid #00c3ff;
+
+    filter:drop-shadow(0 0 10px #00c3ff);
+}
+
+.tl{
+    top:-2px;
+    left:-2px;
+
+    border-right:none;
+    border-bottom:none;
+
+    border-radius:14px 0 0 0;
+}
+
+.tr{
+    top:-2px;
+    right:-2px;
+
+    border-left:none;
+    border-bottom:none;
+
+    border-radius:0 14px 0 0;
+}
+
+.bl{
+    bottom:-2px;
+    left:-2px;
+
+    border-right:none;
+    border-top:none;
+
+    border-radius:0 0 0 14px;
+}
+
+.br{
+    bottom:-2px;
+    right:-2px;
+
+    border-left:none;
+    border-top:none;
+
+    border-radius:0 0 14px 0;
+}
+
+/* CARD */
+
+.card{
+
+    background:rgba(0,10,25,0.68);
+
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+
+    border-radius:22px;
+
+    padding:42px 30px;
+
+    text-align:center;
+}
+
+/* AVATAR */
+
+.avatar-container{
+    position:relative;
+
+    width:115px;
+    height:115px;
+
+    margin:0 auto 22px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.avatar{
+    width:115px;
+    height:115px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    border:2px solid #00c3ff;
+
+    box-shadow:
+    0 0 25px rgba(0,195,255,0.65);
+
+    z-index:2;
+}
+
+/* NEON RINGS */
+
+.neon-ring-1,
+.neon-ring-2{
+    position:absolute;
+    border-radius:50%;
+    border:2px solid transparent;
+}
+
+.neon-ring-1{
+
+    width:135px;
+    height:135px;
+
+    border-top:2px solid #00c3ff;
+    border-bottom:2px solid #00c3ff;
+
+    animation:spin 3s linear infinite;
+
+    box-shadow:
+    0 0 12px rgba(0,195,255,0.55),
+    inset 0 0 12px rgba(0,195,255,0.45);
+}
+
+.neon-ring-2{
+
+    width:124px;
+    height:124px;
+
+    border-left:2px solid rgba(0,195,255,0.7);
+    border-right:2px solid rgba(0,195,255,0.7);
+
+    animation:spinReverse 2s linear infinite;
+}
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+@keyframes spinReverse{
+
+    from{
+        transform:rotate(360deg);
+    }
+
+    to{
+        transform:rotate(0deg);
+    }
+
+}
+
+/* TEXT */
+
+.name{
+
+    color:#fff;
+
+    font-size:28px;
+    font-weight:800;
+
+    margin-bottom:10px;
+
+    letter-spacing:1px;
+
+    animation:namePulse 2.5s infinite alternate;
+}
+
+@keyframes namePulse{
+
+    from{
+        text-shadow:0 0 10px rgba(0,195,255,0.5);
+    }
+
+    to{
+        text-shadow:
+        0 0 22px rgba(0,195,255,1),
+        0 0 40px rgba(0,195,255,0.6);
+    }
+
+}
+
+.bio{
+
+    color:rgba(255,255,255,0.88);
+
+    font-size:12px;
+
+    line-height:1.7;
+
+    margin-bottom:16px;
+
+    font-style:italic;
+
+    text-shadow:
+    0 0 6px rgba(0,195,255,0.25);
+}
+
+.role{
+
+    color:#00c3ff;
+
+    font-size:11px;
+    font-weight:bold;
+
+    text-transform:uppercase;
+    letter-spacing:5px;
+
+    margin-bottom:26px;
+}
+
+/* LINKS */
+
+.links{
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.links a{
+
+    text-decoration:none;
+
+    color:#fff;
+
+    background:rgba(0,195,255,0.12);
+
+    border:1px solid rgba(0,195,255,0.3);
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-size:13px;
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+    transition:0.3s;
+}
+
+.links a:hover{
+
+    transform:scale(1.03);
+
+    background:rgba(0,195,255,0.28);
+
+    border-color:#00c3ff;
+
+    box-shadow:
+    0 0 18px rgba(0,195,255,0.45);
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
+
+    .card{
+        padding:36px 22px;
+    }
+
+    .name{
+        font-size:24px;
+    }
+
+    .bio{
+        font-size:11px;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-    <!-- BACKGROUND VIDEO -->
-    <video autoplay muted loop playsinline id="bg-video">
-        <source src="lv_0_20241217204212_084554.mp4" type="video/mp4">
-    </video>
+<!-- VIDEO -->
 
-    <!-- DARK OVERLAY -->
-    <div class="overlay"></div>
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="bgvideo.mp4" type="video/mp4">
+</video>
 
-    <!-- BACKGROUND MUSIC -->
-    <audio id="bg-music" loop>
-        <source src="two - bbno_ (tiktok version) [edit audio](360P).mp4" type="audio/mp4">
-    </audio>
+<!-- OVERLAY -->
 
-    <!-- MUSIC BUTTON -->
-    <button id="music-btn" onclick="toggleMusic()">
-        🔈 AUDIO: OFF
-    </button>
+<div class="overlay"></div>
 
-    <!-- CARD -->
-    <div class="card-container">
+<!-- PARTICLES -->
 
-        <div class="scifi-frame">
-            <span class="tl"></span>
-            <span class="tr"></span>
-            <span class="bl"></span>
-            <span class="br"></span>
-        </div>
+<div class="particles"></div>
 
-        <div class="card">
+<!-- MUSIC -->
 
-            <div class="avatar-container">
-                <div class="neon-ring-1"></div>
-                <div class="neon-ring-2"></div>
+<audio id="bg-music" loop>
+    <source src="music.mp4" type="audio/mp4">
+</audio>
 
-                <img
-                    src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg"
-                    class="avatar"
-                    alt="Anosカミ"
-                >
-            </div>
+<!-- BUTTON -->
 
-            <div class="name">Anosカミ</div>
+<button id="music-btn" onclick="toggleMusic()">
+🔈 AUDIO: OFF
+</button>
 
-            <div class="bio">
-                The faintest ray of hope.<br>
-                Only those who reach out toward even the faintest ray of hope
-                will be granted a MIRACLE.<br><br>
+<!-- CARD -->
 
-                (discord user: anos_edits)
-            </div>
+<div class="card-container">
 
-            <div class="role">Editor</div>
+<div class="scifi-frame">
 
-            <div class="links">
-                <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">
-                    Instagram
-                </a>
+<span class="tl"></span>
+<span class="tr"></span>
+<span class="bl"></span>
+<span class="br"></span>
 
-                <a href="https://www.youtube.com/@anosamvedit" target="_blank">
-                    YouTube Channel
-                </a>
-            </div>
+</div>
 
-        </div>
-    </div>
+<div class="card">
 
-    <script>
+<div class="avatar-container">
 
-        const music = document.getElementById("bg-music");
-        const btn = document.getElementById("music-btn");
+<div class="neon-ring-1"></div>
+<div class="neon-ring-2"></div>
 
-        function toggleMusic(){
+<img
+src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg"
+class="avatar"
+alt="Anosカミ">
 
-            if(music.paused){
+</div>
 
-                music.play();
-                btn.innerText = "🔊 AUDIO: ON";
+<div class="name">
+Anosカミ
+</div>
 
-            }else{
+<div class="bio">
 
-                music.pause();
-                btn.innerText = "🔈 AUDIO: OFF";
+The faintest ray of hope.<br>
 
-            }
-        }
+Only those who reach out toward even the faintest ray of hope
+will be granted a MIRACLE.
 
-    </script>
+<br><br>
+
+(discord user: anos_edits)
+
+</div>
+
+<div class="role">
+Editor
+</div>
+
+<div class="links">
+
+<a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">
+Instagram
+</a>
+
+<a href="https://www.youtube.com/@anosamvedit" target="_blank">
+YouTube Channel
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const music = document.getElementById("bg-music");
+const button = document.getElementById("music-btn");
+
+function toggleMusic(){
+
+    if(music.paused){
+
+        music.play();
+
+        button.innerHTML = "🔊 AUDIO: ON";
+
+    }else{
+
+        music.pause();
+
+        button.innerHTML = "🔈 AUDIO: OFF";
+
+    }
+
+}
+
+/* AUTO PLAY AFTER FIRST TAP */
+
+document.body.addEventListener("click", () => {
+
+    music.play().catch(() => {});
+
+}, { once:true });
+
+</script>
 
 </body>
 </html>
