@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Anosカミ | Profile</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -16,17 +14,18 @@
 }
 
 body{
-    min-height:100vh;
+    height:100vh;
+    width: 100vw;
     display:flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items:center;
-    overflow-x: hidden;
-    overflow-y: auto; 
+    overflow: hidden; 
     background:#000;
-    padding:40px 20px 180px 20px; /* Extra bottom padding for the fixed button area */
+    padding: 20px;
 }
 
-/* YOUTUBE IFRAME BACKGROUND */
+/* CENTERED YOUTUBE BACKGROUND */
 .video-background {
     position: fixed;
     top: 50%;
@@ -38,7 +37,7 @@ body{
     transform: translate(-50%, -50%);
     z-index: -5;
     pointer-events: none;
-    filter: brightness(30%);
+    filter: brightness(25%);
 }
 
 /* CYBER GRID */
@@ -60,236 +59,126 @@ body::before{
     to{ transform:translateY(40px); }
 }
 
-/* DARK OVERLAY */
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.3);
+    background:rgba(0,0,0,0.2);
     z-index:-4;
-    transition: background 0.5s;
 }
 
-/* FLOATING PARTICLES */
-.particles{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    z-index:-2;
-    pointer-events:none;
-}
-
-.particles::before,
-.particles::after{
-    content:"";
-    position:absolute;
-    width:4px;
-    height:4px;
-    border-radius:50%;
-    background:#00c3ff;
-    box-shadow:
-    0 0 10px #00c3ff,
-    120px 100px #00c3ff,
-    250px 200px #00c3ff,
-    400px 300px #00c3ff,
-    600px 150px #00c3ff,
-    800px 400px #00c3ff,
-    1000px 250px #00c3ff,
-    1300px 500px #00c3ff;
-    animation:floatParticles 18s linear infinite;
-}
-
-.particles::after{
-    animation-duration:25s;
-    opacity:0.6;
-}
-
-@keyframes floatParticles{
-    from{ transform:translateY(100vh); }
-    to{ transform:translateY(-120vh); }
-}
-
-/* MUSIC BUTTON */
-#music-btn{
-    position:fixed;
-    top:20px;
-    right:20px;
-    z-index:100;
-    border:none;
-    outline:none;
-    cursor:pointer;
-    background:rgba(0,195,255,0.12);
-    border:1px solid rgba(0,195,255,0.35);
-    color:#00c3ff;
-    padding:10px 16px;
-    border-radius:12px;
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:1px;
-    backdrop-filter:blur(10px);
-    transition:0.3s;
-    animation:musicGlow 2s infinite alternate;
-}
-
-#music-btn:hover{
-    transform:scale(1.05);
-    background:rgba(0,195,255,0.28);
-    box-shadow:0 0 18px rgba(0,195,255,0.5);
-}
-
-@keyframes musicGlow{
-    from{ box-shadow:0 0 8px rgba(0,195,255,0.2); }
-    to{ box-shadow:0 0 20px rgba(0,195,255,0.7); }
-}
-
-/* MAIN CONTENT WRAPPER */
-.content-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
+/* TOP NAVIGATION AREA (NON-OVERLAYING) */
+.top-nav {
     width: 100%;
+    max-width: 420px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    z-index: 10;
+}
+
+.nav-btn {
+    flex: 1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: rgba(0,195,255,0.1);
+    border: 1px solid rgba(0,195,255,0.3);
+    color: #00c3ff;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+    text-align: center;
+}
+
+.nav-btn:hover {
+    transform: scale(1.02);
+    background: rgba(0,195,255,0.25);
+    box-shadow: 0 0 15px rgba(0,195,255,0.4);
+}
+
+/* PROFILE CARD DESIGN */
+.card-container{
+    position:relative;
+    width:100%;
     max-width: 420px;
     z-index: 2;
 }
 
-/* CARD CONTAINER */
-.card-container{
-    position:relative;
-    width:100%;
-}
-
-.card-container:hover .card{
-    box-shadow: 0 0 35px rgba(0,195,255,0.25), 0 0 80px rgba(0,195,255,0.12);
-    transition:0.4s;
-}
-
-/* SCI-FI FRAME */
-.scifi-frame{
-    position:absolute;
-    inset:0;
-    border-radius:22px;
-    border:1px solid rgba(0,195,255,0.45);
-    box-shadow: 0 0 22px rgba(0,195,255,0.4), inset 0 0 15px rgba(0,195,255,0.2);
-    pointer-events:none;
-}
-
-.scifi-frame span{
-    position:absolute;
-    width:26px;
-    height:26px;
-    border:3px solid #00c3ff;
-    filter:drop-shadow(0 0 10px #00c3ff);
-}
-
-.tl{ top:-2px; left:-2px; border-right:none; border-bottom:none; border-radius:14px 0 0 0; }
-.tr{ top:-2px; right:-2px; border-left:none; border-bottom:none; border-radius:0 14px 0 0; }
-.bl{ bottom:-2px; left:-2px; border-right:none; border-top:none; border-radius:0 0 0 14px; }
-.br{ bottom:-2px; right:-2px; border-left:none; border-top:none; border-radius:0 0 14px 0; }
-
 .card{
-    background:rgba(0,10,25,0.68);
-    backdrop-filter:blur(22px);
-    -webkit-backdrop-filter:blur(22px);
+    background:rgba(0,10,25,0.72);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
     border-radius:22px;
-    padding:42px 30px;
+    padding:30px 24px;
     text-align:center;
+    border: 1px solid rgba(0,195,255,0.2);
 }
 
-/* AVATAR */
 .avatar-container{
     position:relative;
-    width:115px;
-    height:115px;
-    margin:0 auto 22px;
+    width:100px;
+    height:100px;
+    margin:0 auto 15px;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
 .avatar{
-    width:115px;
-    height:115px;
+    width:100px;
+    height:100px;
     border-radius:50%;
     object-fit:cover;
     border:2px solid #00c3ff;
-    box-shadow: 0 0 25px rgba(0,195,255,0.65);
+    box-shadow: 0 0 20px rgba(0,195,255,0.5);
     z-index:2;
 }
 
-.neon-ring-1, .neon-ring-2{
-    position:absolute;
-    border-radius:50%;
-    border:2px solid transparent;
-}
-
-.neon-ring-1{
-    width:135px;
-    height:135px;
-    border-top:2px solid #00c3ff;
-    border-bottom:2px solid #00c3ff;
-    animation:spin 3s linear infinite;
-    box-shadow: 0 0 12px rgba(0,195,255,0.55), inset 0 0 12px rgba(0,195,255,0.45);
-}
-
-.neon-ring-2{
-    width:124px;
-    height:124px;
-    border-left:2px solid rgba(0,195,255,0.7);
-    border-right:2px solid rgba(0,195,255,0.7);
-    animation:spinReverse 2s linear infinite;
-}
-
-@keyframes spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
-@keyframes spinReverse{ from{ transform:rotate(360deg); } to{ transform:rotate(0deg); } }
-
-/* TEXT */
 .name{
     color:#fff;
-    font-size:28px;
+    font-size:24px;
     font-weight:800;
-    margin-bottom:10px;
+    margin-bottom:8px;
     letter-spacing:1px;
-    animation:namePulse 2.5s infinite alternate;
-}
-
-@keyframes namePulse{
-    from{ text-shadow:0 0 10px rgba(0,195,255,0.5); }
-    to{ text-shadow: 0 0 22px rgba(0,195,255,1), 0 0 40px rgba(0,195,255,0.6); }
+    text-shadow:0 0 10px rgba(0,195,255,0.5);
 }
 
 .bio{
-    color:rgba(255,255,255,0.88);
-    font-size:12px;
-    line-height:1.7;
-    margin-bottom:16px;
+    color:rgba(255,255,255,0.85);
+    font-size:11px;
+    line-height:1.6;
+    margin-bottom:15px;
     font-style:italic;
-    text-shadow: 0 0 6px rgba(0,195,255,0.25);
 }
 
 .role{
     color:#00c3ff;
-    font-size:11px;
+    font-size:10px;
     font-weight:bold;
     text-transform:uppercase;
-    letter-spacing:5px;
-    margin-bottom:26px;
+    letter-spacing:4px;
+    margin-bottom:20px;
 }
 
-/* LINKS */
 .links{
     display:flex;
     flex-direction:column;
-    gap:13px;
+    gap:10px;
 }
 
 .links a{
     text-decoration:none;
     color:#fff;
-    background:rgba(0,195,255,0.12);
-    border:1px solid rgba(0,195,255,0.3);
-    padding:14px;
-    border-radius:12px;
-    font-size:13px;
+    background:rgba(0,195,255,0.1);
+    border:1px solid rgba(0,195,255,0.25);
+    padding:12px;
+    border-radius:10px;
+    font-size:12px;
     font-weight:bold;
     letter-spacing:1px;
     text-transform:uppercase;
@@ -297,84 +186,16 @@ body::before{
 }
 
 .links a:hover{
-    transform:scale(1.03);
-    background:rgba(0,195,255,0.28);
+    background:rgba(0,195,255,0.2);
     border-color:#00c3ff;
-    box-shadow: 0 0 18px rgba(0,195,255,0.45);
+    box-shadow: 0 0 12px rgba(0,195,255,0.3);
 }
 
-/* GLOWING LEADERBOARD SECTION */
-.leaderboard-container {
+/* BOTTOM BUTTON AREA (NON-OVERLAYING) */
+.bottom-nav {
     width: 100%;
-    background: rgba(0, 8, 20, 0.75);
-    border: 1px solid rgba(0, 195, 255, 0.3);
-    border-radius: 22px;
-    padding: 30px 24px;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 0 25px rgba(0, 195, 255, 0.1);
-}
-
-.leaderboard-title {
-    color: #00c3ff;
-    font-size: 18px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    text-align: center;
-    margin-bottom: 20px;
-    text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
-}
-
-.leaderboard-table {
-    width: 100%;
-    border-collapse: collapse;
-    color: #fff;
-    font-size: 13px;
-}
-
-.leaderboard-table th {
-    color: rgba(0, 195, 255, 0.7);
-    text-transform: uppercase;
-    font-size: 11px;
-    letter-spacing: 1px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(0, 195, 255, 0.2);
-    text-align: left;
-}
-
-.leaderboard-table td {
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.leaderboard-table tr:last-child td {
-    border-bottom: none;
-}
-
-.rank-num {
-    font-weight: 800;
-    color: #ff003c;
-}
-.rank-1 { color: #ffd700; text-shadow: 0 0 8px #ffd700; }
-.rank-2 { color: #c0c0c0; text-shadow: 0 0 8px #c0c0c0; }
-.rank-3 { color: #cd7f32; text-shadow: 0 0 8px #cd7f32; }
-
-.stat-highlight {
-    color: #00c3ff;
-    font-weight: bold;
-}
-
-/* FIXED BOTTOM WARNING ACTION AREA */
-.danger-zone-bottom {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
+    max-width: 420px;
     z-index: 10;
-    width: calc(100% - 40px);
-    max-width: 350px;
-    text-align: center;
 }
 
 .warning-btn {
@@ -389,8 +210,7 @@ body::before{
     letter-spacing: 4px;
     text-transform: uppercase;
     cursor: pointer;
-    position: relative;
-    box-shadow: 0 0 15px rgba(255, 0, 60, 0.4), inset 0 0 10px rgba(255, 0, 60, 0.2);
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.3);
     transition: all 0.2s ease-in-out;
     clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
 }
@@ -398,80 +218,124 @@ body::before{
 .warning-btn:hover {
     background: #ff003c;
     color: #fff;
-    box-shadow: 0 0 30px #ff003c, 0 0 10px #fff;
-    transform: scale(1.03);
+    box-shadow: 0 0 25px #ff003c;
 }
 
-.warning-btn::before {
-    content: 'SYSTEM ANOMALY';
+/* MODALS & OVERLAYS */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 5, 15, 0.95);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 380px;
+    background: rgba(0, 12, 30, 0.9);
+    border: 1px solid rgba(0, 195, 255, 0.4);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 0 30px rgba(0,195,255,0.2);
+}
+
+.modal-close {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #00c3ff;
+    color: #00c3ff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* LEADERBOARD VIEW SCYLING */
+.leaderboard-title {
+    color: #00c3ff;
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    font-size: 13px;
+}
+
+.leaderboard-table th {
+    color: rgba(0, 195, 255, 0.6);
+    text-transform: uppercase;
+    font-size: 11px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 195, 255, 0.2);
+    text-align: left;
+}
+
+.leaderboard-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rank-num { font-weight: 800; color: #ff003c; }
+.rank-1 { color: #ffd700; }
+.rank-2 { color: #c0c0c0; }
+.rank-3 { color: #cd7f32; }
+
+/* DYNAMIC BLUE COMBAT SLASHES */
+.slash-effect {
     position: absolute;
-    top: -18px;
-    left: 10px;
-    font-size: 8px;
-    color: rgba(255, 0, 60, 0.7);
-    letter-spacing: 1px;
+    width: 180px;
+    height: 5px;
+    background: #fff;
+    box-shadow: 0 0 15px #00c3ff, 0 0 30px #00c3ff;
+    z-index: 10005;
+    pointer-events: none;
+    transform-origin: center;
+    animation: slashFade 0.15s ease-out forwards;
 }
 
-/* SYSTEM WARNING OVERLAY */
+@keyframes slashFade {
+    0% { transform: translate(-50%, -50%) scaleX(0.1) rotate(var(--rot)); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scaleX(1.2) rotate(var(--rot)); opacity: 0; }
+}
+
+/* GAMEPLAY ENGINE STYLES */
 .system-warning-screen {
     position: fixed;
     inset: 0;
-    background: rgba(12, 0, 3, 0.96);
-    z-index: 9999;
+    background: #0a0002;
+    z-index: 999;
     display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-family: 'Courier New', Courier, monospace;
-    padding: 20px;
     text-align: center;
 }
 
-.system-warning-box {
-    border: 3px solid #ff003c;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 40px;
-    border-radius: 4px;
-    max-width: 500px;
-    box-shadow: 0 0 40px #ff003c, inset 0 0 20px rgba(255,0,60,0.5);
-    animation: pulseBorder 1s infinite alternate;
-}
-
-.system-title {
-    color: #ff003c;
-    font-size: 32px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    margin-bottom: 20px;
-    text-shadow: 0 0 10px #ff003c;
-}
-
-.system-message {
-    font-size: 14px;
-    line-height: 1.8;
-    letter-spacing: 1px;
-    color: #ffb3b3;
-}
-
-@keyframes pulseBorder {
-    from { box-shadow: 0 0 20px #ff003c; }
-    to { box-shadow: 0 0 45px #ff0055, inset 0 0 25px rgba(255,0,60,0.7); }
-}
-
-/* JUMPSCARE GAME OVERLAY */
 .jumpscare-overlay {
     position: fixed;
     inset: 0;
     background: #000;
-    z-index: 10000;
+    z-index: 1000;
     display: none;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    cursor: crosshair;
-    user-select: none;
     padding: 30px 20px;
 }
 
@@ -481,276 +345,157 @@ body::before{
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 1;
-    pointer-events: none;
+    z-index: -1;
 }
 
 .jumpscare-overlay.hit .jumpscare-img {
-    filter: brightness(1.7) sepia(0.8) hue-rotate(-45deg) saturate(4);
+    filter: brightness(1.8) cubic-bezier(0.1, 0.8, 0.3, 1);
 }
 
-.jumpscare-img.scare-active {
-    animation: zoomShake 0.1s infinite alternate;
-}
-
-@keyframes zoomShake {
-    0% { transform: scale(1.15) translate(3px, 1px); }
-    50% { transform: scale(1.22) translate(-3px, -2px); }
-    100% { transform: scale(1.28) translate(1px, 3px); }
-}
-
-/* VISUAL COMBAT SLASH EFFECT LAYER */
-.slash-effect {
-    position: absolute;
-    width: 160px;
-    height: 6px;
-    background: #fff;
-    box-shadow: 0 0 15px #ff003c, 0 0 30px #ff003c;
-    z-index: 3;
-    pointer-events: none;
-    transform-origin: center;
-    animation: slashFade 0.18s ease-out forwards;
-}
-
-@keyframes slashFade {
-    0% { transform: translate(-50%, -50%) scaleX(0.1) rotate(var(--rot)); opacity: 1; }
-    50% { transform: translate(-50%, -50%) scaleX(1) rotate(var(--rot)); opacity: 1; filter: brightness(1.5); }
-    100% { transform: translate(-50%, -50%) scaleX(1.2) rotate(var(--rot)); opacity: 0; }
-}
-
-/* BOSS HEALTH UI */
 .boss-ui-container {
-    position: relative;
-    z-index: 5;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.8);
     padding: 15px;
-    border: 1px solid rgba(255, 0, 60, 0.4);
-    backdrop-filter: blur(5px);
+    border: 1px solid #ff003c;
 }
 
 .boss-name {
     color: #ff003c;
-    font-family: 'Courier New', monospace;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     margin-bottom: 8px;
-    text-shadow: 0 0 8px #ff003c;
 }
 
 .hp-bar-outer {
     width: 100%;
-    height: 16px;
+    height: 14px;
     background: #200005;
     border: 1px solid #ff003c;
-    padding: 2px;
-    overflow: hidden;
 }
 
 .hp-bar-inner {
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #80001c, #ff003c);
-    box-shadow: 0 0 12px #ff003c;
-    transition: width 0.04s ease-out;
-}
-
-.game-hint {
-    position: relative;
-    z-index: 5;
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-shadow: 0 0 5px #000, 0 0 10px #ff003c;
-    animation: blinkText 0.8s infinite alternate;
-}
-
-@keyframes blinkText {
-    from { opacity: 0.4; } to { opacity: 1; }
-}
-
-/* QUEST CLEARED POPUP */
-.victory-screen {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    z-index: 10001;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.victory-box {
-    border: 2px solid #00c3ff;
-    background: #000;
-    padding: 40px;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(0, 195, 255, 0.5);
-    max-width: 90%;
-}
-
-.victory-title {
-    color: #00c3ff;
-    font-family: 'Courier New', monospace;
-    font-size: 36px;
-    font-weight: 900;
-    letter-spacing: 6px;
-    margin-bottom: 15px;
-    text-shadow: 0 0 10px #00c3ff;
-}
-
-.victory-msg {
-    color: #fff;
-    font-size: 13px;
-    letter-spacing: 2px;
-    line-height: 1.6;
-}
-
-/* EMERGENCY ALARM ENVIRONMENT GRAPHICS */
-body.emergency::before {
-    background:
-    linear-gradient(rgba(255, 0, 60, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 0, 60, 0.15) 1px, transparent 1px);
-    background-size:40px 40px;
-}
-body.emergency .overlay { background: rgba(255, 0, 0, 0.4); }
-body.emergency .particles::before,
-body.emergency .particles::after {
     background: #ff003c;
-    box-shadow: 0 0 10px #ff003c, 120px 100px #ff003c, 250px 200px #ff003c, 400px 300px #ff003c;
+    transition: width 0.03s linear;
 }
 
-@media(max-width:480px) {
-    .card{ padding:36px 22px; }
-    .name{ font-size:24px; }
-    .bio{ font-size:11px; }
-    .leaderboard-title { font-size: 15px; }
-    .leaderboard-table { font-size: 11px; }
+/* PROMPT USERNAME INPUT UI */
+.input-box input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #00c3ff;
+    color: #fff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    outline: none;
+    text-align: center;
 }
 
+.input-box button {
+    width: 100%;
+    padding: 12px;
+    background: #00c3ff;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+body.emergency .overlay { background: rgba(255, 0, 0, 0.25); }
 </style>
 </head>
-
 <body>
 
-<!-- FIXED IFRAME YOUTUBE BACKGROUND -->
+<!-- FIXED CENTERING BACKGROUND VIDEO FRAME -->
 <iframe class="video-background" 
     src="https://www.youtube.com/embed/9wmpgL6Hh_0?autoplay=1&mute=1&loop=1&playlist=9wmpgL6Hh_0&controls=0&showinfo=0&rel=0&modestbranding=1" 
     frameborder="0" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
+    allow="autoplay; encrypted-media">
 </iframe>
 
 <div class="overlay"></div>
-<div class="particles"></div>
 
-<audio id="bg-music" loop>
-    <source src="music.mp4" type="audio/mp4">
-</audio>
+<!-- HEADER LINK CONTROLS -->
+<div class="top-nav">
+    <button id="music-btn" class="nav-btn" onclick="toggleAudioEngine()">🔈 AUDIO: OFF</button>
+    <button class="nav-btn" onclick="openLeaderboard()">🏆 LEADERBOARD</button>
+</div>
 
-<button id="music-btn" onclick="toggleMusic()">🔈 AUDIO: OFF</button>
-
-<div class="content-wrapper">
-    <!-- PROFILE CARD -->
-    <div class="card-container">
-        <div class="scifi-frame">
-            <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+<!-- PROFILE CARD CONTAINER -->
+<div class="card-container">
+    <div class="card">
+        <div class="avatar-container">
+            <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
         </div>
-        <div class="card">
-            <div class="avatar-container">
-                <div class="neon-ring-1"></div><div class="neon-ring-2"></div>
-                <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
-            </div>
-            <div class="name">Anosカミ</div>
-            <div class="bio">
-            The faintest ray of hope.<br>
-            Only those who reach out toward even the faintest ray of hope
-            will be granted a MIRACLE.
-            <br><br>
-            (discord user: anos_edits)
-            </div>
-            <div class="role">Editor</div>
-            <div class="links">
-                <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
-                <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
-            </div>
+        <div class="name">Anosカミ</div>
+        <div class="bio">
+        The faintest ray of hope.<br>
+        Only those who reach out toward even the faintest ray of hope
+        will be granted a MIRACLE.
+        <br><br>
+        (discord user: anos_edits)
+        </div>
+        <div class="role">Editor</div>
+        <div class="links">
+            <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
+            <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
         </div>
     </div>
+</div>
 
-    <!-- BOSS HUNTER LEADERBOARD -->
-    <div class="leaderboard-container">
-        <div class="leaderboard-title">🏆 Hunter Leaderboard</div>
+<!-- CONTROL CONTROLLER ACTION AREA -->
+<div class="bottom-nav">
+    <button class="warning-btn" onclick="triggerEmergency()">DO NOT PRESS</button>
+</div>
+
+<!-- LEADERBOARD DISPLAY WINDOW MODAL -->
+<div class="modal-overlay" id="board-modal">
+    <div class="modal-box">
+        <div class="leaderboard-title">Hunter Records</div>
         <table class="leaderboard-table">
             <thead>
                 <tr>
                     <th>Rank</th>
                     <th>Hunter</th>
-                    <th>Kills</th>
-                    <th>Clear Time</th>
+                    <th>Time</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td class="rank-num rank-1">#1</td>
-                    <td>Sung_Jinwoo</td>
-                    <td class="stat-highlight">9,999</td>
-                    <td>0.04s</td>
-                </tr>
-                <tr>
-                    <td class="rank-num rank-2">#2</td>
-                    <td>anos_edits</td>
-                    <td class="stat-highlight">142</td>
-                    <td>4.82s</td>
-                </tr>
-                <tr>
-                    <td class="rank-num rank-3">#3</td>
-                    <td>Shadow_Kicker</td>
-                    <td class="stat-highlight">89</td>
-                    <td>5.15s</td>
-                </tr>
-                <tr>
-                    <td class="rank-num">#4</td>
-                    <td>MiracleSeeker</td>
-                    <td class="stat-highlight">43</td>
-                    <td>6.90s</td>
-                </tr>
-                <tr>
-                    <td class="rank-num">#5</td>
-                    <td>Guest_0921</td>
-                    <td class="stat-highlight">12</td>
-                    <td>9.44s</td>
-                </tr>
+            <tbody id="leaderboard-entries">
+                <!-- Records injected dynamically via script -->
             </tbody>
         </table>
+        <button class="modal-close" onclick="closeLeaderboard()">Close Console</button>
     </div>
 </div>
 
-<!-- FIXED DANGER BUTTON -->
-<div class="danger-zone-bottom">
-    <button class="warning-btn" onclick="triggerEmergency()">⚠️ DO NOT PRESS ⚠️</button>
+<!-- USER NAME CAPTURE MODAL -->
+<div class="modal-overlay" id="name-modal">
+    <div class="modal-box input-box">
+        <div class="leaderboard-title" style="color:#ff003c;">RECORD DISCOVERED</div>
+        <p style="color:#fff; font-size:12px; text-align:center; margin-bottom:15px;">Register your designation tag to the server core files:</p>
+        <input type="text" id="username-input" placeholder="ENTER USERNAME" maxlength="14">
+        <button onclick="submitProfileName()">Confirm Save</button>
+    </div>
 </div>
 
-<!-- SYSTEM WARNING OVERLAY -->
+<!-- PRE-GAME ALERT ENGINE -->
 <div class="system-warning-screen" id="warning-screen">
-    <div class="system-warning-box">
-        <div class="system-title">[WARNING]</div>
-        <div class="system-message">
-            COMPLETION OF THE DAILY QUEST HAS BEEN FAILURE.<br>
-            YOU WILL NOW BE TRANSPORTED TO THE PENALTY ZONE.
-        </div>
+    <div style="border: 2px solid #ff003c; padding: 30px; background: #000; max-width: 90%;">
+        <h1 style="color:#ff003c; margin-bottom: 15px;">[WARNING]</h1>
+        <p style="color:#ffb3b3; font-size:13px;">DAILY QUEST IS IN FAILURE PROMPTING.<br>LOADING PENALTY SYSTEM ENVIRONMENT...</p>
     </div>
 </div>
 
-<!-- BOSS LEVEL JUMPSCARE OVERLAY -->
-<div class="jumpscare-overlay" id="jumpscare" onmousedown="attackBoss(event)" ontouchstart="attackBoss(event)">
-    <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img scare-active" id="scare-img">
+<!-- ACTIVE COMBAT ZONE RUNTIME LAYER -->
+<div class="jumpscare-overlay" id="jumpscare" onmousedown="registerHit(event)" ontouchstart="registerHit(event)">
+    <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img">
     
     <div class="boss-ui-container">
         <div class="boss-name">BOSS: DEITY OF THE TEMPLES</div>
@@ -758,203 +503,219 @@ body.emergency .particles::after {
             <div class="hp-bar-inner" id="boss-hp"></div>
         </div>
     </div>
-
-    <div class="game-hint">💥 SWIPE / TAP TO SLASH THE MONSTER! 💥</div>
+    <div style="color:#fff; font-size:12px; font-weight:bold; letter-spacing:2px; z-index:10;">TAP INTENSELY TO ENGAGE TARGET</div>
 </div>
 
-<!-- VICTORY SCREEN -->
-<div class="victory-screen" id="victory-layer" onclick="dismissAll()">
-    <div class="victory-box">
-        <div class="victory-title">[QUEST CLEARED]</div>
-        <div class="victory-msg">
-            YOU HAVE SURVIVED THE PENALTY ZONE.<br>
-            ALL STATUS PROTOCOLS RESTORED RESTFUL.<br><br>
-            (Tap anywhere to return to profile)
-        </div>
+<!-- VICTORY SUCCESS MODULE LAYER -->
+<div class="modal-overlay" id="victory-layer">
+    <div class="modal-box" style="text-align:center;">
+        <div class="leaderboard-title" style="color:#00c3ff;">[QUEST CLEARED]</div>
+        <p style="color:#fff; font-size:13px; margin-bottom:20px;" id="victory-time-msg"></p>
+        <button class="warning-btn" style="border-color:#00c3ff; color:#00c3ff;" onclick="closeVictoryScreen()">Return</button>
     </div>
 </div>
 
 <script>
-const music = document.getElementById("bg-music");
-const button = document.getElementById("music-btn");
 let audioCtx = null;
 let alarmInterval = null;
-let jumpscareTimeout = null;
-
-// Buffed Game Variables
 let bossHp = 100;
 let isGameOver = false;
+let gameStartTime = 0;
+let lastClearTime = 0;
 
-function toggleMusic(){
-    if(music.paused){
-        music.play();
-        button.innerHTML = "🔊 AUDIO: ON";
-    }else{
-        music.pause();
-        button.innerHTML = "🔈 AUDIO: OFF";
+// Hardcoded Default Base Records
+const defaultLeaderboard = [
+    {name: "Sung_Jinwoo", time: 0.04},
+    {name: "Shadow_Kicker", time: 5.15},
+    {name: "MiracleSeeker", time: 6.90}
+];
+
+// Initialize and Setup System Data Logs
+function getLeaderboardData() {
+    checkDailyReset();
+    let data = localStorage.getItem('hunter_board');
+    if (!data) {
+        localStorage.setItem('hunter_board', JSON.stringify(defaultLeaderboard));
+        return defaultLeaderboard;
+    }
+    return JSON.parse(data);
+}
+
+function checkDailyReset() {
+    const lastReset = localStorage.getItem('board_reset_time');
+    const now = Date.now();
+    // 24 Hours in milliseconds calculation = 86400000
+    if (!lastReset || (now - parseInt(lastReset)) > 86400000) {
+        localStorage.setItem('hunter_board', JSON.stringify(defaultLeaderboard));
+        localStorage.setItem('board_reset_time', now.toString());
     }
 }
 
-document.body.addEventListener("click", () => {
-    music.play().catch(() => {});
-}, { once:true });
+// Master Audio Trigger Fix
+function toggleAudioEngine() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const btn = document.getElementById("music-btn");
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+        btn.innerHTML = "🔊 AUDIO: READY";
+        btn.style.borderColor = "#00c3ff";
+    } else {
+        // Run clean instant oscillator sync check sound to prove alignment instantly
+        runSynthesizerTone(600, 0.05, 'triangle');
+    }
+}
+
+function runSynthesizerTone(freq, duration, type='sawtooth') {
+    if (!audioCtx) return;
+    try {
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    } catch(e){}
+}
+
+function openLeaderboard() {
+    const entriesList = document.getElementById('leaderboard-entries');
+    entriesList.innerHTML = '';
+    const currentData = getLeaderboardData();
+    
+    // Clean sorting records fastest to lowest clear execution
+    currentData.sort((a, b) => a.time - b.time);
+
+    currentData.forEach((player, index) => {
+        let rankClass = `rank-${index + 1}`;
+        entriesList.innerHTML += `
+            <tr>
+                <td class="rank-num ${rankClass}">#${index + 1}</td>
+                <td>${player.name}</td>
+                <td style="color:#00c3ff; font-weight:bold;">${player.time.toFixed(2)}s</td>
+            </tr>`;
+    });
+    document.getElementById('board-modal').style.display = 'flex';
+}
+
+function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
 
 function triggerEmergency() {
     bossHp = 100;
     isGameOver = false;
     document.getElementById('boss-hp').style.width = '100%';
-    
     document.body.classList.add('emergency');
     document.getElementById('warning-screen').style.display = 'flex';
     
-    music.pause();
-    button.innerHTML = "🔈 AUDIO: OFF";
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    
-    if(!alarmInterval) {
-        alarmInterval = setInterval(() => {
-            playSirenTone(520, 0.3);
-        }, 600);
-    }
+    alarmInterval = setInterval(() => { runSynthesizerTone(480, 0.25, 'sawtooth'); }, 500);
 
-    jumpscareTimeout = setTimeout(() => {
+    setTimeout(() => {
         clearInterval(alarmInterval);
-        alarmInterval = null;
-        
         document.getElementById('warning-screen').style.display = 'none';
         document.getElementById('jumpscare').style.display = 'flex';
-
-        playHorrorScreech();
-    }, 3000);
+        gameStartTime = Date.now();
+        runSynthesizerTone(180, 1.5, 'sawtooth');
+    }, 2500);
 }
 
-// Attack & Slash Logic Execution
-function attackBoss(e) {
+function registerHit(e) {
     if (isGameOver) return;
-    
-    if(e) e.preventDefault();
+    if (e) e.preventDefault();
 
-    // Health damage decreased to 4% per tap (Buffed Health pool difficulty)
-    bossHp -= 4; 
+    // Damage reduced for a solid high difficulty challenge run
+    bossHp -= 3.5;
     if (bossHp < 0) bossHp = 0;
-
     document.getElementById('boss-hp').style.width = bossHp + '%';
 
-    const gameScreen = document.getElementById('jumpscare');
-    gameScreen.classList.add('hit');
-    setTimeout(() => gameScreen.classList.remove('hit'), 80);
+    const stage = document.getElementById('jumpscare');
+    stage.classList.add('hit');
+    setTimeout(() => stage.classList.remove('hit'), 50);
 
-    // Get input position coords for local slash placement
-    let clickX = 0, clickY = 0;
-    if (e && e.touches && e.touches[0]) {
-        clickX = e.touches[0].clientX;
-        clickY = e.touches[0].clientY;
-    } else if (e) {
-        clickX = e.clientX;
-        clickY = e.clientY;
+    // Dynamic Tracking Coordinates
+    let x = 0, y = 0;
+    if (e.touches && e.touches[0]) {
+        x = e.touches[0].clientX; y = e.touches[0].clientY;
+    } else {
+        x = e.clientX; y = e.clientY;
     }
-
-    if(clickX && clickY) {
-        createSlashMark(clickX, clickY);
-    }
-
-    playSlashSound();
+    
+    if(x && y) spawnBlueSlashEffect(x, y);
+    runSynthesizerTone(900, 0.08, 'triangle');
 
     if (bossHp <= 0) {
         isGameOver = true;
+        lastClearTime = (Date.now() - gameStartTime) / 1000;
         document.getElementById('jumpscare').style.display = 'none';
-        document.getElementById('victory-layer').style.display = 'flex';
+        
+        // Evaluate user profile registration variables
+        const activeUser = localStorage.getItem('saved_hunter_name');
+        if (activeUser) {
+            saveScoreToSystem(activeUser, lastClearTime);
+            showVictoryScreen(lastClearTime);
+        } else {
+            document.getElementById('name-modal').style.display = 'flex';
+        }
     }
 }
 
-function createSlashMark(x, y) {
+function spawnBlueSlashEffect(x, y) {
     const slash = document.createElement('div');
     slash.className = 'slash-effect';
     slash.style.left = x + 'px';
     slash.style.top = y + 'px';
-    
-    // Generate a random slash angle
-    const randomAngle = Math.floor(Math.random() * 360) + 'deg';
-    slash.style.setProperty('--rot', randomAngle);
-    
+    slash.style.setProperty('--rot', Math.floor(Math.random() * 360) + 'deg');
     document.getElementById('jumpscare').appendChild(slash);
+    setTimeout(() => slash.remove(), 140);
+}
+
+function submitProfileName() {
+    const inputField = document.getElementById('username-input');
+    let name = inputField.value.trim().replace(/[^a-zA-Z0-9_]/g, '');
     
-    // Auto remove node clean up
-    setTimeout(() => slash.remove(), 180);
-}
-
-function playSirenTone(freq, duration) {
-    if (!audioCtx) return;
-    let osc = audioCtx.createOscillator();
-    let gain = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    osc.frequency.linearRampToValueAtTime(freq * 0.7, audioCtx.currentTime + duration);
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
-}
-
-function playHorrorScreech() {
-    if (!audioCtx) return;
-    for (let i = 0; i < 4; i++) {
-        let osc = audioCtx.createOscillator();
-        let gain = audioCtx.createGain();
-        osc.type = (i % 2 === 0) ? 'sawtooth' : 'triangle';
-        osc.frequency.setValueAtTime(100 + (i * 350), audioCtx.currentTime);
-        osc.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 2.5);
-        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 2.5);
+    if (!name) {
+        alert("Enter a clean alphanumeric profile identifier tag!");
+        return;
     }
+    
+    localStorage.setItem('saved_hunter_name', name);
+    document.getElementById('name-modal').style.display = 'none';
+    saveScoreToSystem(name, lastClearTime);
+    showVictoryScreen(lastClearTime);
 }
 
-function playSlashSound() {
-    if (!audioCtx) return;
-    let osc1 = audioCtx.createOscillator();
-    let osc2 = audioCtx.createOscillator();
-    let gain = audioCtx.createGain();
+function saveScoreToSystem(username, clearTime) {
+    let board = getLeaderboardData();
+    // Check if player has an existing score to update
+    let userIndex = board.findIndex(p => p.name.toLowerCase() === username.toLowerCase());
     
-    osc1.type = 'sawtooth';
-    osc1.frequency.setValueAtTime(800, audioCtx.currentTime);
-    osc1.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.12);
+    if (userIndex !== -1) {
+        // If they did it faster, update time
+        if (clearTime < board[userIndex].time) {
+            board[userIndex].time = clearTime;
+        }
+    } else {
+        board.push({name: username, time: clearTime});
+    }
     
-    osc2.type = 'triangle';
-    osc2.frequency.setValueAtTime(1200, audioCtx.currentTime);
-    osc2.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
-
-    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-    
-    osc1.connect(gain);
-    osc2.connect(gain);
-    gain.connect(audioCtx.destination);
-    
-    osc1.start();
-    osc2.start();
-    osc1.stop(audioCtx.currentTime + 0.12);
-    osc2.stop(audioCtx.currentTime + 0.12);
+    localStorage.setItem('hunter_board', JSON.stringify(board));
 }
 
-function dismissAll() {
-    document.body.classList.remove('emergency');
-    document.getElementById('warning-screen').style.display = 'none';
-    document.getElementById('jumpscare').style.display = 'none';
+function showVictoryScreen(time) {
+    document.getElementById('victory-time-msg').innerHTML = `YOU SURVIVED THE ARENA PROTOCOL.<br>Clear speed benchmark processing: <strong style="color:#00c3ff;">${time.toFixed(2)} seconds</strong>`;
+    document.getElementById('victory-layer').style.display = 'flex';
+}
+
+function closeVictoryScreen() {
     document.getElementById('victory-layer').style.display = 'none';
-    if(alarmInterval) clearInterval(alarmInterval);
-    if(jumpscareTimeout) clearTimeout(jumpscareTimeout);
-    alarmInterval = null;
+    document.body.classList.remove('emergency');
 }
 </script>
-
 </body>
 </html>
