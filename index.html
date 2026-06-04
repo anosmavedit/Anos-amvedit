@@ -114,7 +114,7 @@ body::before{
     box-shadow: 0 0 15px rgba(0,195,255,0.4);
 }
 
-/* PROFILE CARD DESIGN WITH ORIGINAL THEME SPINNING RING */
+/* PROFILE CARD DESIGN */
 .card-container{
     position:relative;
     width:100%;
@@ -134,37 +134,66 @@ body::before{
     box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
-/* SPINNING DIAL RING EFFECT (ORIGINAL FIRST SPECIFICATION) */
+/* ADVANCED 3-TIER HALF RING SYSTEM */
 .avatar-container {
     position: relative;
-    width: 116px;
-    height: 116px;
+    width: 130px;
+    height: 130px;
     margin: 0 auto 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.avatar-container::before {
-    content: "";
+/* Ring 1: Outer Large Arc */
+.ring-layer-1 {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     border-radius: 50%;
-    border: 3px dashed #00c3ff;
-    box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
-    animation: ringSpin 12s linear infinite;
+    border: 3px solid transparent;
+    border-top-color: #00c3ff;
+    border-bottom-color: #00c3ff;
+    filter: drop-shadow(0 0 8px rgba(0, 195, 255, 0.6));
+    animation: ringSpinClockwise 4s linear infinite;
     will-change: transform;
 }
 
-@keyframes ringSpin {
+/* Ring 2: Middle Arc (Reversed) */
+.ring-layer-2 {
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-left-color: rgba(0, 195, 255, 0.7);
+    border-right-color: rgba(0, 195, 255, 0.7);
+    animation: ringSpinCounter 3s linear infinite;
+    will-change: transform;
+}
+
+/* Ring 3: Inner Close Arc */
+.ring-layer-3 {
+    position: absolute;
+    inset: 15px;
+    border-radius: 50%;
+    border: 2px dashed transparent;
+    border-top-color: #ffffff;
+    animation: ringSpinClockwise 1.5s linear infinite;
+    will-change: transform;
+}
+
+@keyframes ringSpinClockwise {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
+@keyframes ringSpinCounter {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
 .avatar{
-    width:100px;
-    height:100px;
+    width:92px;
+    height:92px;
     border-radius:50%;
     object-fit:cover;
     border:2px solid #fff;
@@ -317,7 +346,7 @@ body::before{
 
 .leaderboard-table td { padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
 
-/* VISUAL HIT STYLES */
+/* JUMPSCARE SLASH GRAPHICS */
 .slash-effect {
     position: absolute;
     width: 260px;
@@ -401,9 +430,8 @@ body::before{
 .input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer; }
 </style>
 </head>
-<body onclick="unlockAudioOnFirstInteraction()">
+<body onclick="unlockAudioEngine()">
 
-<!-- DIRECT NATIVE MP4 VIDEO OVERRIDE (ZOOMED & HARDWARE ACCELERATED) -->
 <div class="video-frame-container">
     <video id="bg-video" class="video-background" autoplay loop playsinline>
         <source src="https://files.catbox.moe/dbel8g.mp4" type="video/mp4">
@@ -419,9 +447,14 @@ body::before{
 
 <div class="card-container">
     <div class="card">
+        <!-- 3 HALF-RING ROTATION FRAME -->
         <div class="avatar-container">
+            <div class="ring-layer-1"></div>
+            <div class="ring-layer-2"></div>
+            <div class="ring-layer-3"></div>
             <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
         </div>
+        
         <div class="name">Anosカミ</div>
         <div class="bio">
         The faintest ray of hope.<br>
@@ -430,8 +463,8 @@ body::before{
         </div>
         <div class="role">Editor</div>
         <div class="links">
-            <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank" onclick="unlockAudioOnFirstInteraction()">Instagram</a>
-            <a href="https://www.youtube.com/@anosamvedit" target="_blank" onclick="unlockAudioOnFirstInteraction()">YouTube Channel</a>
+            <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
+            <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
         </div>
     </div>
 </div>
@@ -482,16 +515,20 @@ let overdriveMode = false;
 let isGameOver = false;
 let gameStartTime = 0;
 let lastClearTime = 0;
-let audioUnlocked = true; // Audio initialized as active straight away
+let audioUnlocked = true;
 
-function unlockAudioOnFirstInteraction() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+function unlockAudioEngine() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
 }
 
 function toggleAudioEngine(e) {
     if(e) e.stopPropagation();
-    unlockAudioOnFirstInteraction();
+    unlockAudioEngine();
     
     const video = document.getElementById("bg-video");
     const btn = document.getElementById("music-btn");
@@ -512,6 +549,7 @@ function toggleAudioEngine(e) {
 }
 
 function playSciFiSlashSound() {
+    unlockAudioEngine();
     if (!audioCtx || !audioUnlocked) return;
     try {
         let now = audioCtx.currentTime;
@@ -540,12 +578,10 @@ function openLeaderboard() {
 
 function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
 
-// Auto-run video stream logic gracefully on window initialization
 window.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById("bg-video");
     video.muted = false; 
     video.play().catch(() => {
-        // Fallback for strict browser secure contexts
         video.muted = true;
         audioUnlocked = false;
         document.getElementById("music-btn").innerHTML = "🔈 AUDIO: OFF";
@@ -553,7 +589,10 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function triggerEmergency() {
+    unlockAudioEngine();
     bossHp = 100; rageCombo = 0; overdriveMode = false; isGameOver = false;
+    document.getElementById('boss-title-ui').innerText = "💥 BOSS: DEITY OF THE TEMPLES 💥";
+    document.getElementById('jumpscare').classList.remove('overdrive-active');
     document.getElementById('boss-hp').style.width = '100%';
     document.getElementById('rage-meter').style.width = '0%';
     document.getElementById('jumpscare').style.display = 'flex';
@@ -616,6 +655,11 @@ function submitProfileName() {
 }
 
 function showVictoryScreen(time) {
+    let data = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
+    let currentName = localStorage.getItem('saved_hunter_name') || "Anonymous";
+    data.push({name: currentName, time: time});
+    localStorage.setItem('hunter_board', JSON.stringify(data));
+    
     document.getElementById('victory-time-msg').innerHTML = `Protocol Clear: <strong>${time.toFixed(2)}s</strong>`;
     document.getElementById('victory-layer').style.display = 'flex';
 }
