@@ -20,9 +20,9 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
+    overflow-y: auto; 
     background:#000;
-    padding:20px;
+    padding:40px 20px;
 }
 
 /* VIDEO BACKGROUND */
@@ -80,6 +80,7 @@ body::before{
     inset:0;
     background:rgba(0,0,0,0.25);
     z-index:-4;
+    transition: background 0.5s;
 }
 
 /* FLOATING PARTICLES */
@@ -198,6 +199,7 @@ body::before{
     width:100%;
     max-width:390px;
     z-index:2;
+    margin: auto 0;
 }
 
 .card-container:hover .card{
@@ -486,6 +488,127 @@ body::before{
     0 0 18px rgba(0,195,255,0.45);
 }
 
+/* DANGER BUTTON */
+.danger-zone {
+    margin-top: 25px;
+    border-top: 1px dashed rgba(255, 0, 0, 0.3);
+    padding-top: 20px;
+}
+
+.warning-btn {
+    width: 100%;
+    background: rgba(255, 0, 60, 0.1);
+    border: 1px solid rgba(255, 0, 60, 0.4);
+    color: #ff003c;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.warning-btn:hover {
+    background: rgba(255, 0, 60, 0.3);
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.6);
+    transform: scale(1.02);
+}
+
+/* SOLO LEVELING EMERGENCY OVERLAY */
+.system-warning-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 0, 0, 0.95);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 20px;
+    text-align: center;
+}
+
+.system-warning-box {
+    border: 3px solid #ff003c;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 40px;
+    border-radius: 4px;
+    max-width: 500px;
+    box-shadow: 0 0 40px #ff003c, inset 0 0 20px rgba(255,0,60,0.5);
+    animation: pulseBorder 1s infinite alternate;
+}
+
+.system-title {
+    color: #ff003c;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #ff003c;
+}
+
+.system-message {
+    font-size: 14px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    color: #ffb3b3;
+    margin-bottom: 30px;
+}
+
+@keyframes pulseBorder {
+    from { box-shadow: 0 0 20px #ff003c; }
+    to { box-shadow: 0 0 45px #ff0055, inset 0 0 25px rgba(255,0,60,0.7); }
+}
+
+/* JUMPSCARE OVERLAY */
+.jumpscare-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.jumpscare-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: zoomShake 0.15s infinite alternate, pulseVignette 2s infinite alternate;
+}
+
+/* SCREEN SHAKE + VIOLENT ZOOM UPGRADE */
+@keyframes zoomShake {
+    0% { transform: scale(1.1) translate(4px, 1px) rotate(0deg); filter: hue-rotate(0deg) contrast(1.2); }
+    20% { transform: scale(1.15) translate(-3px, -2px) rotate(-1deg); }
+    40% { transform: scale(1.1) translate(-1px, 3px) rotate(1deg); filter: hue-rotate(10deg); }
+    60% { transform: scale(1.2) translate(3px, 2px) rotate(0deg); }
+    80% { transform: scale(1.15) translate(-2px, -3px) rotate(2deg); filter: contrast(1.5); }
+    100% { transform: scale(1.25) translate(2px, 4px) rotate(-2deg); }
+}
+
+/* RED ALARM STATE FOR BACKGROUND */
+body.emergency::before {
+    background:
+    linear-gradient(rgba(255, 0, 60, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 60, 0.15) 1px, transparent 1px);
+    background-size:40px 40px;
+}
+body.emergency .overlay {
+    background: rgba(255, 0, 0, 0.4);
+}
+body.emergency .particles::before,
+body.emergency .particles::after {
+    background: #ff003c;
+    box-shadow: 0 0 10px #ff003c, 120px 100px #ff003c, 250px 200px #ff003c, 400px 300px #ff003c;
+}
+
 /* MOBILE */
 
 @media(max-width:480px){
@@ -509,127 +632,188 @@ body::before{
 
 <body>
 
-<!-- VIDEO -->
-
+<!-- VIDEO BACKGROUND USING REPLACED LINK -->
 <video autoplay muted loop playsinline id="bg-video">
-    <source src="bgvideo.mp4" type="video/mp4">
+    <source src="https://rr5---sn-4g5ednd6.googlevideo.com/videoplayback?expire=1718919655&ei=h-p0Zp7DKe6g0_wPrKGFmAs&ip=185.213.155.158&id=o-AD6N5f2oW8L9S8m_p4X_YmR4m1_U4rL_Q_Wn5L8c_XW4&its=1&orig=youtube&ipbits=0&expire=1718919655&sparams=expire,ei,ip,id,its,orig,ipbits&signature=5B3D3B514BD8A6C302B6D45ED912066E0C7C52A2.8E09DCE9188F3AA5598BB9CECC6BFA7C6D65EE4C&key=yt8&vprv=1&mime=video/mp4&title=Solo+Leveling+Edit" type="video/mp4">
 </video>
 
 <!-- OVERLAY -->
-
 <div class="overlay"></div>
 
 <!-- PARTICLES -->
-
 <div class="particles"></div>
 
 <!-- MUSIC -->
-
 <audio id="bg-music" loop>
     <source src="music.mp4" type="audio/mp4">
 </audio>
 
 <!-- BUTTON -->
-
 <button id="music-btn" onclick="toggleMusic()">
 🔈 AUDIO: OFF
 </button>
 
 <!-- CARD -->
-
 <div class="card-container">
 
 <div class="scifi-frame">
-
-<span class="tl"></span>
-<span class="tr"></span>
-<span class="bl"></span>
-<span class="br"></span>
-
+    <span class="tl"></span>
+    <span class="tr"></span>
+    <span class="bl"></span>
+    <span class="br"></span>
 </div>
 
 <div class="card">
 
 <div class="avatar-container">
-
-<div class="neon-ring-1"></div>
-<div class="neon-ring-2"></div>
-
-<img
-src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg"
-class="avatar"
-alt="Anosカミ">
-
+    <div class="neon-ring-1"></div>
+    <div class="neon-ring-2"></div>
+    <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
 </div>
 
-<div class="name">
-Anosカミ
-</div>
+<div class="name">Anosカミ</div>
 
 <div class="bio">
-
 The faintest ray of hope.<br>
-
 Only those who reach out toward even the faintest ray of hope
 will be granted a MIRACLE.
-
 <br><br>
-
 (discord user: anos_edits)
-
 </div>
 
-<div class="role">
-Editor
-</div>
+<div class="role">Editor</div>
 
 <div class="links">
+    <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
+    <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
+</div>
 
-<a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">
-Instagram
-</a>
-
-<a href="https://www.youtube.com/@anosamvedit" target="_blank">
-YouTube Channel
-</a>
-
+<!-- DO NOT PRESS ZONE -->
+<div class="danger-zone">
+    <button class="warning-btn" onclick="triggerEmergency()">⚠️ DO NOT PRESS ⚠️</button>
 </div>
 
 </div>
+</div>
 
+<!-- SYSTEM WARNING OVERLAY (SOLO LEVELING STYLE) -->
+<div class="system-warning-screen" id="warning-screen">
+    <div class="system-warning-box">
+        <div class="system-title">[WARNING]</div>
+        <div class="system-message">
+            COMPLETION OF THE DAILY QUEST HAS BEEN FAILURE.<br>
+            YOU WILL NOW BE TRANSPORTED TO THE PENALTY ZONE FOR A DURATION OF 4 HOURS.
+        </div>
+    </div>
+</div>
+
+<!-- SCARY JUMPSCARE CONTAINER -->
+<div class="jumpscare-overlay" id="jumpscare" onclick="dismissAll()">
+    <img src="images (10).jpeg" class="jumpscare-img" alt="God Statue">
 </div>
 
 <script>
-
 const music = document.getElementById("bg-music");
 const button = document.getElementById("music-btn");
+let audioCtx = null;
+let alarmInterval = null;
+let jumpscareTimeout = null;
 
 function toggleMusic(){
-
     if(music.paused){
-
         music.play();
-
         button.innerHTML = "🔊 AUDIO: ON";
-
     }else{
-
         music.pause();
-
         button.innerHTML = "🔈 AUDIO: OFF";
-
     }
-
 }
 
 /* AUTO PLAY AFTER FIRST TAP */
-
 document.body.addEventListener("click", () => {
-
     music.play().catch(() => {});
-
 }, { once:true });
 
+/* PROCEDURAL EMERGENCIES + JUMPSCARE TIMING */
+function triggerEmergency() {
+    document.body.classList.add('emergency');
+    document.getElementById('warning-screen').style.display = 'flex';
+    
+    // Kill original profile track immediately
+    music.pause();
+    button.innerHTML = "🔈 AUDIO: OFF";
+
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    // Steady build-up pulse alarm
+    if(!alarmInterval) {
+        alarmInterval = setInterval(() => {
+            playSirenTone(520, 0.3);
+        }, 600);
+    }
+
+    // After 3 seconds... JUMPSCARE!
+    jumpscareTimeout = setTimeout(() => {
+        clearInterval(alarmInterval);
+        alarmInterval = null;
+        
+        // Flash full-screen image
+        document.getElementById('warning-screen').style.display = 'none';
+        document.getElementById('jumpscare').style.display = 'flex';
+
+        // Play horrifying, explosive glitch burst sound effect procedurally
+        playHorrorScreech();
+    }, 3000);
+}
+
+function playSirenTone(freq, duration) {
+    if (!audioCtx) return;
+    let osc = audioCtx.createOscillator();
+    let gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    osc.frequency.linearRampToValueAtTime(freq * 0.7, audioCtx.currentTime + duration);
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+}
+
+function playHorrorScreech() {
+    if (!audioCtx) return;
+    // Layer multiple distorted oscillators together to build an explosive crash screech
+    for (let i = 0; i < 4; i++) {
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        
+        osc.type = (i % 2 === 0) ? 'sawtooth' : 'triangle';
+        // Random discordant heavy high frequencies
+        osc.frequency.setValueAtTime(100 + (i * 350), audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 2.5);
+        
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 2.5);
+    }
+}
+
+// Click anywhere on the horror face layout to revert back to normal safely
+function dismissAll() {
+    document.body.classList.remove('emergency');
+    document.getElementById('warning-screen').style.display = 'none';
+    document.getElementById('jumpscare').style.display = 'none';
+    if(alarmInterval) clearInterval(alarmInterval);
+    if(jumpscareTimeout) clearTimeout(jumpscareTimeout);
+    alarmInterval = null;
+}
 </script>
 
 </body>
