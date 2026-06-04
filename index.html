@@ -19,11 +19,11 @@ body{
     min-height:100vh;
     display:flex;
     flex-direction: column;
-    justify-content:center;
     align-items:center;
+    overflow-x: hidden;
     overflow-y: auto; 
     background:#000;
-    padding:40px 20px 100px 20px;
+    padding:40px 20px 180px 20px; /* Extra bottom padding for the fixed button area */
 }
 
 /* YOUTUBE IFRAME BACKGROUND */
@@ -38,7 +38,7 @@ body{
     transform: translate(-50%, -50%);
     z-index: -5;
     pointer-events: none;
-    filter: brightness(35%);
+    filter: brightness(30%);
 }
 
 /* CYBER GRID */
@@ -47,8 +47,8 @@ body::before{
     position:fixed;
     inset:0;
     background:
-    linear-gradient(rgba(0,195,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,195,255,0.08) 1px, transparent 1px);
+    linear-gradient(rgba(0,195,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,195,255,0.06) 1px, transparent 1px);
     background-size:40px 40px;
     animation:gridMove 12s linear infinite;
     z-index:-3;
@@ -64,7 +64,7 @@ body::before{
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.25);
+    background:rgba(0,0,0,0.3);
     z-index:-4;
     transition: background 0.5s;
 }
@@ -141,13 +141,21 @@ body::before{
     to{ box-shadow:0 0 20px rgba(0,195,255,0.7); }
 }
 
-/* CARD */
+/* MAIN CONTENT WRAPPER */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 420px;
+    z-index: 2;
+}
+
+/* CARD CONTAINER */
 .card-container{
     position:relative;
     width:100%;
-    max-width:390px;
-    z-index:2;
-    margin: auto 0;
 }
 
 .card-container:hover .card{
@@ -295,7 +303,69 @@ body::before{
     box-shadow: 0 0 18px rgba(0,195,255,0.45);
 }
 
-/* FIXED COOL DANGER BUTTON AT BOTTOM */
+/* GLOWING LEADERBOARD SECTION */
+.leaderboard-container {
+    width: 100%;
+    background: rgba(0, 8, 20, 0.75);
+    border: 1px solid rgba(0, 195, 255, 0.3);
+    border-radius: 22px;
+    padding: 30px 24px;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 0 25px rgba(0, 195, 255, 0.1);
+}
+
+.leaderboard-title {
+    color: #00c3ff;
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    font-size: 13px;
+}
+
+.leaderboard-table th {
+    color: rgba(0, 195, 255, 0.7);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 195, 255, 0.2);
+    text-align: left;
+}
+
+.leaderboard-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard-table tr:last-child td {
+    border-bottom: none;
+}
+
+.rank-num {
+    font-weight: 800;
+    color: #ff003c;
+}
+.rank-1 { color: #ffd700; text-shadow: 0 0 8px #ffd700; }
+.rank-2 { color: #c0c0c0; text-shadow: 0 0 8px #c0c0c0; }
+.rank-3 { color: #cd7f32; text-shadow: 0 0 8px #cd7f32; }
+
+.stat-highlight {
+    color: #00c3ff;
+    font-weight: bold;
+}
+
+/* FIXED BOTTOM WARNING ACTION AREA */
 .danger-zone-bottom {
     position: fixed;
     bottom: 25px;
@@ -314,9 +384,9 @@ body::before{
     color: #ff003c;
     padding: 14px 20px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 900;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     text-transform: uppercase;
     cursor: pointer;
     position: relative;
@@ -330,7 +400,6 @@ body::before{
     color: #fff;
     box-shadow: 0 0 30px #ff003c, 0 0 10px #fff;
     transform: scale(1.03);
-    letter-spacing: 4px;
 }
 
 .warning-btn::before {
@@ -343,7 +412,7 @@ body::before{
     letter-spacing: 1px;
 }
 
-/* SOLO LEVELING EMERGENCY OVERLAY */
+/* SYSTEM WARNING OVERLAY */
 .system-warning-screen {
     position: fixed;
     inset: 0;
@@ -416,31 +485,49 @@ body::before{
     pointer-events: none;
 }
 
-/* Red Screen Flash State when hitting Boss */
 .jumpscare-overlay.hit .jumpscare-img {
-    filter: brightness(1.8) sepia(1) hue-rotate(-50deg) saturate(5);
+    filter: brightness(1.7) sepia(0.8) hue-rotate(-45deg) saturate(4);
 }
 
 .jumpscare-img.scare-active {
-    animation: zoomShake 0.12s infinite alternate;
+    animation: zoomShake 0.1s infinite alternate;
 }
 
 @keyframes zoomShake {
-    0% { transform: scale(1.15) translate(5px, 2px); }
-    50% { transform: scale(1.2) translate(-4px, -3px); }
-    100% { transform: scale(1.25) translate(2px, 4px); }
+    0% { transform: scale(1.15) translate(3px, 1px); }
+    50% { transform: scale(1.22) translate(-3px, -2px); }
+    100% { transform: scale(1.28) translate(1px, 3px); }
 }
 
-/* BOSS HEALTH UI (SOLO LEVELING STYLE) */
+/* VISUAL COMBAT SLASH EFFECT LAYER */
+.slash-effect {
+    position: absolute;
+    width: 160px;
+    height: 6px;
+    background: #fff;
+    box-shadow: 0 0 15px #ff003c, 0 0 30px #ff003c;
+    z-index: 3;
+    pointer-events: none;
+    transform-origin: center;
+    animation: slashFade 0.18s ease-out forwards;
+}
+
+@keyframes slashFade {
+    0% { transform: translate(-50%, -50%) scaleX(0.1) rotate(var(--rot)); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scaleX(1) rotate(var(--rot)); opacity: 1; filter: brightness(1.5); }
+    100% { transform: translate(-50%, -50%) scaleX(1.2) rotate(var(--rot)); opacity: 0; }
+}
+
+/* BOSS HEALTH UI */
 .boss-ui-container {
     position: relative;
     z-index: 5;
     width: 100%;
     max-width: 600px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.75);
     padding: 15px;
-    border: 1px solid rgba(255, 0, 60, 0.3);
+    border: 1px solid rgba(255, 0, 60, 0.4);
     backdrop-filter: blur(5px);
 }
 
@@ -467,8 +554,8 @@ body::before{
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, #80001c, #ff003c);
-    box-shadow: 0 0 10px #ff003c;
-    transition: width 0.05s ease-out;
+    box-shadow: 0 0 12px #ff003c;
+    transition: width 0.04s ease-out;
 }
 
 .game-hint {
@@ -491,7 +578,7 @@ body::before{
 .victory-screen {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.92);
     z-index: 10001;
     display: none;
     flex-direction: column;
@@ -506,6 +593,7 @@ body::before{
     padding: 40px;
     text-align: center;
     box-shadow: 0 0 30px rgba(0, 195, 255, 0.5);
+    max-width: 90%;
 }
 
 .victory-title {
@@ -525,7 +613,7 @@ body::before{
     line-height: 1.6;
 }
 
-/* RED ALARM STATE FOR BACKGROUND */
+/* EMERGENCY ALARM ENVIRONMENT GRAPHICS */
 body.emergency::before {
     background:
     linear-gradient(rgba(255, 0, 60, 0.15) 1px, transparent 1px),
@@ -539,10 +627,12 @@ body.emergency .particles::after {
     box-shadow: 0 0 10px #ff003c, 120px 100px #ff003c, 250px 200px #ff003c, 400px 300px #ff003c;
 }
 
-@media(max-width:480px){
+@media(max-width:480px) {
     .card{ padding:36px 22px; }
     .name{ font-size:24px; }
     .bio{ font-size:11px; }
+    .leaderboard-title { font-size: 15px; }
+    .leaderboard-table { font-size: 11px; }
 }
 
 </style>
@@ -552,7 +642,7 @@ body.emergency .particles::after {
 
 <!-- FIXED IFRAME YOUTUBE BACKGROUND -->
 <iframe class="video-background" 
-    src="https://www.youtube.com/embed/nU6pW2v4b6Y?autoplay=1&mute=1&loop=1&playlist=nU6pW2v4b6Y&controls=0&showinfo=0&rel=0&modestbranding=1" 
+    src="https://www.youtube.com/embed/9wmpgL6Hh_0?autoplay=1&mute=1&loop=1&playlist=9wmpgL6Hh_0&controls=0&showinfo=0&rel=0&modestbranding=1" 
     frameborder="0" 
     allow="autoplay; encrypted-media" 
     allowfullscreen>
@@ -567,35 +657,84 @@ body.emergency .particles::after {
 
 <button id="music-btn" onclick="toggleMusic()">🔈 AUDIO: OFF</button>
 
-<!-- CARD -->
-<div class="card-container">
-<div class="scifi-frame">
-    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
-</div>
-<div class="card">
-    <div class="avatar-container">
-        <div class="neon-ring-1"></div><div class="neon-ring-2"></div>
-        <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
+<div class="content-wrapper">
+    <!-- PROFILE CARD -->
+    <div class="card-container">
+        <div class="scifi-frame">
+            <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        </div>
+        <div class="card">
+            <div class="avatar-container">
+                <div class="neon-ring-1"></div><div class="neon-ring-2"></div>
+                <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
+            </div>
+            <div class="name">Anosカミ</div>
+            <div class="bio">
+            The faintest ray of hope.<br>
+            Only those who reach out toward even the faintest ray of hope
+            will be granted a MIRACLE.
+            <br><br>
+            (discord user: anos_edits)
+            </div>
+            <div class="role">Editor</div>
+            <div class="links">
+                <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
+                <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
+            </div>
+        </div>
     </div>
-    <div class="name">Anosカミ</div>
-    <div class="bio">
-    The faintest ray of hope.<br>
-    Only those who reach out toward even the faintest ray of hope
-    will be granted a MIRACLE.
-    <br><br>
-    (discord user: anos_edits)
+
+    <!-- BOSS HUNTER LEADERBOARD -->
+    <div class="leaderboard-container">
+        <div class="leaderboard-title">🏆 Hunter Leaderboard</div>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Hunter</th>
+                    <th>Kills</th>
+                    <th>Clear Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="rank-num rank-1">#1</td>
+                    <td>Sung_Jinwoo</td>
+                    <td class="stat-highlight">9,999</td>
+                    <td>0.04s</td>
+                </tr>
+                <tr>
+                    <td class="rank-num rank-2">#2</td>
+                    <td>anos_edits</td>
+                    <td class="stat-highlight">142</td>
+                    <td>4.82s</td>
+                </tr>
+                <tr>
+                    <td class="rank-num rank-3">#3</td>
+                    <td>Shadow_Kicker</td>
+                    <td class="stat-highlight">89</td>
+                    <td>5.15s</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#4</td>
+                    <td>MiracleSeeker</td>
+                    <td class="stat-highlight">43</td>
+                    <td>6.90s</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#5</td>
+                    <td>Guest_0921</td>
+                    <td class="stat-highlight">12</td>
+                    <td>9.44s</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="role">Editor</div>
-    <div class="links">
-        <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
-        <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
-    </div>
-</div>
 </div>
 
-<!-- FIXED COOL DANGER BUTTON -->
+<!-- FIXED DANGER BUTTON -->
 <div class="danger-zone-bottom">
-    <button class="warning-btn" onclick="triggerEmergency()">⚠️ ACCESS PENALTY ZONE ⚠️</button>
+    <button class="warning-btn" onclick="triggerEmergency()">⚠️ DO NOT PRESS ⚠️</button>
 </div>
 
 <!-- SYSTEM WARNING OVERLAY -->
@@ -609,30 +748,28 @@ body.emergency .particles::after {
     </div>
 </div>
 
-<!-- MINI GAME JUMPSCARE LEVEL -->
-<div class="jumpscare-overlay" id="jumpscare" onclick="attackBoss()">
+<!-- BOSS LEVEL JUMPSCARE OVERLAY -->
+<div class="jumpscare-overlay" id="jumpscare" onmousedown="attackBoss(event)" ontouchstart="attackBoss(event)">
     <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img scare-active" id="scare-img">
     
-    <!-- Boss Bar Header -->
     <div class="boss-ui-container">
-        <div class="boss-name">ID: GOD STATUE (DECREE 1)</div>
+        <div class="boss-name">BOSS: DEITY OF THE TEMPLES</div>
         <div class="hp-bar-outer">
             <div class="hp-bar-inner" id="boss-hp"></div>
         </div>
     </div>
 
-    <!-- Tapping Guide -->
-    <div class="game-hint">💥 TAP AGGRESSIVELY TO ATTACK! 💥</div>
+    <div class="game-hint">💥 SWIPE / TAP TO SLASH THE MONSTER! 💥</div>
 </div>
 
-<!-- QUEST SUCCESS INTERACTION -->
+<!-- VICTORY SCREEN -->
 <div class="victory-screen" id="victory-layer" onclick="dismissAll()">
     <div class="victory-box">
         <div class="victory-title">[QUEST CLEARED]</div>
         <div class="victory-msg">
             YOU HAVE SURVIVED THE PENALTY ZONE.<br>
-            ALL REWARDS AND PROTOCOLS RESTORED.<br><br>
-            (Tap anywhere to return)
+            ALL STATUS PROTOCOLS RESTORED RESTFUL.<br><br>
+            (Tap anywhere to return to profile)
         </div>
     </div>
 </div>
@@ -644,7 +781,7 @@ let audioCtx = null;
 let alarmInterval = null;
 let jumpscareTimeout = null;
 
-// Game State Setup
+// Buffed Game Variables
 let bossHp = 100;
 let isGameOver = false;
 
@@ -663,7 +800,6 @@ document.body.addEventListener("click", () => {
 }, { once:true });
 
 function triggerEmergency() {
-    // Reset boss values
     bossHp = 100;
     isGameOver = false;
     document.getElementById('boss-hp').style.width = '100%';
@@ -695,31 +831,59 @@ function triggerEmergency() {
     }, 3000);
 }
 
-// Fight Code Mechanics
-function attackBoss() {
+// Attack & Slash Logic Execution
+function attackBoss(e) {
     if (isGameOver) return;
+    
+    if(e) e.preventDefault();
 
-    // Deduct HP points per hit
-    bossHp -= 8; 
+    // Health damage decreased to 4% per tap (Buffed Health pool difficulty)
+    bossHp -= 4; 
     if (bossHp < 0) bossHp = 0;
 
-    // Update HP UI display
     document.getElementById('boss-hp').style.width = bossHp + '%';
 
-    // Flash screen red as hit impact indicator
     const gameScreen = document.getElementById('jumpscare');
     gameScreen.classList.add('hit');
     setTimeout(() => gameScreen.classList.remove('hit'), 80);
 
-    // Dynamic procedural sword punch/hit sounds
-    playHitSound();
+    // Get input position coords for local slash placement
+    let clickX = 0, clickY = 0;
+    if (e && e.touches && e.touches[0]) {
+        clickX = e.touches[0].clientX;
+        clickY = e.touches[0].clientY;
+    } else if (e) {
+        clickX = e.clientX;
+        clickY = e.clientY;
+    }
+
+    if(clickX && clickY) {
+        createSlashMark(clickX, clickY);
+    }
+
+    playSlashSound();
 
     if (bossHp <= 0) {
         isGameOver = true;
-        // Trigger win layer display sequence
         document.getElementById('jumpscare').style.display = 'none';
         document.getElementById('victory-layer').style.display = 'flex';
     }
+}
+
+function createSlashMark(x, y) {
+    const slash = document.createElement('div');
+    slash.className = 'slash-effect';
+    slash.style.left = x + 'px';
+    slash.style.top = y + 'px';
+    
+    // Generate a random slash angle
+    const randomAngle = Math.floor(Math.random() * 360) + 'deg';
+    slash.style.setProperty('--rot', randomAngle);
+    
+    document.getElementById('jumpscare').appendChild(slash);
+    
+    // Auto remove node clean up
+    setTimeout(() => slash.remove(), 180);
 }
 
 function playSirenTone(freq, duration) {
@@ -754,19 +918,31 @@ function playHorrorScreech() {
     }
 }
 
-function playHitSound() {
+function playSlashSound() {
     if (!audioCtx) return;
-    let osc = audioCtx.createOscillator();
+    let osc1 = audioCtx.createOscillator();
+    let osc2 = audioCtx.createOscillator();
     let gain = audioCtx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(180, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
-    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-    osc.connect(gain);
+    
+    osc1.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(800, audioCtx.currentTime);
+    osc1.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.12);
+    
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(1200, audioCtx.currentTime);
+    osc2.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
+
+    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+    
+    osc1.connect(gain);
+    osc2.connect(gain);
     gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.1);
+    
+    osc1.start();
+    osc2.start();
+    osc1.stop(audioCtx.currentTime + 0.12);
+    osc2.stop(audioCtx.currentTime + 0.12);
 }
 
 function dismissAll() {
