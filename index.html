@@ -23,46 +23,42 @@ body{
     overflow: hidden; 
     background:#000;
     padding: 25px 20px;
-    contain: content; /* Massive performance boost: isolates page layout calculation */
+    contain: content;
 }
 
-/* HARDWARE ACCELERATED BACKGROUND CONTAINER */
+/* HIGH-PERFORMANCE NATIVE VIDEO ENGINE */
 .video-frame-container {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 56.25vw;
-    min-height: 100vh;
-    min-width: 177.77vh;
-    transform: translate3d(-50%, -50%, 0);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: -5;
     pointer-events: none;
-    will-change: transform;
+    overflow: hidden;
 }
 
 .video-background {
     width: 100%;
     height: 100%;
-    filter: brightness(22%) contrast(1.05);
-    backface-visibility: hidden;
+    object-fit: cover;
+    filter: brightness(25%) contrast(1.05);
     transform: translate3d(0,0,0);
 }
 
-/* OPTIMIZED LAYER CYBER GRID */
+/* OPTIMIZED CYBER GRID */
 body::before{
     content:"";
     position:fixed;
     inset:0;
     background:
-    linear-gradient(rgba(0,195,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,195,255,0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0,195,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,195,255,0.04) 1px, transparent 1px);
     background-size:50px 50px;
     transform: translate3d(0,0,0);
-    animation:gridMove 16s linear infinite;
+    animation:gridMove 20s linear infinite;
     z-index:-3;
     pointer-events:none;
-    will-change: transform;
 }
 
 @keyframes gridMove{
@@ -73,12 +69,12 @@ body::before{
 .overlay{
     position:fixed;
     inset:0;
-    background: rgba(0, 4, 10, 0.4);
-    backdrop-filter: blur(2px);
+    background: rgba(0, 4, 10, 0.35);
+    backdrop-filter: blur(1px);
     z-index:-4;
 }
 
-/* TOP NAVIGATION AREA */
+/* TOP NAVIGATION */
 .top-nav {
     width: 100%;
     max-width: 420px;
@@ -113,7 +109,7 @@ body::before{
     box-shadow: 0 0 15px rgba(0,195,255,0.4);
 }
 
-/* PROFILE CARD DESIGN */
+/* PROFILE CARD DESIGN WITH SPINNING RING */
 .card-container{
     position:relative;
     width:100%;
@@ -127,17 +123,38 @@ body::before{
     backdrop-filter:blur(20px);
     -webkit-backdrop-filter:blur(20px);
     border-radius:22px;
-    padding:30px 24px;
+    padding:35px 24px;
     text-align:center;
     border: 1px solid rgba(0,195,255,0.18);
     box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
+/* SPINNING DIAL RING EFFECT */
 .avatar-container{
     position:relative;
-    width:100px;
-    height:100px;
-    margin:0 auto 15px;
+    width:116px;
+    height:116px;
+    margin:0 auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-container::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px dashed #00c3ff;
+    box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
+    animation: ringSpin 12s linear infinite;
+    will-change: transform;
+}
+
+@keyframes ringSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .avatar{
@@ -145,8 +162,7 @@ body::before{
     height:100px;
     border-radius:50%;
     object-fit:cover;
-    border:2px solid #00c3ff;
-    box-shadow: 0 0 20px rgba(0,195,255,0.4);
+    border:2px solid #fff;
     z-index:2;
 }
 
@@ -201,7 +217,7 @@ body::before{
     border-color:#00c3ff;
 }
 
-/* UPGRADED CYBERPUNK DO NOT PRESS BUTTON */
+/* CYBERPUNK ACTION BUTTON */
 .bottom-nav {
     width: 100%;
     max-width: 420px;
@@ -230,11 +246,11 @@ body::before{
 .warning-btn:hover {
     transform: translateY(-2px);
     background: #ff003c;
-    box-shadow: 0 0 30px #ff003c, inset 0 0 10px rgba(255,255,255,0.4);
+    box-shadow: 0 0 30px #ff003c;
     text-shadow: 0 0 10px #fff;
 }
 
-/* MODALS & OVERLAYS */
+/* MODALS */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -254,7 +270,6 @@ body::before{
     border: 1px solid rgba(0, 195, 255, 0.3);
     border-radius: 16px;
     padding: 25px;
-    box-shadow: 0 0 30px rgba(0,195,255,0.15);
 }
 
 .modal-close {
@@ -270,7 +285,6 @@ body::before{
     text-transform: uppercase;
 }
 
-/* LEADERBOARD VIEW SCYLING */
 .leaderboard-title {
     color: #00c3ff;
     font-size: 18px;
@@ -291,23 +305,14 @@ body::before{
 .leaderboard-table th {
     color: rgba(0, 195, 255, 0.5);
     text-transform: uppercase;
-    font-size: 11px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0, 195, 255, 0.15);
     text-align: left;
 }
 
-.leaderboard-table td {
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
+.leaderboard-table td { padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
 
-.rank-num { font-weight: 800; color: #ff003c; }
-.rank-1 { color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.4); }
-.rank-2 { color: #c0c0c0; }
-.rank-3 { color: #cd7f32; }
-
-/* NEON BLUE HIGH PERFORMANCE COMBAT SLASHES */
+/* VISUAL HIT STYLES */
 .slash-effect {
     position: absolute;
     width: 260px;
@@ -319,14 +324,12 @@ body::before{
     transform-origin: center;
     transform: translate3d(-50%, -50%, 0) scaleX(0.05) rotate(var(--rot));
     animation: slashFade 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    will-change: transform, opacity;
 }
 
 @keyframes slashFade {
     100% { transform: translate3d(-50%, -50%, 0) scaleX(1.3) rotate(var(--rot)); opacity: 0; }
 }
 
-/* JUMPSCARE RUNTIME ENGINE */
 .jumpscare-overlay {
     position: fixed;
     inset: 0;
@@ -336,7 +339,6 @@ body::before{
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    overflow: hidden;
     padding: 40px 20px;
 }
 
@@ -347,128 +349,69 @@ body::before{
     height: 100%;
     object-fit: cover;
     z-index: -1;
-    transform: translate3d(0,0,0);
-    will-change: transform, filter;
 }
 
-/* SCI-FI BOSS HP UI WITH INCORPORATED OVERDRIVE METER */
 .boss-ui-container {
     width: 100%;
     max-width: 460px;
-    background: linear-gradient(180deg, rgba(8, 0, 4, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
+    background: rgba(0, 0, 0, 0.9);
     padding: 16px 20px;
     border-radius: 8px;
     border: 2px solid #ff003c;
-    box-shadow: 0 0 25px rgba(255, 0, 60, 0.35);
-    z-index: 10;
 }
 
 .boss-name {
     color: #fff;
     font-size: 15px;
     font-weight: 900;
-    letter-spacing: 4px;
-    margin-bottom: 10px;
     text-transform: uppercase;
-    text-shadow: 0 0 8px #ff003c;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .hp-bar-outer {
     width: 100%;
     height: 14px;
     background: rgba(30, 0, 8, 0.8);
-    border-radius: 3px;
     border: 1px solid rgba(255, 0, 60, 0.4);
-    overflow: hidden;
     margin-bottom: 8px;
 }
 
 .hp-bar-inner {
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #b30027 0%, #ff003c 70%, #ff6687 100%);
-    box-shadow: 0 0 10px #ff003c;
+    background: #ff003c;
     transition: width 0.04s ease-out;
 }
 
-/* OVERDRIVE RAGE BAR (SURPRISE FEATURE) */
-.rage-bar-outer {
-    width: 100%;
-    height: 6px;
-    background: rgba(0, 20, 35, 0.8);
-    border-radius: 2px;
-    border: 1px solid rgba(0, 195, 255, 0.3);
-    overflow: hidden;
-}
+.rage-bar-outer { width: 100%; height: 6px; background: rgba(0, 20, 35, 0.8); }
+.rage-bar-inner { width: 0%; height: 100%; background: #00c3ff; transition: width 0.1s ease; }
 
-.rage-bar-inner {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #0055ff, #00c3ff, #fff);
-    box-shadow: 0 0 8px #00c3ff;
-    transition: width 0.1s ease;
-}
-
-/* OVERDRIVE MODE HIT FX STATE */
-.jumpscare-overlay.overdrive-active .jumpscare-img {
-    animation: rageShake 0.1s infinite;
-    filter: brightness(1.6) contrast(1.4) hue-rotate(180deg) !important;
-}
-
-@keyframes rageShake {
-    0% { transform: translate3d(2px, 1px, 0); }
-    50% { transform: translate3d(-1px, -2px, 0); }
-    100% { transform: translate3d(1px, 2px, 0); }
-}
+.jumpscare-overlay.overdrive-active .jumpscare-img { animation: rageShake 0.1s infinite; filter: hue-rotate(180deg) brightness(1.3); }
+@keyframes rageShake { 0% { transform: translate(2px, 1px); } 50% { transform: translate(-1px, -2px); } 100% { transform: translate(1px, 2px); } }
 
 .input-box input {
-    width: 100%;
-    padding: 12px;
-    background: rgba(0,0,0,0.6);
-    border: 1px solid #00c3ff;
-    color: #fff;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    outline: none;
-    text-align: center;
+    width: 100%; padding: 12px; background: #000; border: 1px solid #00c3ff; color: #fff; border-radius: 8px; margin-bottom: 15px; text-align: center;
 }
-
-.input-box button {
-    width: 100%;
-    padding: 12px;
-    background: #00c3ff;
-    border: none;
-    color: #000;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-body.emergency .overlay { background: rgba(255, 0, 0, 0.2); }
+.input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer; }
 </style>
 </head>
-<body>
+<body onclick="unlockAudioOnFirstInteraction()">
 
-<!-- OPTIMIZED EMBED TO PREVENT FRAMERATE DROPS -->
+<!-- DIRECT NATIVE MP4 VIDEO STREAM OVERRIDE -->
 <div class="video-frame-container">
-    <iframe id="bg-video" class="video-background" 
-        src="https://www.youtube.com/embed/9wmpgL6Hh_0?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=9wmpgL6Hh_0&controls=0&showinfo=0&rel=0&modestbranding=1&wmode=transparent&gl=US&hl=en" 
-        frameborder="0" 
-        allow="autoplay; encrypted-media">
-    </iframe>
+    <video id="bg-video" class="video-background" autoplay loop muted playsinline>
+        <source src="https://files.catbox.moe/dbel8g.mp4" type="video/mp4">
+    </video>
 </div>
 
 <div class="overlay"></div>
 
-<!-- HEADER LINK CONTROLS -->
 <div class="top-nav">
-    <button id="music-btn" class="nav-btn" onclick="toggleAudioEngine()">🔈 AUDIO: OFF</button>
+    <button id="music-btn" class="nav-btn" onclick="toggleAudioEngine(event)">🔈 AUDIO: OFF</button>
     <button class="nav-btn" onclick="openLeaderboard()">🏆 LEADERBOARD</button>
 </div>
 
-<!-- PROFILE CARD CONTAINER -->
 <div class="card-container">
     <div class="card">
         <div class="avatar-container">
@@ -477,79 +420,47 @@ body.emergency .overlay { background: rgba(255, 0, 0, 0.2); }
         <div class="name">Anosカミ</div>
         <div class="bio">
         The faintest ray of hope.<br>
-        Only those who reach out toward even the faintest ray of hope
-        will be granted a MIRACLE.
-        <br><br>
+        Only those who reach out toward even the faintest ray of hope will be granted a MIRACLE.<br><br>
         (discord user: anos_edits)
         </div>
         <div class="role">Editor</div>
         <div class="links">
-            <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
-            <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
+            <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank" onclick="unlockAudioOnFirstInteraction()">Instagram</a>
+            <a href="https://www.youtube.com/@anosamvedit" target="_blank" onclick="unlockAudioOnFirstInteraction()">YouTube Channel</a>
         </div>
     </div>
 </div>
 
-<!-- CONTROL CONTROLLER ACTION AREA -->
 <div class="bottom-nav">
     <button class="warning-btn" onclick="triggerEmergency()">DO NOT PRESS</button>
 </div>
 
-<!-- LEADERBOARD DISPLAY WINDOW MODAL -->
+<!-- MODALS -->
 <div class="modal-overlay" id="board-modal">
     <div class="modal-box">
         <div class="leaderboard-title">Hunter Records</div>
-        <table class="leaderboard-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Hunter</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboard-entries">
-            </tbody>
-        </table>
-        <button class="modal-close" onclick="closeLeaderboard()">Close Console</button>
+        <table class="leaderboard-table"><tbody id="leaderboard-entries"></tbody></table>
+        <button class="modal-close" onclick="closeLeaderboard()">Close</button>
     </div>
 </div>
 
-<!-- USER NAME CAPTURE MODAL -->
 <div class="modal-overlay" id="name-modal">
     <div class="modal-box input-box">
-        <div class="leaderboard-title" style="color:#ff003c;">RECORD DISCOVERED</div>
-        <p style="color:#fff; font-size:12px; text-align:center; margin-bottom:15px;">Register your designation tag to the server core files:</p>
-        <input type="text" id="username-input" placeholder="ENTER USERNAME" maxlength="14">
+        <div class="leaderboard-title" style="color:#ff003c;">RECORD FOUND</div>
+        <input type="text" id="username-input" placeholder="ENTER TAG NAME" maxlength="14">
         <button onclick="submitProfileName()">Confirm Save</button>
     </div>
 </div>
 
-<!-- PRE-GAME ALERT ENGINE -->
-<div class="system-warning-screen" id="warning-screen">
-    <div style="border: 2px solid #ff003c; padding: 30px; background: #000; max-width: 90%;">
-        <h1 style="color:#ff003c; margin-bottom: 15px;">[WARNING]</h1>
-        <p style="color:#ffb3b3; font-size:13px;">DAILY QUEST IS IN FAILURE PROMPTING.<br>LOADING PENALTY SYSTEM ENVIRONMENT...</p>
-    </div>
-</div>
-
-<!-- ACTIVE COMBAT ZONE RUNTIME LAYER -->
 <div class="jumpscare-overlay" id="jumpscare" onmousedown="registerHit(event)" ontouchstart="registerHit(event)">
     <div class="boss-ui-container">
         <div class="boss-name" id="boss-title-ui">💥 BOSS: DEITY OF THE TEMPLES 💥</div>
-        <div class="hp-bar-outer">
-            <div class="hp-bar-inner" id="boss-hp"></div>
-        </div>
-        <div class="rage-bar-outer">
-            <div class="rage-bar-inner" id="rage-meter"></div>
-        </div>
+        <div class="hp-bar-outer"><div class="hp-bar-inner" id="boss-hp"></div></div>
+        <div class="rage-bar-outer"><div class="rage-bar-inner" id="rage-meter"></div></div>
     </div>
-    
     <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img" id="boss-image-element">
-    
-    <div style="color:#fff; font-size:11px; font-weight:900; letter-spacing:3px; z-index:10; background:rgba(0,0,0,0.75); padding:8px 16px; border-radius:20px; border:1px solid rgba(255,255,255,0.15);">TAP FURIOUSLY TO DESTROY TARGET</div>
 </div>
 
-<!-- VICTORY SUCCESS MODULE LAYER -->
 <div class="modal-overlay" id="victory-layer">
     <div class="modal-box" style="text-align:center;">
         <div class="leaderboard-title" style="color:#00c3ff;">[QUEST CLEARED]</div>
@@ -560,7 +471,6 @@ body.emergency .overlay { background: rgba(255, 0, 0, 0.2); }
 
 <script>
 let audioCtx = null;
-let alarmInterval = null;
 let bossHp = 100;
 let rageCombo = 0;
 let overdriveMode = false;
@@ -569,44 +479,24 @@ let gameStartTime = 0;
 let lastClearTime = 0;
 let audioUnlocked = false;
 
-const defaultLeaderboard = [
-    {name: "Sung_Jinwoo", time: 3.82},
-    {name: "Shadow_Kicker", time: 6.14},
-    {name: "MiracleSeeker", time: 8.95}
-];
-
-function getLeaderboardData() {
-    checkDailyReset();
-    let data = localStorage.getItem('hunter_board');
-    if (!data) {
-        localStorage.setItem('hunter_board', JSON.stringify(defaultLeaderboard));
-        return defaultLeaderboard;
-    }
-    return JSON.parse(data);
-}
-
-function checkDailyReset() {
-    const lastReset = localStorage.getItem('board_reset_time');
-    const now = Date.now();
-    if (!lastReset || (now - parseInt(lastReset)) > 86400000) {
-        localStorage.setItem('hunter_board', JSON.stringify(defaultLeaderboard));
-        localStorage.setItem('board_reset_time', now.toString());
-    }
-}
-
-function toggleAudioEngine() {
+function unlockAudioOnFirstInteraction() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const iframe = document.getElementById("bg-video");
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+function toggleAudioEngine(e) {
+    if(e) e.stopPropagation();
+    unlockAudioOnFirstInteraction();
+    
+    const video = document.getElementById("bg-video");
     const btn = document.getElementById("music-btn");
     
     if (!audioUnlocked) {
-        iframe.contentWindow.postMessage('{"event":"command","func":"unmute","args":""}', '*');
-        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        audioCtx.resume();
+        video.muted = false;
+        video.play().catch(() => {});
         audioUnlocked = true;
         btn.innerHTML = "🔊 AUDIO: ACTIVE";
         btn.style.borderColor = "#00c3ff";
-        btn.style.boxShadow = "0 0 15px rgba(0, 195, 255, 0.4)";
         playSciFiSlashSound();
     } else {
         playSciFiSlashSound();
@@ -617,60 +507,25 @@ function playSciFiSlashSound() {
     if (!audioCtx || !audioUnlocked) return;
     try {
         let now = audioCtx.currentTime;
-        let factor = overdriveMode ? 1.5 : 1.0; // Changes pitches slightly during rage mode
-        
-        let osc1 = audioCtx.createOscillator();
-        let gain1 = audioCtx.createGain();
-        osc1.type = 'sawtooth';
-        osc1.frequency.setValueAtTime(1400 * factor, now);
-        osc1.frequency.exponentialRampToValueAtTime(150 * factor, now + 0.12);
-        gain1.gain.setValueAtTime(0.18, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-        
-        let osc2 = audioCtx.createOscillator();
-        let gain2 = audioCtx.createGain();
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(800 * factor, now);
-        osc2.frequency.linearRampToValueAtTime(80 * factor, now + 0.14);
-        gain2.gain.setValueAtTime(0.12, now);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-        
-        osc1.connect(gain1); gain1.connect(audioCtx.destination);
-        osc2.connect(gain2); gain2.connect(audioCtx.destination);
-        
-        osc1.start(now); osc1.stop(now + 0.13);
-        osc2.start(now); osc2.stop(now + 0.15);
-    } catch(e){}
-}
-
-function playAlarmTone(freq, duration) {
-    if (!audioCtx || !audioUnlocked) return;
-    try {
+        let factor = overdriveMode ? 1.4 : 1.0;
         let osc = audioCtx.createOscillator();
         let gain = audioCtx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.frequency.setValueAtTime(1300 * factor, now);
+        osc.frequency.exponentialRampToValueAtTime(100 * factor, now + 0.12);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
         osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + duration);
-    } catch(e){}
+        osc.start(now); osc.stop(now + 0.13);
+    } catch(err){}
 }
 
 function openLeaderboard() {
     const entriesList = document.getElementById('leaderboard-entries');
-    entriesList.innerHTML = '';
-    const currentData = getLeaderboardData();
-    currentData.sort((a, b) => a.time - b.time);
-
-    currentData.forEach((player, index) => {
-        let rankClass = `rank-${index + 1}`;
-        entriesList.innerHTML += `
-            <tr>
-                <td class="rank-num ${rankClass}">#${index + 1}</td>
-                <td>${player.name}</td>
-                <td style="color:#00c3ff; font-weight:bold;">${player.time.toFixed(2)}s</td>
-            </tr>`;
+    entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
+    let data = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
+    data.sort((a, b) => a.time - b.time).forEach((p, i) => {
+        entriesList.innerHTML += `<tr><td>#${i + 1}</td><td>${p.name}</td><td style="color:#00c3ff;">${p.time.toFixed(2)}s</td></tr>`;
     });
     document.getElementById('board-modal').style.display = 'flex';
 }
@@ -678,75 +533,43 @@ function openLeaderboard() {
 function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
 
 function triggerEmergency() {
-    bossHp = 100;
-    rageCombo = 0;
-    overdriveMode = false;
-    isGameOver = false;
+    bossHp = 100; rageCombo = 0; overdriveMode = false; isGameOver = false;
     document.getElementById('boss-hp').style.width = '100%';
     document.getElementById('rage-meter').style.width = '0%';
-    document.getElementById('boss-title-ui').innerText = "💥 BOSS: DEITY OF THE TEMPLES 💥";
-    document.getElementById('jumpscare').classList.remove('overdrive-active');
-    document.body.classList.add('emergency');
-    document.getElementById('warning-screen').style.display = 'flex';
-    
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    alarmInterval = setInterval(() => { playAlarmTone(440, 0.18); }, 400);
-
-    setTimeout(() => {
-        clearInterval(alarmInterval);
-        document.getElementById('warning-screen').style.display = 'none';
-        document.getElementById('jumpscare').style.display = 'flex';
-        gameStartTime = Date.now();
-        playAlarmTone(120, 1.0);
-    }, 2000);
+    document.getElementById('jumpscare').style.display = 'flex';
+    gameStartTime = Date.now();
 }
 
 function registerHit(e) {
     if (isGameOver) return;
     if (e) e.preventDefault();
 
-    // Surprise Mechanic: Overdrive Damage Scaling Core Calculation
-    let hitDamage = overdriveMode ? 7.5 : 3.8;
+    let hitDamage = overdriveMode ? 7.0 : 3.5;
     bossHp -= hitDamage;
-    if (bossHp < 0) bossHp = 0;
-    document.getElementById('boss-hp').style.width = bossHp + '%';
-
-    // Accelerating the Rage system tracker
+    
     if (!overdriveMode) {
-        rageCombo += 6;
-        if (rageCombo > 100) rageCombo = 100;
-        document.getElementById('rage-meter').style.width = rageCombo + '%';
-        
+        rageCombo += 7;
+        document.getElementById('rage-meter').style.width = Math.min(rageCombo, 100) + '%';
         if (rageCombo >= 100) {
             overdriveMode = true;
-            document.getElementById('boss-title-ui').innerText = "⚡ OVERDRIVE RAGE ACTIVE ⚡";
+            document.getElementById('boss-title-ui').innerText = "⚡ OVERDRIVE ACTIVE ⚡";
             document.getElementById('jumpscare').classList.add('overdrive-active');
-            playAlarmTone(880, 0.4);
         }
     }
 
-    let imgElement = document.getElementById('boss-image-element');
-    imgElement.style.filter = overdriveMode ? "brightness(1.8) contrast(1.4)" : "brightness(1.5) contrast(1.1)";
-    setTimeout(() => { imgElement.style.filter = "none"; }, 40);
-
-    let x = 0, y = 0;
-    if (e.touches && e.touches[0]) {
-        x = e.touches[0].clientX; y = e.touches[0].clientY;
-    } else {
-        x = e.clientX; y = e.clientY;
-    }
+    document.getElementById('boss-hp').style.width = Math.max(bossHp, 0) + '%';
     
-    if(x && y) spawnBlueSlashEffect(x, y);
+    let x = e.clientX || (e.touches && e.touches[0].clientX);
+    let y = e.clientY || (e.touches && e.touches[0].clientY);
+    if(x && y) spawnSlash(x, y);
     playSciFiSlashSound();
 
     if (bossHp <= 0) {
         isGameOver = true;
         lastClearTime = (Date.now() - gameStartTime) / 1000;
         document.getElementById('jumpscare').style.display = 'none';
-        
-        const activeUser = localStorage.getItem('saved_hunter_name');
-        if (activeUser) {
-            saveScoreToSystem(activeUser, lastClearTime);
+        let savedName = localStorage.getItem('saved_hunter_name');
+        if (savedName) {
             showVictoryScreen(lastClearTime);
         } else {
             document.getElementById('name-modal').style.display = 'flex';
@@ -754,69 +577,30 @@ function registerHit(e) {
     }
 }
 
-function spawnBlueSlashEffect(x, y) {
-    const slash = document.createElement('div');
-    slash.className = 'slash-effect';
-    slash.style.left = x + 'px';
-    slash.style.top = y + 'px';
-    slash.style.setProperty('--rot', Math.floor(Math.random() * 360) + 'deg');
-    
-    // Surprise Cross-Slash Generation on Overdrive state
-    if (overdriveMode) {
-        const crossSlash = document.createElement('div');
-        crossSlash.className = 'slash-effect';
-        crossSlash.style.left = x + 'px';
-        crossSlash.style.top = y + 'px';
-        crossSlash.style.setProperty('--rot', (Math.floor(Math.random() * 360) + 90) + 'deg');
-        crossSlash.style.boxShadow = "0 0 10px #00ffff, 0 0 25px #ffffff";
-        document.getElementById('jumpscare').appendChild(crossSlash);
-        setTimeout(() => crossSlash.remove(), 160);
-    }
-
-    document.getElementById('jumpscare').appendChild(slash);
-    setTimeout(() => slash.remove(), 160);
+function spawnSlash(x, y) {
+    const s = document.createElement('div');
+    s.className = 'slash-effect';
+    s.style.left = x + 'px'; s.style.top = y + 'px';
+    s.style.setProperty('--rot', Math.random() * 360 + 'deg');
+    document.getElementById('jumpscare').appendChild(s);
+    setTimeout(() => s.remove(), 160);
 }
 
 function submitProfileName() {
-    const inputField = document.getElementById('username-input');
-    let name = inputField.value.trim().replace(/[^a-zA-Z0-9_]/g, '');
-    
-    if (!name) {
-        alert("Enter a clean alphanumeric profile name!");
-        return;
+    let name = document.getElementById('username-input').value.trim();
+    if(name) {
+        localStorage.setItem('saved_hunter_name', name);
+        document.getElementById('name-modal').style.display = 'none';
+        showVictoryScreen(lastClearTime);
     }
-    
-    localStorage.setItem('saved_hunter_name', name);
-    document.getElementById('name-modal').style.display = 'none';
-    saveScoreToSystem(name, lastClearTime);
-    showVictoryScreen(lastClearTime);
-}
-
-function saveScoreToSystem(username, clearTime) {
-    let board = getLeaderboardData();
-    let userIndex = board.findIndex(p => p.name.toLowerCase() === username.toLowerCase());
-    
-    if (userIndex !== -1) {
-        if (clearTime < board[userIndex].time) {
-            board[userIndex].time = clearTime;
-        }
-    } else {
-        board.push({name: username, time: clearTime});
-    }
-    
-    localStorage.setItem('hunter_board', JSON.stringify(board));
 }
 
 function showVictoryScreen(time) {
-    let modeMsg = overdriveMode ? "<br><span style='color:#ff003c; font-size:11px;'>OVERDRIVE MULTIPLIER UNLOCKED</span>" : "";
-    document.getElementById('victory-time-msg').innerHTML = `YOU SURVIVED THE ARENA PROTOCOL.<br>Clear speed benchmark processing: <strong style="color:#00c3ff;">${time.toFixed(2)} seconds</strong>${modeMsg}`;
+    document.getElementById('victory-time-msg').innerHTML = `Protocol Clear: <strong>${time.toFixed(2)}s</strong>`;
     document.getElementById('victory-layer').style.display = 'flex';
 }
 
-function closeVictoryScreen() {
-    document.getElementById('victory-layer').style.display = 'none';
-    document.body.classList.remove('emergency');
-}
+function closeVictoryScreen() { document.getElementById('victory-layer').style.display = 'none'; }
 </script>
 </body>
 </html>
