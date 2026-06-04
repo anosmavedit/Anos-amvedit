@@ -29,40 +29,31 @@ body{
     contain: content;
 }
 
-/* HARDWARE-ACCELERATED ULTRA SMOOTH YOUTUBE BACKGROUND ENGINE */
-.video-frame-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -5;
-    pointer-events: none;
-    overflow: hidden;
-    will-change: transform;
-}
-
+/* HARDWARE-ACCELERATED BACKGROUND VIDEO */
 .video-background {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
-    width: 100vw;
-    height: 56.25vw; /* 16:9 Aspect Ratio */
+    min-width: 100vw;
     min-height: 100vh;
-    min-width: 177.77vh; /* 16:9 Aspect Ratio */
-    transform: translate3d(-50%, -50%, 0);
+    width: auto;
+    height: auto;
+    z-index: -5;
+    transform: translate3d(-50%, -50%, 0); 
     filter: brightness(25%) contrast(1.05);
+    pointer-events: none;
     will-change: transform;
+    object-fit: cover;
 }
 
-/* OPTIMIZED CYBER GRID */
+/* BRIGHTENED CYBER GRID BACKGROUND LINES */
 body::before{
     content:"";
     position:fixed;
     inset:0;
     background:
-    linear-gradient(rgba(0,195,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,195,255,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(0,195,255,0.12) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(0,195,255,0.12) 1.5px, transparent 1.5px);
     background-size:50px 50px;
     transform: translate3d(0,0,0);
     animation:gridMove 20s linear infinite;
@@ -78,12 +69,12 @@ body::before{
 .overlay{
     position:fixed;
     inset:0;
-    background: rgba(0, 4, 10, 0.35);
+    background: rgba(0, 4, 10, 0.25);
     backdrop-filter: blur(1px);
     z-index:-4;
 }
 
-/* TOP NAVIGATION */
+/* TOP NAVIGATION - INCREASED GLOW OUTLINE TABS */
 .top-nav {
     width: 100%;
     max-width: 420px;
@@ -98,8 +89,8 @@ body::before{
     border: none;
     outline: none;
     cursor: pointer;
-    background: rgba(0,195,255,0.08);
-    border: 1px solid rgba(0,195,255,0.3);
+    background: rgba(0,195,255,0.1);
+    border: 1.5px solid rgba(0,195,255,0.65);
     color: #00c3ff;
     padding: 12px;
     border-radius: 12px;
@@ -108,14 +99,16 @@ body::before{
     letter-spacing: 1px;
     text-transform: uppercase;
     backdrop-filter: blur(8px);
-    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 10px rgba(0,195,255,0.2);
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s;
     text-align: center;
 }
 
 .nav-btn:hover {
     transform: scale(1.02);
-    background: rgba(0,195,255,0.2);
-    box-shadow: 0 0 15px rgba(0,195,255,0.4);
+    background: rgba(0,195,255,0.25);
+    border-color: #00c3ff;
+    box-shadow: 0 0 20px rgba(0,195,255,0.7);
 }
 
 /* PROFILE CARD DESIGN */
@@ -134,8 +127,8 @@ body::before{
     border-radius:22px;
     padding:35px 24px;
     text-align:center;
-    border: 1px solid rgba(0,195,255,0.18);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,195,255,0.25);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 15px rgba(0,195,255,0.1);
 }
 
 /* ADVANCED 3-TIER HALF RING SYSTEM */
@@ -156,7 +149,7 @@ body::before{
     border: 3px solid transparent;
     border-top-color: #00c3ff;
     border-bottom-color: #00c3ff;
-    filter: drop-shadow(0 0 8px rgba(0, 195, 255, 0.6));
+    filter: drop-shadow(0 0 12px rgba(0, 195, 255, 0.8));
     animation: ringSpinClockwise 4s linear infinite;
     will-change: transform;
 }
@@ -166,8 +159,8 @@ body::before{
     inset: 8px;
     border-radius: 50%;
     border: 2px solid transparent;
-    border-left-color: rgba(0, 195, 255, 0.7);
-    border-right-color: rgba(0, 195, 255, 0.7);
+    border-left-color: rgba(0, 195, 255, 0.85);
+    border-right-color: rgba(0, 195, 255, 0.85);
     animation: ringSpinCounter 3s linear infinite;
     will-change: transform;
 }
@@ -207,7 +200,7 @@ body::before{
     font-weight:800;
     margin-bottom:8px;
     letter-spacing:1px;
-    text-shadow:0 0 10px rgba(0,195,255,0.4);
+    text-shadow:0 0 12px rgba(0,195,255,0.6);
 }
 
 .bio{
@@ -227,7 +220,8 @@ body::before{
     margin-bottom:20px;
 }
 
-.links{
+/* LINK TABS - BRIGHTENED OUTLINES */
+.links {
     display:flex;
     flex-direction:column;
     gap:10px;
@@ -237,22 +231,24 @@ body::before{
     text-decoration:none;
     color:#fff;
     background:rgba(0,195,255,0.08);
-    border:1px solid rgba(0,195,255,0.2);
+    border:1.5px solid rgba(0,195,255,0.5); 
     padding:12px;
     border-radius:10px;
     font-size:12px;
     font-weight:bold;
     letter-spacing:1px;
     text-transform:uppercase;
-    transition: background 0.2s, border-color 0.2s;
+    box-shadow: 0 0 8px rgba(0,195,255,0.15);
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .links a:hover{
-    background:rgba(0,195,255,0.18);
+    background:rgba(0,195,255,0.2);
     border-color:#00c3ff;
+    box-shadow: 0 0 18px rgba(0,195,255,0.6);
 }
 
-/* CYBERPUNK ACTION BUTTON */
+/* INTENSIFIED ACTIONS BUTTON */
 .bottom-nav {
     width: 100%;
     max-width: 420px;
@@ -262,8 +258,8 @@ body::before{
 .warning-btn {
     position: relative;
     width: 100%;
-    background: linear-gradient(135deg, rgba(255, 0, 60, 0.18), rgba(20, 0, 5, 0.85));
-    border: 2px solid #ff003c;
+    background: linear-gradient(135deg, rgba(255, 0, 60, 0.25), rgba(20, 0, 5, 0.9));
+    border: 2.5px solid #ff003c; 
     color: #ffffff;
     padding: 16px 20px;
     border-radius: 6px;
@@ -272,8 +268,8 @@ body::before{
     letter-spacing: 5px;
     text-transform: uppercase;
     cursor: pointer;
-    text-shadow: 0 0 8px #ff003c;
-    box-shadow: 0 0 20px rgba(255, 0, 60, 0.3), inset 0 0 15px rgba(255, 0, 60, 0.2);
+    text-shadow: 0 0 12px #ff003c;
+    box-shadow: 0 0 30px rgba(255, 0, 60, 0.65), inset 0 0 20px rgba(255, 0, 60, 0.4); 
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2), background 0.2s, box-shadow 0.2s;
     clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px);
 }
@@ -281,8 +277,8 @@ body::before{
 .warning-btn:hover {
     transform: translateY(-2px);
     background: #ff003c;
-    box-shadow: 0 0 30px #ff003c;
-    text-shadow: 0 0 10px #fff;
+    box-shadow: 0 0 45px #ff003c, 0 0 15px #ffffff;
+    text-shadow: 0 0 12px #fff;
 }
 
 /* MODALS */
@@ -302,9 +298,10 @@ body::before{
     width: 100%;
     max-width: 380px;
     background: rgba(0, 8, 22, 0.95);
-    border: 1px solid rgba(0, 195, 255, 0.3);
+    border: 1px solid rgba(0, 195, 255, 0.4);
     border-radius: 16px;
     padding: 25px;
+    box-shadow: 0 0 25px rgba(0,195,255,0.2);
 }
 
 .modal-close {
@@ -312,12 +309,13 @@ body::before{
     width: 100%;
     padding: 10px;
     background: transparent;
-    border: 1px solid #00c3ff;
+    border: 1.5px solid #00c3ff;
     color: #00c3ff;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
+    box-shadow: 0 0 8px rgba(0,195,255,0.3);
 }
 
 .leaderboard-title {
@@ -328,6 +326,7 @@ body::before{
     letter-spacing: 2px;
     text-align: center;
     margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0,195,255,0.5);
 }
 
 .leaderboard-table {
@@ -338,10 +337,10 @@ body::before{
 }
 
 .leaderboard-table th {
-    color: rgba(0, 195, 255, 0.5);
+    color: rgba(0, 195, 255, 0.6);
     text-transform: uppercase;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(0, 195, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 195, 255, 0.3);
     text-align: left;
 }
 
@@ -393,6 +392,7 @@ body::before{
     padding: 16px 20px;
     border-radius: 8px;
     border: 2px solid #ff003c;
+    box-shadow: 0 0 20px #ff003c;
 }
 
 .boss-name {
@@ -402,6 +402,7 @@ body::before{
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 10px;
+    text-shadow: 0 0 8px #ff003c;
 }
 
 .hp-bar-outer {
@@ -416,27 +417,28 @@ body::before{
     width: 100%;
     height: 100%;
     background: #ff003c;
+    box-shadow: 0 0 12px #ff003c;
     transition: width 0.04s ease-out;
 }
 
 .rage-bar-outer { width: 100%; height: 6px; background: rgba(0, 20, 35, 0.8); }
-.rage-bar-inner { width: 0%; height: 100%; background: #00c3ff; transition: width 0.1s ease; }
+.rage-bar-inner { width: 0%; height: 100%; background: #00c3ff; box-shadow: 0 0 8px #00c3ff; transition: width 0.1s ease; }
 
 .jumpscare-overlay.overdrive-active .jumpscare-img { animation: rageShake 0.1s infinite; filter: hue-rotate(180deg) brightness(1.3); }
 @keyframes rageShake { 0% { transform: translate(2px, 1px); } 50% { transform: translate(-1px, -2px); } 100% { transform: translate(1px, 2px); } }
 
 .input-box input {
-    width: 100%; padding: 12px; background: #000; border: 1px solid #00c3ff; color: #fff; border-radius: 8px; margin-bottom: 15px; text-align: center;
+    width: 100%; padding: 12px; background: #000; border: 1.5px solid #00c3ff; color: #fff; border-radius: 8px; margin-bottom: 15px; text-align: center; box-shadow: 0 0 10px rgba(0,195,255,0.2);
 }
-.input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer; }
+.input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px #00c3ff; border: none; }
 </style>
 </head>
 <body onclick="unlockAudioEngine()">
 
-<!-- ASYNC YOUTUBE LOADING SYSTEM -->
-<div class="video-frame-container">
-    <div id="yt-player" class="video-background"></div>
-</div>
+<!-- HIGH-PERFORMANCE NATIVE VIDEO LOOP WITH NEW DIRECT LINK -->
+<video id="bg-video" class="video-background" autoplay loop muted playsinline>
+    <source src="https://files.catbox.moe/dbel8g.mp4" type="video/mp4">
+</video>
 
 <div class="overlay"></div>
 
@@ -506,11 +508,7 @@ body::before{
     </div>
 </div>
 
-<!-- INJECT YOUTUBE NATIVE RUNTIME API -->
-<script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
-let player;
 let audioCtx = null;
 let bossHp = 100;
 let rageCombo = 0;
@@ -520,36 +518,8 @@ let gameStartTime = 0;
 let lastClearTime = 0;
 let audioUnlocked = true;
 
-const initialVideoId = 'dbel8g'; 
 const targetRedirectUrl = "https://youtu.be/KJc4Dsocn_o?si=_EzprnC5VCGGqG5u";
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-player', {
-        videoId: initialVideoId,
-        playerVars: {
-            'autoplay': 1,
-            'controls': 0,
-            'showinfo': 0,
-            'rel': 0,
-            'loop': 1,
-            'playlist': initialVideoId,
-            'iv_load_policy': 3,
-            'mute': 0
-        },
-        events: {
-            'onReady': onPlayerReady
-        }
-    });
-}
-
-function onPlayerReady(event) {
-    event.target.playVideo();
-    if (audioUnlocked) {
-        event.target.unMute();
-    } else {
-        event.target.mute();
-    }
-}
+const videoElement = document.getElementById("bg-video");
 
 function unlockAudioEngine() {
     if (!audioCtx) {
@@ -558,9 +528,9 @@ function unlockAudioEngine() {
     if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
-    if (player && player.unMute && audioUnlocked) {
-        player.unMute();
-        player.playVideo();
+    if (videoElement && audioUnlocked) {
+        videoElement.muted = false;
+        videoElement.play().catch(()=>{});
     }
 }
 
@@ -571,14 +541,14 @@ function toggleAudioEngine(e) {
     const btn = document.getElementById("music-btn");
     
     if (audioUnlocked) {
-        if(player && player.mute) player.mute();
+        if(videoElement) videoElement.muted = true;
         audioUnlocked = false;
         btn.innerHTML = "🔈 AUDIO: OFF";
         btn.style.borderColor = "rgba(0,195,255,0.3)";
     } else {
-        if(player && player.unMute) {
-            player.unMute();
-            player.playVideo();
+        if(videoElement) {
+            videoElement.muted = false;
+            videoElement.play().catch(()=>{});
         }
         audioUnlocked = true;
         btn.innerHTML = "🔊 AUDIO: ON";
@@ -609,10 +579,8 @@ function openLeaderboard() {
     const entriesList = document.getElementById('leaderboard-entries');
     entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
     
-    // Default system seed
     let rawData = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
     
-    // FILTER: Group by player name and keep only their best record time
     let uniquePlayers = {};
     rawData.forEach(entry => {
         let nameKey = entry.name.trim().toLowerCase();
@@ -621,7 +589,6 @@ function openLeaderboard() {
         }
     });
 
-    // Sort clean array by fastest time
     let filteredData = Object.values(uniquePlayers);
     filteredData.sort((a, b) => a.time - b.time);
 
@@ -701,21 +668,17 @@ function submitProfileName() {
 }
 
 function handleScoreAndRouting(time) {
-    // Save record to database array
     let data = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
     let currentName = localStorage.getItem('saved_hunter_name') || "Anonymous";
     data.push({name: currentName, time: time});
     localStorage.setItem('hunter_board', JSON.stringify(data));
 
-    // Check first-time status
     let isFirstTime = !localStorage.getItem('boss_redirect_done');
     
     if (isFirstTime) {
         localStorage.setItem('boss_redirect_done', 'true');
-        // Instantly force redirect directly to the requested YouTube video url
         window.location.href = targetRedirectUrl;
     } else {
-        // Safe standard handling fallback for consecutive clear loops
         document.getElementById('victory-time-msg').innerHTML = `Protocol Clear: <strong>${time.toFixed(2)}s</strong><br><span style="color:#00c3ff; font-size:11px;">RECORD UPDATED</span>`;
         document.getElementById('victory-layer').style.display = 'flex';
     }
