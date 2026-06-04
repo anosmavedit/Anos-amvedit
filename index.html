@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anosカミ | Profile</title>
 
+<!-- FAVORITE ICON (TAB LOGO) -->
+<link rel="icon" type="image/jpeg" href="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg">
+
 <style>
 *{
     margin:0;
@@ -26,7 +29,7 @@ body{
     contain: content;
 }
 
-/* HIGH-PERFORMANCE NATIVE VIDEO ENGINE (SMOOTH & ZOOMED TO FIT) */
+/* HARDWARE-ACCELERATED ULTRA SMOOTH YOUTUBE BACKGROUND ENGINE */
 .video-frame-container {
     position: fixed;
     top: 0;
@@ -43,9 +46,10 @@ body{
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100vw;
+    height: 56.25vw; /* 16:9 Aspect Ratio */
+    min-height: 100vh;
+    min-width: 177.77vh; /* 16:9 Aspect Ratio */
     transform: translate3d(-50%, -50%, 0);
     filter: brightness(25%) contrast(1.05);
     will-change: transform;
@@ -145,7 +149,6 @@ body::before{
     align-items: center;
 }
 
-/* Ring 1: Outer Large Arc */
 .ring-layer-1 {
     position: absolute;
     inset: 0;
@@ -158,7 +161,6 @@ body::before{
     will-change: transform;
 }
 
-/* Ring 2: Middle Arc (Reversed) */
 .ring-layer-2 {
     position: absolute;
     inset: 8px;
@@ -170,7 +172,6 @@ body::before{
     will-change: transform;
 }
 
-/* Ring 3: Inner Close Arc */
 .ring-layer-3 {
     position: absolute;
     inset: 15px;
@@ -432,10 +433,9 @@ body::before{
 </head>
 <body onclick="unlockAudioEngine()">
 
+<!-- ASYNC YOUTUBE LOADING SYSTEM -->
 <div class="video-frame-container">
-    <video id="bg-video" class="video-background" autoplay loop playsinline>
-        <source src="https://files.catbox.moe/dbel8g.mp4" type="video/mp4">
-    </video>
+    <div id="yt-player" class="video-background"></div>
 </div>
 
 <div class="overlay"></div>
@@ -447,7 +447,6 @@ body::before{
 
 <div class="card-container">
     <div class="card">
-        <!-- 3 HALF-RING ROTATION FRAME -->
         <div class="avatar-container">
             <div class="ring-layer-1"></div>
             <div class="ring-layer-2"></div>
@@ -507,7 +506,11 @@ body::before{
     </div>
 </div>
 
+<!-- INJECT YOUTUBE NATIVE RUNTIME API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
+let player;
 let audioCtx = null;
 let bossHp = 100;
 let rageCombo = 0;
@@ -517,6 +520,37 @@ let gameStartTime = 0;
 let lastClearTime = 0;
 let audioUnlocked = true;
 
+const initialVideoId = 'dbel8g'; 
+const targetRedirectUrl = "https://youtu.be/KJc4Dsocn_o?si=_EzprnC5VCGGqG5u";
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-player', {
+        videoId: initialVideoId,
+        playerVars: {
+            'autoplay': 1,
+            'controls': 0,
+            'showinfo': 0,
+            'rel': 0,
+            'loop': 1,
+            'playlist': initialVideoId,
+            'iv_load_policy': 3,
+            'mute': 0
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    event.target.playVideo();
+    if (audioUnlocked) {
+        event.target.unMute();
+    } else {
+        event.target.mute();
+    }
+}
+
 function unlockAudioEngine() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -524,23 +558,28 @@ function unlockAudioEngine() {
     if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
+    if (player && player.unMute && audioUnlocked) {
+        player.unMute();
+        player.playVideo();
+    }
 }
 
 function toggleAudioEngine(e) {
     if(e) e.stopPropagation();
     unlockAudioEngine();
     
-    const video = document.getElementById("bg-video");
     const btn = document.getElementById("music-btn");
     
     if (audioUnlocked) {
-        video.muted = true;
+        if(player && player.mute) player.mute();
         audioUnlocked = false;
         btn.innerHTML = "🔈 AUDIO: OFF";
         btn.style.borderColor = "rgba(0,195,255,0.3)";
     } else {
-        video.muted = false;
-        video.play().catch(() => {});
+        if(player && player.unMute) {
+            player.unMute();
+            player.playVideo();
+        }
         audioUnlocked = true;
         btn.innerHTML = "🔊 AUDIO: ON";
         btn.style.borderColor = "#00c3ff";
@@ -569,24 +608,30 @@ function playSciFiSlashSound() {
 function openLeaderboard() {
     const entriesList = document.getElementById('leaderboard-entries');
     entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
-    let data = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
-    data.sort((a, b) => a.time - b.time).forEach((p, i) => {
+    
+    // Default system seed
+    let rawData = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
+    
+    // FILTER: Group by player name and keep only their best record time
+    let uniquePlayers = {};
+    rawData.forEach(entry => {
+        let nameKey = entry.name.trim().toLowerCase();
+        if (!uniquePlayers[nameKey] || entry.time < uniquePlayers[nameKey].time) {
+            uniquePlayers[nameKey] = entry; 
+        }
+    });
+
+    // Sort clean array by fastest time
+    let filteredData = Object.values(uniquePlayers);
+    filteredData.sort((a, b) => a.time - b.time);
+
+    filteredData.forEach((p, i) => {
         entriesList.innerHTML += `<tr><td>#${i + 1}</td><td>${p.name}</td><td style="color:#00c3ff;">${p.time.toFixed(2)}s</td></tr>`;
     });
     document.getElementById('board-modal').style.display = 'flex';
 }
 
 function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
-
-window.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById("bg-video");
-    video.muted = false; 
-    video.play().catch(() => {
-        video.muted = true;
-        audioUnlocked = false;
-        document.getElementById("music-btn").innerHTML = "🔈 AUDIO: OFF";
-    });
-});
 
 function triggerEmergency() {
     unlockAudioEngine();
@@ -627,9 +672,10 @@ function registerHit(e) {
         isGameOver = true;
         lastClearTime = (Date.now() - gameStartTime) / 1000;
         document.getElementById('jumpscare').style.display = 'none';
+        
         let savedName = localStorage.getItem('saved_hunter_name');
         if (savedName) {
-            showVictoryScreen(lastClearTime);
+            handleScoreAndRouting(lastClearTime);
         } else {
             document.getElementById('name-modal').style.display = 'flex';
         }
@@ -650,18 +696,29 @@ function submitProfileName() {
     if(name) {
         localStorage.setItem('saved_hunter_name', name);
         document.getElementById('name-modal').style.display = 'none';
-        showVictoryScreen(lastClearTime);
+        handleScoreAndRouting(lastClearTime);
     }
 }
 
-function showVictoryScreen(time) {
+function handleScoreAndRouting(time) {
+    // Save record to database array
     let data = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
     let currentName = localStorage.getItem('saved_hunter_name') || "Anonymous";
     data.push({name: currentName, time: time});
     localStorage.setItem('hunter_board', JSON.stringify(data));
+
+    // Check first-time status
+    let isFirstTime = !localStorage.getItem('boss_redirect_done');
     
-    document.getElementById('victory-time-msg').innerHTML = `Protocol Clear: <strong>${time.toFixed(2)}s</strong>`;
-    document.getElementById('victory-layer').style.display = 'flex';
+    if (isFirstTime) {
+        localStorage.setItem('boss_redirect_done', 'true');
+        // Instantly force redirect directly to the requested YouTube video url
+        window.location.href = targetRedirectUrl;
+    } else {
+        // Safe standard handling fallback for consecutive clear loops
+        document.getElementById('victory-time-msg').innerHTML = `Protocol Clear: <strong>${time.toFixed(2)}s</strong><br><span style="color:#00c3ff; font-size:11px;">RECORD UPDATED</span>`;
+        document.getElementById('victory-layer').style.display = 'flex';
+    }
 }
 
 function closeVictoryScreen() { document.getElementById('victory-layer').style.display = 'none'; }
