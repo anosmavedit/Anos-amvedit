@@ -22,11 +22,12 @@ body{
     align-items:center;
     overflow: hidden; 
     background:#000;
-    padding: 20px;
+    padding: 25px 20px;
+    contain: content; /* Massive performance boost: isolates page layout calculation */
 }
 
-/* CENTERED YOUTUBE BACKGROUND */
-.video-background {
+/* HARDWARE ACCELERATED BACKGROUND CONTAINER */
+.video-frame-container {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -34,39 +35,50 @@ body{
     height: 56.25vw;
     min-height: 100vh;
     min-width: 177.77vh;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
     z-index: -5;
     pointer-events: none;
-    filter: brightness(25%);
+    will-change: transform;
 }
 
-/* CYBER GRID */
+.video-background {
+    width: 100%;
+    height: 100%;
+    filter: brightness(22%) contrast(1.05);
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
+}
+
+/* OPTIMIZED LAYER CYBER GRID */
 body::before{
     content:"";
     position:fixed;
     inset:0;
     background:
-    linear-gradient(rgba(0,195,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,195,255,0.06) 1px, transparent 1px);
-    background-size:40px 40px;
-    animation:gridMove 12s linear infinite;
+    linear-gradient(rgba(0,195,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,195,255,0.05) 1px, transparent 1px);
+    background-size:50px 50px;
+    transform: translate3d(0,0,0);
+    animation:gridMove 16s linear infinite;
     z-index:-3;
     pointer-events:none;
+    will-change: transform;
 }
 
 @keyframes gridMove{
-    from{ transform:translateY(0px); }
-    to{ transform:translateY(40px); }
+    from{ transform: translate3d(0,0,0); }
+    to{ transform: translate3d(0,50px,0); }
 }
 
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.2);
+    background: rgba(0, 4, 10, 0.4);
+    backdrop-filter: blur(2px);
     z-index:-4;
 }
 
-/* TOP NAVIGATION AREA (NON-OVERLAYING) */
+/* TOP NAVIGATION AREA */
 .top-nav {
     width: 100%;
     max-width: 420px;
@@ -81,7 +93,7 @@ body::before{
     border: none;
     outline: none;
     cursor: pointer;
-    background: rgba(0,195,255,0.1);
+    background: rgba(0,195,255,0.08);
     border: 1px solid rgba(0,195,255,0.3);
     color: #00c3ff;
     padding: 12px;
@@ -90,14 +102,14 @@ body::before{
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    backdrop-filter: blur(10px);
-    transition: 0.3s;
+    backdrop-filter: blur(8px);
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
     text-align: center;
 }
 
 .nav-btn:hover {
     transform: scale(1.02);
-    background: rgba(0,195,255,0.25);
+    background: rgba(0,195,255,0.2);
     box-shadow: 0 0 15px rgba(0,195,255,0.4);
 }
 
@@ -107,16 +119,18 @@ body::before{
     width:100%;
     max-width: 420px;
     z-index: 2;
+    margin: auto 0;
 }
 
 .card{
-    background:rgba(0,10,25,0.72);
+    background:rgba(0,8,20,0.76);
     backdrop-filter:blur(20px);
     -webkit-backdrop-filter:blur(20px);
     border-radius:22px;
     padding:30px 24px;
     text-align:center;
-    border: 1px solid rgba(0,195,255,0.2);
+    border: 1px solid rgba(0,195,255,0.18);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
 .avatar-container{
@@ -124,9 +138,6 @@ body::before{
     width:100px;
     height:100px;
     margin:0 auto 15px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
 }
 
 .avatar{
@@ -135,7 +146,7 @@ body::before{
     border-radius:50%;
     object-fit:cover;
     border:2px solid #00c3ff;
-    box-shadow: 0 0 20px rgba(0,195,255,0.5);
+    box-shadow: 0 0 20px rgba(0,195,255,0.4);
     z-index:2;
 }
 
@@ -145,7 +156,7 @@ body::before{
     font-weight:800;
     margin-bottom:8px;
     letter-spacing:1px;
-    text-shadow:0 0 10px rgba(0,195,255,0.5);
+    text-shadow:0 0 10px rgba(0,195,255,0.4);
 }
 
 .bio{
@@ -174,24 +185,23 @@ body::before{
 .links a{
     text-decoration:none;
     color:#fff;
-    background:rgba(0,195,255,0.1);
-    border:1px solid rgba(0,195,255,0.25);
+    background:rgba(0,195,255,0.08);
+    border:1px solid rgba(0,195,255,0.2);
     padding:12px;
     border-radius:10px;
     font-size:12px;
     font-weight:bold;
     letter-spacing:1px;
     text-transform:uppercase;
-    transition:0.3s;
+    transition: background 0.2s, border-color 0.2s;
 }
 
 .links a:hover{
-    background:rgba(0,195,255,0.2);
+    background:rgba(0,195,255,0.18);
     border-color:#00c3ff;
-    box-shadow: 0 0 12px rgba(0,195,255,0.3);
 }
 
-/* BOTTOM BUTTON AREA (NON-OVERLAYING) */
+/* UPGRADED CYBERPUNK DO NOT PRESS BUTTON */
 .bottom-nav {
     width: 100%;
     max-width: 420px;
@@ -199,33 +209,36 @@ body::before{
 }
 
 .warning-btn {
+    position: relative;
     width: 100%;
-    background: linear-gradient(135deg, rgba(255, 0, 60, 0.15), rgba(15, 0, 5, 0.6));
+    background: linear-gradient(135deg, rgba(255, 0, 60, 0.18), rgba(20, 0, 5, 0.85));
     border: 2px solid #ff003c;
-    color: #ff003c;
-    padding: 14px 20px;
-    border-radius: 4px;
-    font-size: 13px;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 6px;
+    font-size: 14px;
     font-weight: 900;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 0, 60, 0.3);
-    transition: all 0.2s ease-in-out;
-    clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+    text-shadow: 0 0 8px #ff003c;
+    box-shadow: 0 0 20px rgba(255, 0, 60, 0.3), inset 0 0 15px rgba(255, 0, 60, 0.2);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2), background 0.2s, box-shadow 0.2s;
+    clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px);
 }
 
 .warning-btn:hover {
+    transform: translateY(-2px);
     background: #ff003c;
-    color: #fff;
-    box-shadow: 0 0 25px #ff003c;
+    box-shadow: 0 0 30px #ff003c, inset 0 0 10px rgba(255,255,255,0.4);
+    text-shadow: 0 0 10px #fff;
 }
 
 /* MODALS & OVERLAYS */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 5, 15, 0.95);
+    background: rgba(0, 4, 12, 0.96);
     z-index: 100;
     display: none;
     flex-direction: column;
@@ -237,11 +250,11 @@ body::before{
 .modal-box {
     width: 100%;
     max-width: 380px;
-    background: rgba(0, 12, 30, 0.9);
-    border: 1px solid rgba(0, 195, 255, 0.4);
+    background: rgba(0, 8, 22, 0.95);
+    border: 1px solid rgba(0, 195, 255, 0.3);
     border-radius: 16px;
     padding: 25px;
-    box-shadow: 0 0 30px rgba(0,195,255,0.2);
+    box-shadow: 0 0 30px rgba(0,195,255,0.15);
 }
 
 .modal-close {
@@ -276,56 +289,44 @@ body::before{
 }
 
 .leaderboard-table th {
-    color: rgba(0, 195, 255, 0.6);
+    color: rgba(0, 195, 255, 0.5);
     text-transform: uppercase;
     font-size: 11px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(0, 195, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 195, 255, 0.15);
     text-align: left;
 }
 
 .leaderboard-table td {
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .rank-num { font-weight: 800; color: #ff003c; }
-.rank-1 { color: #ffd700; }
+.rank-1 { color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.4); }
 .rank-2 { color: #c0c0c0; }
 .rank-3 { color: #cd7f32; }
 
-/* DYNAMIC BLUE COMBAT SLASHES */
+/* NEON BLUE HIGH PERFORMANCE COMBAT SLASHES */
 .slash-effect {
     position: absolute;
-    width: 180px;
-    height: 5px;
-    background: #fff;
-    box-shadow: 0 0 15px #00c3ff, 0 0 30px #00c3ff;
+    width: 260px;
+    height: 3px;
+    background: #ffffff;
+    box-shadow: 0 0 8px #00d2ff, 0 0 20px #0055ff;
     z-index: 10005;
     pointer-events: none;
     transform-origin: center;
-    animation: slashFade 0.15s ease-out forwards;
+    transform: translate3d(-50%, -50%, 0) scaleX(0.05) rotate(var(--rot));
+    animation: slashFade 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    will-change: transform, opacity;
 }
 
 @keyframes slashFade {
-    0% { transform: translate(-50%, -50%) scaleX(0.1) rotate(var(--rot)); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scaleX(1.2) rotate(var(--rot)); opacity: 0; }
+    100% { transform: translate3d(-50%, -50%, 0) scaleX(1.3) rotate(var(--rot)); opacity: 0; }
 }
 
-/* GAMEPLAY ENGINE STYLES */
-.system-warning-screen {
-    position: fixed;
-    inset: 0;
-    background: #0a0002;
-    z-index: 999;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-align: center;
-}
-
+/* JUMPSCARE RUNTIME ENGINE */
 .jumpscare-overlay {
     position: fixed;
     inset: 0;
@@ -336,7 +337,7 @@ body::before{
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    padding: 30px 20px;
+    padding: 40px 20px;
 }
 
 .jumpscare-img {
@@ -346,44 +347,81 @@ body::before{
     height: 100%;
     object-fit: cover;
     z-index: -1;
+    transform: translate3d(0,0,0);
+    will-change: transform, filter;
 }
 
-.jumpscare-overlay.hit .jumpscare-img {
-    filter: brightness(1.8) cubic-bezier(0.1, 0.8, 0.3, 1);
-}
-
+/* SCI-FI BOSS HP UI WITH INCORPORATED OVERDRIVE METER */
 .boss-ui-container {
     width: 100%;
-    max-width: 500px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border: 1px solid #ff003c;
+    max-width: 460px;
+    background: linear-gradient(180deg, rgba(8, 0, 4, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 2px solid #ff003c;
+    box-shadow: 0 0 25px rgba(255, 0, 60, 0.35);
+    z-index: 10;
 }
 
 .boss-name {
-    color: #ff003c;
-    font-size: 18px;
+    color: #fff;
+    font-size: 15px;
     font-weight: 900;
-    letter-spacing: 3px;
-    margin-bottom: 8px;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px #ff003c;
+    text-align: center;
 }
 
 .hp-bar-outer {
     width: 100%;
     height: 14px;
-    background: #200005;
-    border: 1px solid #ff003c;
+    background: rgba(30, 0, 8, 0.8);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 0, 60, 0.4);
+    overflow: hidden;
+    margin-bottom: 8px;
 }
 
 .hp-bar-inner {
     width: 100%;
     height: 100%;
-    background: #ff003c;
-    transition: width 0.03s linear;
+    background: linear-gradient(90deg, #b30027 0%, #ff003c 70%, #ff6687 100%);
+    box-shadow: 0 0 10px #ff003c;
+    transition: width 0.04s ease-out;
 }
 
-/* PROMPT USERNAME INPUT UI */
+/* OVERDRIVE RAGE BAR (SURPRISE FEATURE) */
+.rage-bar-outer {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 20, 35, 0.8);
+    border-radius: 2px;
+    border: 1px solid rgba(0, 195, 255, 0.3);
+    overflow: hidden;
+}
+
+.rage-bar-inner {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #0055ff, #00c3ff, #fff);
+    box-shadow: 0 0 8px #00c3ff;
+    transition: width 0.1s ease;
+}
+
+/* OVERDRIVE MODE HIT FX STATE */
+.jumpscare-overlay.overdrive-active .jumpscare-img {
+    animation: rageShake 0.1s infinite;
+    filter: brightness(1.6) contrast(1.4) hue-rotate(180deg) !important;
+}
+
+@keyframes rageShake {
+    0% { transform: translate3d(2px, 1px, 0); }
+    50% { transform: translate3d(-1px, -2px, 0); }
+    100% { transform: translate3d(1px, 2px, 0); }
+}
+
 .input-box input {
     width: 100%;
     padding: 12px;
@@ -408,17 +446,19 @@ body::before{
     text-transform: uppercase;
 }
 
-body.emergency .overlay { background: rgba(255, 0, 0, 0.25); }
+body.emergency .overlay { background: rgba(255, 0, 0, 0.2); }
 </style>
 </head>
 <body>
 
-<!-- FIXED CENTERING BACKGROUND VIDEO FRAME -->
-<iframe class="video-background" 
-    src="https://www.youtube.com/embed/9wmpgL6Hh_0?autoplay=1&mute=1&loop=1&playlist=9wmpgL6Hh_0&controls=0&showinfo=0&rel=0&modestbranding=1" 
-    frameborder="0" 
-    allow="autoplay; encrypted-media">
-</iframe>
+<!-- OPTIMIZED EMBED TO PREVENT FRAMERATE DROPS -->
+<div class="video-frame-container">
+    <iframe id="bg-video" class="video-background" 
+        src="https://www.youtube.com/embed/9wmpgL6Hh_0?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=9wmpgL6Hh_0&controls=0&showinfo=0&rel=0&modestbranding=1&wmode=transparent&gl=US&hl=en" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media">
+    </iframe>
+</div>
 
 <div class="overlay"></div>
 
@@ -468,7 +508,6 @@ body.emergency .overlay { background: rgba(255, 0, 0, 0.25); }
                 </tr>
             </thead>
             <tbody id="leaderboard-entries">
-                <!-- Records injected dynamically via script -->
             </tbody>
         </table>
         <button class="modal-close" onclick="closeLeaderboard()">Close Console</button>
@@ -495,15 +534,19 @@ body.emergency .overlay { background: rgba(255, 0, 0, 0.25); }
 
 <!-- ACTIVE COMBAT ZONE RUNTIME LAYER -->
 <div class="jumpscare-overlay" id="jumpscare" onmousedown="registerHit(event)" ontouchstart="registerHit(event)">
-    <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img">
-    
     <div class="boss-ui-container">
-        <div class="boss-name">BOSS: DEITY OF THE TEMPLES</div>
+        <div class="boss-name" id="boss-title-ui">💥 BOSS: DEITY OF THE TEMPLES 💥</div>
         <div class="hp-bar-outer">
             <div class="hp-bar-inner" id="boss-hp"></div>
         </div>
+        <div class="rage-bar-outer">
+            <div class="rage-bar-inner" id="rage-meter"></div>
+        </div>
     </div>
-    <div style="color:#fff; font-size:12px; font-weight:bold; letter-spacing:2px; z-index:10;">TAP INTENSELY TO ENGAGE TARGET</div>
+    
+    <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img" id="boss-image-element">
+    
+    <div style="color:#fff; font-size:11px; font-weight:900; letter-spacing:3px; z-index:10; background:rgba(0,0,0,0.75); padding:8px 16px; border-radius:20px; border:1px solid rgba(255,255,255,0.15);">TAP FURIOUSLY TO DESTROY TARGET</div>
 </div>
 
 <!-- VICTORY SUCCESS MODULE LAYER -->
@@ -519,18 +562,19 @@ body.emergency .overlay { background: rgba(255, 0, 0, 0.25); }
 let audioCtx = null;
 let alarmInterval = null;
 let bossHp = 100;
+let rageCombo = 0;
+let overdriveMode = false;
 let isGameOver = false;
 let gameStartTime = 0;
 let lastClearTime = 0;
+let audioUnlocked = false;
 
-// Hardcoded Default Base Records
 const defaultLeaderboard = [
-    {name: "Sung_Jinwoo", time: 0.04},
-    {name: "Shadow_Kicker", time: 5.15},
-    {name: "MiracleSeeker", time: 6.90}
+    {name: "Sung_Jinwoo", time: 3.82},
+    {name: "Shadow_Kicker", time: 6.14},
+    {name: "MiracleSeeker", time: 8.95}
 ];
 
-// Initialize and Setup System Data Logs
 function getLeaderboardData() {
     checkDailyReset();
     let data = localStorage.getItem('hunter_board');
@@ -544,42 +588,72 @@ function getLeaderboardData() {
 function checkDailyReset() {
     const lastReset = localStorage.getItem('board_reset_time');
     const now = Date.now();
-    // 24 Hours in milliseconds calculation = 86400000
     if (!lastReset || (now - parseInt(lastReset)) > 86400000) {
         localStorage.setItem('hunter_board', JSON.stringify(defaultLeaderboard));
         localStorage.setItem('board_reset_time', now.toString());
     }
 }
 
-// Master Audio Trigger Fix
 function toggleAudioEngine() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const iframe = document.getElementById("bg-video");
     const btn = document.getElementById("music-btn");
-    if (audioCtx.state === 'suspended') {
+    
+    if (!audioUnlocked) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"unmute","args":""}', '*');
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
         audioCtx.resume();
-        btn.innerHTML = "🔊 AUDIO: READY";
+        audioUnlocked = true;
+        btn.innerHTML = "🔊 AUDIO: ACTIVE";
         btn.style.borderColor = "#00c3ff";
+        btn.style.boxShadow = "0 0 15px rgba(0, 195, 255, 0.4)";
+        playSciFiSlashSound();
     } else {
-        // Run clean instant oscillator sync check sound to prove alignment instantly
-        runSynthesizerTone(600, 0.05, 'triangle');
+        playSciFiSlashSound();
     }
 }
 
-function runSynthesizerTone(freq, duration, type='sawtooth') {
-    if (!audioCtx) return;
+function playSciFiSlashSound() {
+    if (!audioCtx || !audioUnlocked) return;
+    try {
+        let now = audioCtx.currentTime;
+        let factor = overdriveMode ? 1.5 : 1.0; // Changes pitches slightly during rage mode
+        
+        let osc1 = audioCtx.createOscillator();
+        let gain1 = audioCtx.createGain();
+        osc1.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(1400 * factor, now);
+        osc1.frequency.exponentialRampToValueAtTime(150 * factor, now + 0.12);
+        gain1.gain.setValueAtTime(0.18, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        
+        let osc2 = audioCtx.createOscillator();
+        let gain2 = audioCtx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(800 * factor, now);
+        osc2.frequency.linearRampToValueAtTime(80 * factor, now + 0.14);
+        gain2.gain.setValueAtTime(0.12, now);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+        
+        osc1.connect(gain1); gain1.connect(audioCtx.destination);
+        osc2.connect(gain2); gain2.connect(audioCtx.destination);
+        
+        osc1.start(now); osc1.stop(now + 0.13);
+        osc2.start(now); osc2.stop(now + 0.15);
+    } catch(e){}
+}
+
+function playAlarmTone(freq, duration) {
+    if (!audioCtx || !audioUnlocked) return;
     try {
         let osc = audioCtx.createOscillator();
         let gain = audioCtx.createGain();
-        osc.type = type;
+        osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + duration);
     } catch(e){}
 }
 
@@ -587,8 +661,6 @@ function openLeaderboard() {
     const entriesList = document.getElementById('leaderboard-entries');
     entriesList.innerHTML = '';
     const currentData = getLeaderboardData();
-    
-    // Clean sorting records fastest to lowest clear execution
     currentData.sort((a, b) => a.time - b.time);
 
     currentData.forEach((player, index) => {
@@ -607,38 +679,56 @@ function closeLeaderboard() { document.getElementById('board-modal').style.displ
 
 function triggerEmergency() {
     bossHp = 100;
+    rageCombo = 0;
+    overdriveMode = false;
     isGameOver = false;
     document.getElementById('boss-hp').style.width = '100%';
+    document.getElementById('rage-meter').style.width = '0%';
+    document.getElementById('boss-title-ui').innerText = "💥 BOSS: DEITY OF THE TEMPLES 💥";
+    document.getElementById('jumpscare').classList.remove('overdrive-active');
     document.body.classList.add('emergency');
     document.getElementById('warning-screen').style.display = 'flex';
     
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    alarmInterval = setInterval(() => { runSynthesizerTone(480, 0.25, 'sawtooth'); }, 500);
+    alarmInterval = setInterval(() => { playAlarmTone(440, 0.18); }, 400);
 
     setTimeout(() => {
         clearInterval(alarmInterval);
         document.getElementById('warning-screen').style.display = 'none';
         document.getElementById('jumpscare').style.display = 'flex';
         gameStartTime = Date.now();
-        runSynthesizerTone(180, 1.5, 'sawtooth');
-    }, 2500);
+        playAlarmTone(120, 1.0);
+    }, 2000);
 }
 
 function registerHit(e) {
     if (isGameOver) return;
     if (e) e.preventDefault();
 
-    // Damage reduced for a solid high difficulty challenge run
-    bossHp -= 3.5;
+    // Surprise Mechanic: Overdrive Damage Scaling Core Calculation
+    let hitDamage = overdriveMode ? 7.5 : 3.8;
+    bossHp -= hitDamage;
     if (bossHp < 0) bossHp = 0;
     document.getElementById('boss-hp').style.width = bossHp + '%';
 
-    const stage = document.getElementById('jumpscare');
-    stage.classList.add('hit');
-    setTimeout(() => stage.classList.remove('hit'), 50);
+    // Accelerating the Rage system tracker
+    if (!overdriveMode) {
+        rageCombo += 6;
+        if (rageCombo > 100) rageCombo = 100;
+        document.getElementById('rage-meter').style.width = rageCombo + '%';
+        
+        if (rageCombo >= 100) {
+            overdriveMode = true;
+            document.getElementById('boss-title-ui').innerText = "⚡ OVERDRIVE RAGE ACTIVE ⚡";
+            document.getElementById('jumpscare').classList.add('overdrive-active');
+            playAlarmTone(880, 0.4);
+        }
+    }
 
-    // Dynamic Tracking Coordinates
+    let imgElement = document.getElementById('boss-image-element');
+    imgElement.style.filter = overdriveMode ? "brightness(1.8) contrast(1.4)" : "brightness(1.5) contrast(1.1)";
+    setTimeout(() => { imgElement.style.filter = "none"; }, 40);
+
     let x = 0, y = 0;
     if (e.touches && e.touches[0]) {
         x = e.touches[0].clientX; y = e.touches[0].clientY;
@@ -647,14 +737,13 @@ function registerHit(e) {
     }
     
     if(x && y) spawnBlueSlashEffect(x, y);
-    runSynthesizerTone(900, 0.08, 'triangle');
+    playSciFiSlashSound();
 
     if (bossHp <= 0) {
         isGameOver = true;
         lastClearTime = (Date.now() - gameStartTime) / 1000;
         document.getElementById('jumpscare').style.display = 'none';
         
-        // Evaluate user profile registration variables
         const activeUser = localStorage.getItem('saved_hunter_name');
         if (activeUser) {
             saveScoreToSystem(activeUser, lastClearTime);
@@ -671,8 +760,21 @@ function spawnBlueSlashEffect(x, y) {
     slash.style.left = x + 'px';
     slash.style.top = y + 'px';
     slash.style.setProperty('--rot', Math.floor(Math.random() * 360) + 'deg');
+    
+    // Surprise Cross-Slash Generation on Overdrive state
+    if (overdriveMode) {
+        const crossSlash = document.createElement('div');
+        crossSlash.className = 'slash-effect';
+        crossSlash.style.left = x + 'px';
+        crossSlash.style.top = y + 'px';
+        crossSlash.style.setProperty('--rot', (Math.floor(Math.random() * 360) + 90) + 'deg');
+        crossSlash.style.boxShadow = "0 0 10px #00ffff, 0 0 25px #ffffff";
+        document.getElementById('jumpscare').appendChild(crossSlash);
+        setTimeout(() => crossSlash.remove(), 160);
+    }
+
     document.getElementById('jumpscare').appendChild(slash);
-    setTimeout(() => slash.remove(), 140);
+    setTimeout(() => slash.remove(), 160);
 }
 
 function submitProfileName() {
@@ -680,7 +782,7 @@ function submitProfileName() {
     let name = inputField.value.trim().replace(/[^a-zA-Z0-9_]/g, '');
     
     if (!name) {
-        alert("Enter a clean alphanumeric profile identifier tag!");
+        alert("Enter a clean alphanumeric profile name!");
         return;
     }
     
@@ -692,11 +794,9 @@ function submitProfileName() {
 
 function saveScoreToSystem(username, clearTime) {
     let board = getLeaderboardData();
-    // Check if player has an existing score to update
     let userIndex = board.findIndex(p => p.name.toLowerCase() === username.toLowerCase());
     
     if (userIndex !== -1) {
-        // If they did it faster, update time
         if (clearTime < board[userIndex].time) {
             board[userIndex].time = clearTime;
         }
@@ -708,7 +808,8 @@ function saveScoreToSystem(username, clearTime) {
 }
 
 function showVictoryScreen(time) {
-    document.getElementById('victory-time-msg').innerHTML = `YOU SURVIVED THE ARENA PROTOCOL.<br>Clear speed benchmark processing: <strong style="color:#00c3ff;">${time.toFixed(2)} seconds</strong>`;
+    let modeMsg = overdriveMode ? "<br><span style='color:#ff003c; font-size:11px;'>OVERDRIVE MULTIPLIER UNLOCKED</span>" : "";
+    document.getElementById('victory-time-msg').innerHTML = `YOU SURVIVED THE ARENA PROTOCOL.<br>Clear speed benchmark processing: <strong style="color:#00c3ff;">${time.toFixed(2)} seconds</strong>${modeMsg}`;
     document.getElementById('victory-layer').style.display = 'flex';
 }
 
