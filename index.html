@@ -26,24 +26,29 @@ body{
     contain: content;
 }
 
-/* HIGH-PERFORMANCE NATIVE VIDEO ENGINE */
+/* HIGH-PERFORMANCE NATIVE VIDEO ENGINE (SMOOTH & ZOOMED TO FIT) */
 .video-frame-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: -5;
     pointer-events: none;
     overflow: hidden;
+    will-change: transform;
 }
 
 .video-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: translate3d(-50%, -50%, 0);
     filter: brightness(25%) contrast(1.05);
-    transform: translate3d(0,0,0);
+    will-change: transform;
 }
 
 /* OPTIMIZED CYBER GRID */
@@ -109,7 +114,7 @@ body::before{
     box-shadow: 0 0 15px rgba(0,195,255,0.4);
 }
 
-/* PROFILE CARD DESIGN WITH SPINNING RING */
+/* PROFILE CARD DESIGN WITH ORIGINAL THEME SPINNING RING */
 .card-container{
     position:relative;
     width:100%;
@@ -129,12 +134,12 @@ body::before{
     box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
-/* SPINNING DIAL RING EFFECT */
-.avatar-container{
-    position:relative;
-    width:116px;
-    height:116px;
-    margin:0 auto 20px;
+/* SPINNING DIAL RING EFFECT (ORIGINAL FIRST SPECIFICATION) */
+.avatar-container {
+    position: relative;
+    width: 116px;
+    height: 116px;
+    margin: 0 auto 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -398,9 +403,9 @@ body::before{
 </head>
 <body onclick="unlockAudioOnFirstInteraction()">
 
-<!-- DIRECT NATIVE MP4 VIDEO STREAM OVERRIDE -->
+<!-- DIRECT NATIVE MP4 VIDEO OVERRIDE (ZOOMED & HARDWARE ACCELERATED) -->
 <div class="video-frame-container">
-    <video id="bg-video" class="video-background" autoplay loop muted playsinline>
+    <video id="bg-video" class="video-background" autoplay loop playsinline>
         <source src="https://files.catbox.moe/dbel8g.mp4" type="video/mp4">
     </video>
 </div>
@@ -408,7 +413,7 @@ body::before{
 <div class="overlay"></div>
 
 <div class="top-nav">
-    <button id="music-btn" class="nav-btn" onclick="toggleAudioEngine(event)">🔈 AUDIO: OFF</button>
+    <button id="music-btn" class="nav-btn" onclick="toggleAudioEngine(event)">🔊 AUDIO: ON</button>
     <button class="nav-btn" onclick="openLeaderboard()">🏆 LEADERBOARD</button>
 </div>
 
@@ -477,7 +482,7 @@ let overdriveMode = false;
 let isGameOver = false;
 let gameStartTime = 0;
 let lastClearTime = 0;
-let audioUnlocked = false;
+let audioUnlocked = true; // Audio initialized as active straight away
 
 function unlockAudioOnFirstInteraction() {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -491,14 +496,17 @@ function toggleAudioEngine(e) {
     const video = document.getElementById("bg-video");
     const btn = document.getElementById("music-btn");
     
-    if (!audioUnlocked) {
+    if (audioUnlocked) {
+        video.muted = true;
+        audioUnlocked = false;
+        btn.innerHTML = "🔈 AUDIO: OFF";
+        btn.style.borderColor = "rgba(0,195,255,0.3)";
+    } else {
         video.muted = false;
         video.play().catch(() => {});
         audioUnlocked = true;
-        btn.innerHTML = "🔊 AUDIO: ACTIVE";
+        btn.innerHTML = "🔊 AUDIO: ON";
         btn.style.borderColor = "#00c3ff";
-        playSciFiSlashSound();
-    } else {
         playSciFiSlashSound();
     }
 }
@@ -531,6 +539,18 @@ function openLeaderboard() {
 }
 
 function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
+
+// Auto-run video stream logic gracefully on window initialization
+window.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById("bg-video");
+    video.muted = false; 
+    video.play().catch(() => {
+        // Fallback for strict browser secure contexts
+        video.muted = true;
+        audioUnlocked = false;
+        document.getElementById("music-btn").innerHTML = "🔈 AUDIO: OFF";
+    });
+});
 
 function triggerEmergency() {
     bossHp = 100; rageCombo = 0; overdriveMode = false; isGameOver = false;
