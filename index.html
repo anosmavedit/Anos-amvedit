@@ -18,63 +18,49 @@
 body{
     min-height:100vh;
     display:flex;
+    flex-direction: column;
     justify-content:center;
     align-items:center;
     overflow-y: auto; 
     background:#000;
-    padding:40px 20px;
+    padding:40px 20px 100px 20px;
 }
 
-/* VIDEO BACKGROUND */
-
-#bg-video{
-    position:fixed;
-    top:50%;
-    left:50%;
-    min-width:100%;
-    min-height:100%;
-    width:auto;
-    height:auto;
-    transform:translate(-50%,-50%);
-    object-fit:cover;
-    z-index:-5;
-    filter:brightness(35%);
+/* YOUTUBE IFRAME BACKGROUND */
+.video-background {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw;
+    min-height: 100vh;
+    min-width: 177.77vh;
+    transform: translate(-50%, -50%);
+    z-index: -5;
+    pointer-events: none;
+    filter: brightness(35%);
 }
 
 /* CYBER GRID */
-
 body::before{
     content:"";
     position:fixed;
     inset:0;
-
     background:
     linear-gradient(rgba(0,195,255,0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0,195,255,0.08) 1px, transparent 1px);
-
     background-size:40px 40px;
-
     animation:gridMove 12s linear infinite;
-
     z-index:-3;
-
     pointer-events:none;
 }
 
 @keyframes gridMove{
-
-    from{
-        transform:translateY(0px);
-    }
-
-    to{
-        transform:translateY(40px);
-    }
-
+    from{ transform:translateY(0px); }
+    to{ transform:translateY(40px); }
 }
 
 /* DARK OVERLAY */
-
 .overlay{
     position:fixed;
     inset:0;
@@ -84,7 +70,6 @@ body::before{
 }
 
 /* FLOATING PARTICLES */
-
 .particles{
     position:fixed;
     inset:0;
@@ -95,18 +80,12 @@ body::before{
 
 .particles::before,
 .particles::after{
-
     content:"";
-
     position:absolute;
-
     width:4px;
     height:4px;
-
     border-radius:50%;
-
     background:#00c3ff;
-
     box-shadow:
     0 0 10px #00c3ff,
     120px 100px #00c3ff,
@@ -116,7 +95,6 @@ body::before{
     800px 400px #00c3ff,
     1000px 250px #00c3ff,
     1300px 500px #00c3ff;
-
     animation:floatParticles 18s linear infinite;
 }
 
@@ -126,74 +104,44 @@ body::before{
 }
 
 @keyframes floatParticles{
-
-    from{
-        transform:translateY(100vh);
-    }
-
-    to{
-        transform:translateY(-120vh);
-    }
-
+    from{ transform:translateY(100vh); }
+    to{ transform:translateY(-120vh); }
 }
 
 /* MUSIC BUTTON */
-
 #music-btn{
     position:fixed;
     top:20px;
     right:20px;
-
     z-index:100;
-
     border:none;
     outline:none;
     cursor:pointer;
-
     background:rgba(0,195,255,0.12);
     border:1px solid rgba(0,195,255,0.35);
-
     color:#00c3ff;
-
     padding:10px 16px;
-
     border-radius:12px;
-
     font-size:12px;
     font-weight:700;
-
     letter-spacing:1px;
-
     backdrop-filter:blur(10px);
-
     transition:0.3s;
-
     animation:musicGlow 2s infinite alternate;
 }
 
 #music-btn:hover{
-
     transform:scale(1.05);
-
     background:rgba(0,195,255,0.28);
-
     box-shadow:0 0 18px rgba(0,195,255,0.5);
 }
 
 @keyframes musicGlow{
-
-    from{
-        box-shadow:0 0 8px rgba(0,195,255,0.2);
-    }
-
-    to{
-        box-shadow:0 0 20px rgba(0,195,255,0.7);
-    }
-
+    from{ box-shadow:0 0 8px rgba(0,195,255,0.2); }
+    to{ box-shadow:0 0 20px rgba(0,195,255,0.7); }
 }
 
 /* CARD */
-
 .card-container{
     position:relative;
     width:100%;
@@ -203,109 +151,48 @@ body::before{
 }
 
 .card-container:hover .card{
-
-    box-shadow:
-    0 0 35px rgba(0,195,255,0.25),
-    0 0 80px rgba(0,195,255,0.12);
-
+    box-shadow: 0 0 35px rgba(0,195,255,0.25), 0 0 80px rgba(0,195,255,0.12);
     transition:0.4s;
 }
 
 /* SCI-FI FRAME */
-
 .scifi-frame{
     position:absolute;
     inset:0;
-
     border-radius:22px;
-
     border:1px solid rgba(0,195,255,0.45);
-
-    box-shadow:
-    0 0 22px rgba(0,195,255,0.4),
-    inset 0 0 15px rgba(0,195,255,0.2);
-
+    box-shadow: 0 0 22px rgba(0,195,255,0.4), inset 0 0 15px rgba(0,195,255,0.2);
     pointer-events:none;
 }
 
 .scifi-frame span{
-
     position:absolute;
-
     width:26px;
     height:26px;
-
     border:3px solid #00c3ff;
-
     filter:drop-shadow(0 0 10px #00c3ff);
 }
 
-.tl{
-    top:-2px;
-    left:-2px;
-
-    border-right:none;
-    border-bottom:none;
-
-    border-radius:14px 0 0 0;
-}
-
-.tr{
-    top:-2px;
-    right:-2px;
-
-    border-left:none;
-    border-bottom:none;
-
-    border-radius:0 14px 0 0;
-}
-
-.bl{
-    bottom:-2px;
-    left:-2px;
-
-    border-right:none;
-    border-top:none;
-
-    border-radius:0 0 0 14px;
-}
-
-.br{
-    bottom:-2px;
-    right:-2px;
-
-    border-left:none;
-    border-top:none;
-
-    border-radius:0 0 14px 0;
-}
-
-/* CARD */
+.tl{ top:-2px; left:-2px; border-right:none; border-bottom:none; border-radius:14px 0 0 0; }
+.tr{ top:-2px; right:-2px; border-left:none; border-bottom:none; border-radius:0 14px 0 0; }
+.bl{ bottom:-2px; left:-2px; border-right:none; border-top:none; border-radius:0 0 0 14px; }
+.br{ bottom:-2px; right:-2px; border-left:none; border-top:none; border-radius:0 0 14px 0; }
 
 .card{
-
     background:rgba(0,10,25,0.68);
-
     backdrop-filter:blur(22px);
     -webkit-backdrop-filter:blur(22px);
-
     border-radius:22px;
-
     padding:42px 30px;
-
     text-align:center;
 }
 
 /* AVATAR */
-
 .avatar-container{
     position:relative;
-
     width:115px;
     height:115px;
-
     margin:0 auto 22px;
-
     display:flex;
     justify-content:center;
     align-items:center;
@@ -314,138 +201,73 @@ body::before{
 .avatar{
     width:115px;
     height:115px;
-
     border-radius:50%;
     object-fit:cover;
-
     border:2px solid #00c3ff;
-
-    box-shadow:
-    0 0 25px rgba(0,195,255,0.65);
-
+    box-shadow: 0 0 25px rgba(0,195,255,0.65);
     z-index:2;
 }
 
-/* NEON RINGS */
-
-.neon-ring-1,
-.neon-ring-2{
+.neon-ring-1, .neon-ring-2{
     position:absolute;
     border-radius:50%;
     border:2px solid transparent;
 }
 
 .neon-ring-1{
-
     width:135px;
     height:135px;
-
     border-top:2px solid #00c3ff;
     border-bottom:2px solid #00c3ff;
-
     animation:spin 3s linear infinite;
-
-    box-shadow:
-    0 0 12px rgba(0,195,255,0.55),
-    inset 0 0 12px rgba(0,195,255,0.45);
+    box-shadow: 0 0 12px rgba(0,195,255,0.55), inset 0 0 12px rgba(0,195,255,0.45);
 }
 
 .neon-ring-2{
-
     width:124px;
     height:124px;
-
     border-left:2px solid rgba(0,195,255,0.7);
     border-right:2px solid rgba(0,195,255,0.7);
-
     animation:spinReverse 2s linear infinite;
 }
 
-@keyframes spin{
-
-    from{
-        transform:rotate(0deg);
-    }
-
-    to{
-        transform:rotate(360deg);
-    }
-
-}
-
-@keyframes spinReverse{
-
-    from{
-        transform:rotate(360deg);
-    }
-
-    to{
-        transform:rotate(0deg);
-    }
-
-}
+@keyframes spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+@keyframes spinReverse{ from{ transform:rotate(360deg); } to{ transform:rotate(0deg); } }
 
 /* TEXT */
-
 .name{
-
     color:#fff;
-
     font-size:28px;
     font-weight:800;
-
     margin-bottom:10px;
-
     letter-spacing:1px;
-
     animation:namePulse 2.5s infinite alternate;
 }
 
 @keyframes namePulse{
-
-    from{
-        text-shadow:0 0 10px rgba(0,195,255,0.5);
-    }
-
-    to{
-        text-shadow:
-        0 0 22px rgba(0,195,255,1),
-        0 0 40px rgba(0,195,255,0.6);
-    }
-
+    from{ text-shadow:0 0 10px rgba(0,195,255,0.5); }
+    to{ text-shadow: 0 0 22px rgba(0,195,255,1), 0 0 40px rgba(0,195,255,0.6); }
 }
 
 .bio{
-
     color:rgba(255,255,255,0.88);
-
     font-size:12px;
-
     line-height:1.7;
-
     margin-bottom:16px;
-
     font-style:italic;
-
-    text-shadow:
-    0 0 6px rgba(0,195,255,0.25);
+    text-shadow: 0 0 6px rgba(0,195,255,0.25);
 }
 
 .role{
-
     color:#00c3ff;
-
     font-size:11px;
     font-weight:bold;
-
     text-transform:uppercase;
     letter-spacing:5px;
-
     margin-bottom:26px;
 }
 
 /* LINKS */
-
 .links{
     display:flex;
     flex-direction:column;
@@ -453,74 +275,79 @@ body::before{
 }
 
 .links a{
-
     text-decoration:none;
-
     color:#fff;
-
     background:rgba(0,195,255,0.12);
-
     border:1px solid rgba(0,195,255,0.3);
-
     padding:14px;
-
     border-radius:12px;
-
     font-size:13px;
     font-weight:bold;
-
     letter-spacing:1px;
-
     text-transform:uppercase;
-
     transition:0.3s;
 }
 
 .links a:hover{
-
     transform:scale(1.03);
-
     background:rgba(0,195,255,0.28);
-
     border-color:#00c3ff;
-
-    box-shadow:
-    0 0 18px rgba(0,195,255,0.45);
+    box-shadow: 0 0 18px rgba(0,195,255,0.45);
 }
 
-/* DANGER BUTTON */
-.danger-zone {
-    margin-top: 25px;
-    border-top: 1px dashed rgba(255, 0, 0, 0.3);
-    padding-top: 20px;
+/* FIXED COOL DANGER BUTTON AT BOTTOM */
+.danger-zone-bottom {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: calc(100% - 40px);
+    max-width: 350px;
+    text-align: center;
 }
 
 .warning-btn {
     width: 100%;
-    background: rgba(255, 0, 60, 0.1);
-    border: 1px solid rgba(255, 0, 60, 0.4);
+    background: linear-gradient(135deg, rgba(255, 0, 60, 0.15), rgba(15, 0, 5, 0.6));
+    border: 2px solid #ff003c;
     color: #ff003c;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 2px;
+    padding: 14px 20px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 3px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: 0.3s;
+    position: relative;
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.4), inset 0 0 10px rgba(255, 0, 60, 0.2);
+    transition: all 0.2s ease-in-out;
+    clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
 }
 
 .warning-btn:hover {
-    background: rgba(255, 0, 60, 0.3);
-    box-shadow: 0 0 15px rgba(255, 0, 60, 0.6);
-    transform: scale(1.02);
+    background: #ff003c;
+    color: #fff;
+    box-shadow: 0 0 30px #ff003c, 0 0 10px #fff;
+    transform: scale(1.03);
+    letter-spacing: 4px;
+}
+
+.warning-btn::before {
+    content: 'SYSTEM ANOMALY';
+    position: absolute;
+    top: -18px;
+    left: 10px;
+    font-size: 8px;
+    color: rgba(255, 0, 60, 0.7);
+    letter-spacing: 1px;
 }
 
 /* SOLO LEVELING EMERGENCY OVERLAY */
 .system-warning-screen {
     position: fixed;
     inset: 0;
-    background: rgba(15, 0, 0, 0.95);
+    background: rgba(12, 0, 3, 0.96);
     z-index: 9999;
     display: none;
     flex-direction: column;
@@ -534,7 +361,7 @@ body::before{
 
 .system-warning-box {
     border: 3px solid #ff003c;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.9);
     padding: 40px;
     border-radius: 4px;
     max-width: 500px;
@@ -556,7 +383,6 @@ body::before{
     line-height: 1.8;
     letter-spacing: 1px;
     color: #ffb3b3;
-    margin-bottom: 30px;
 }
 
 @keyframes pulseBorder {
@@ -564,33 +390,139 @@ body::before{
     to { box-shadow: 0 0 45px #ff0055, inset 0 0 25px rgba(255,0,60,0.7); }
 }
 
-/* JUMPSCARE OVERLAY */
+/* JUMPSCARE GAME OVERLAY */
 .jumpscare-overlay {
     position: fixed;
     inset: 0;
     background: #000;
     z-index: 10000;
     display: none;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     overflow: hidden;
+    cursor: crosshair;
+    user-select: none;
+    padding: 30px 20px;
 }
 
 .jumpscare-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: zoomShake 0.15s infinite alternate, pulseVignette 2s infinite alternate;
+    z-index: 1;
+    pointer-events: none;
 }
 
-/* SCREEN SHAKE + VIOLENT ZOOM UPGRADE */
+/* Red Screen Flash State when hitting Boss */
+.jumpscare-overlay.hit .jumpscare-img {
+    filter: brightness(1.8) sepia(1) hue-rotate(-50deg) saturate(5);
+}
+
+.jumpscare-img.scare-active {
+    animation: zoomShake 0.12s infinite alternate;
+}
+
 @keyframes zoomShake {
-    0% { transform: scale(1.1) translate(4px, 1px) rotate(0deg); filter: hue-rotate(0deg) contrast(1.2); }
-    20% { transform: scale(1.15) translate(-3px, -2px) rotate(-1deg); }
-    40% { transform: scale(1.1) translate(-1px, 3px) rotate(1deg); filter: hue-rotate(10deg); }
-    60% { transform: scale(1.2) translate(3px, 2px) rotate(0deg); }
-    80% { transform: scale(1.15) translate(-2px, -3px) rotate(2deg); filter: contrast(1.5); }
-    100% { transform: scale(1.25) translate(2px, 4px) rotate(-2deg); }
+    0% { transform: scale(1.15) translate(5px, 2px); }
+    50% { transform: scale(1.2) translate(-4px, -3px); }
+    100% { transform: scale(1.25) translate(2px, 4px); }
+}
+
+/* BOSS HEALTH UI (SOLO LEVELING STYLE) */
+.boss-ui-container {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 15px;
+    border: 1px solid rgba(255, 0, 60, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.boss-name {
+    color: #ff003c;
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 8px #ff003c;
+}
+
+.hp-bar-outer {
+    width: 100%;
+    height: 16px;
+    background: #200005;
+    border: 1px solid #ff003c;
+    padding: 2px;
+    overflow: hidden;
+}
+
+.hp-bar-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #80001c, #ff003c);
+    box-shadow: 0 0 10px #ff003c;
+    transition: width 0.05s ease-out;
+}
+
+.game-hint {
+    position: relative;
+    z-index: 5;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px #000, 0 0 10px #ff003c;
+    animation: blinkText 0.8s infinite alternate;
+}
+
+@keyframes blinkText {
+    from { opacity: 0.4; } to { opacity: 1; }
+}
+
+/* QUEST CLEARED POPUP */
+.victory-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 10001;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.victory-box {
+    border: 2px solid #00c3ff;
+    background: #000;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 195, 255, 0.5);
+}
+
+.victory-title {
+    color: #00c3ff;
+    font-family: 'Courier New', monospace;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px #00c3ff;
+}
+
+.victory-msg {
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: 2px;
+    line-height: 1.6;
 }
 
 /* RED ALARM STATE FOR BACKGROUND */
@@ -600,31 +532,17 @@ body.emergency::before {
     linear-gradient(90deg, rgba(255, 0, 60, 0.15) 1px, transparent 1px);
     background-size:40px 40px;
 }
-body.emergency .overlay {
-    background: rgba(255, 0, 0, 0.4);
-}
+body.emergency .overlay { background: rgba(255, 0, 0, 0.4); }
 body.emergency .particles::before,
 body.emergency .particles::after {
     background: #ff003c;
     box-shadow: 0 0 10px #ff003c, 120px 100px #ff003c, 250px 200px #ff003c, 400px 300px #ff003c;
 }
 
-/* MOBILE */
-
 @media(max-width:480px){
-
-    .card{
-        padding:36px 22px;
-    }
-
-    .name{
-        font-size:24px;
-    }
-
-    .bio{
-        font-size:11px;
-    }
-
+    .card{ padding:36px 22px; }
+    .name{ font-size:24px; }
+    .bio{ font-size:11px; }
 }
 
 </style>
@@ -632,84 +550,91 @@ body.emergency .particles::after {
 
 <body>
 
-<!-- VIDEO BACKGROUND USING REPLACED LINK -->
-<video autoplay muted loop playsinline id="bg-video">
-    <source src="https://rr5---sn-4g5ednd6.googlevideo.com/videoplayback?expire=1718919655&ei=h-p0Zp7DKe6g0_wPrKGFmAs&ip=185.213.155.158&id=o-AD6N5f2oW8L9S8m_p4X_YmR4m1_U4rL_Q_Wn5L8c_XW4&its=1&orig=youtube&ipbits=0&expire=1718919655&sparams=expire,ei,ip,id,its,orig,ipbits&signature=5B3D3B514BD8A6C302B6D45ED912066E0C7C52A2.8E09DCE9188F3AA5598BB9CECC6BFA7C6D65EE4C&key=yt8&vprv=1&mime=video/mp4&title=Solo+Leveling+Edit" type="video/mp4">
-</video>
+<!-- FIXED IFRAME YOUTUBE BACKGROUND -->
+<iframe class="video-background" 
+    src="https://www.youtube.com/embed/nU6pW2v4b6Y?autoplay=1&mute=1&loop=1&playlist=nU6pW2v4b6Y&controls=0&showinfo=0&rel=0&modestbranding=1" 
+    frameborder="0" 
+    allow="autoplay; encrypted-media" 
+    allowfullscreen>
+</iframe>
 
-<!-- OVERLAY -->
 <div class="overlay"></div>
-
-<!-- PARTICLES -->
 <div class="particles"></div>
 
-<!-- MUSIC -->
 <audio id="bg-music" loop>
     <source src="music.mp4" type="audio/mp4">
 </audio>
 
-<!-- BUTTON -->
-<button id="music-btn" onclick="toggleMusic()">
-🔈 AUDIO: OFF
-</button>
+<button id="music-btn" onclick="toggleMusic()">🔈 AUDIO: OFF</button>
 
 <!-- CARD -->
 <div class="card-container">
-
 <div class="scifi-frame">
-    <span class="tl"></span>
-    <span class="tr"></span>
-    <span class="bl"></span>
-    <span class="br"></span>
+    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
 </div>
-
 <div class="card">
-
-<div class="avatar-container">
-    <div class="neon-ring-1"></div>
-    <div class="neon-ring-2"></div>
-    <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
-</div>
-
-<div class="name">Anosカミ</div>
-
-<div class="bio">
-The faintest ray of hope.<br>
-Only those who reach out toward even the faintest ray of hope
-will be granted a MIRACLE.
-<br><br>
-(discord user: anos_edits)
-</div>
-
-<div class="role">Editor</div>
-
-<div class="links">
-    <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
-    <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
-</div>
-
-<!-- DO NOT PRESS ZONE -->
-<div class="danger-zone">
-    <button class="warning-btn" onclick="triggerEmergency()">⚠️ DO NOT PRESS ⚠️</button>
-</div>
-
+    <div class="avatar-container">
+        <div class="neon-ring-1"></div><div class="neon-ring-2"></div>
+        <img src="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg" class="avatar" alt="Anosカミ">
+    </div>
+    <div class="name">Anosカミ</div>
+    <div class="bio">
+    The faintest ray of hope.<br>
+    Only those who reach out toward even the faintest ray of hope
+    will be granted a MIRACLE.
+    <br><br>
+    (discord user: anos_edits)
+    </div>
+    <div class="role">Editor</div>
+    <div class="links">
+        <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
+        <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
+    </div>
 </div>
 </div>
 
-<!-- SYSTEM WARNING OVERLAY (SOLO LEVELING STYLE) -->
+<!-- FIXED COOL DANGER BUTTON -->
+<div class="danger-zone-bottom">
+    <button class="warning-btn" onclick="triggerEmergency()">⚠️ ACCESS PENALTY ZONE ⚠️</button>
+</div>
+
+<!-- SYSTEM WARNING OVERLAY -->
 <div class="system-warning-screen" id="warning-screen">
     <div class="system-warning-box">
         <div class="system-title">[WARNING]</div>
         <div class="system-message">
             COMPLETION OF THE DAILY QUEST HAS BEEN FAILURE.<br>
-            YOU WILL NOW BE TRANSPORTED TO THE PENALTY ZONE FOR A DURATION OF 4 HOURS.
+            YOU WILL NOW BE TRANSPORTED TO THE PENALTY ZONE.
         </div>
     </div>
 </div>
 
-<!-- SCARY JUMPSCARE CONTAINER -->
-<div class="jumpscare-overlay" id="jumpscare" onclick="dismissAll()">
-    <img src="images (10).jpeg" class="jumpscare-img" alt="God Statue">
+<!-- MINI GAME JUMPSCARE LEVEL -->
+<div class="jumpscare-overlay" id="jumpscare" onclick="attackBoss()">
+    <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img scare-active" id="scare-img">
+    
+    <!-- Boss Bar Header -->
+    <div class="boss-ui-container">
+        <div class="boss-name">ID: GOD STATUE (DECREE 1)</div>
+        <div class="hp-bar-outer">
+            <div class="hp-bar-inner" id="boss-hp"></div>
+        </div>
+    </div>
+
+    <!-- Tapping Guide -->
+    <div class="game-hint">💥 TAP AGGRESSIVELY TO ATTACK! 💥</div>
+</div>
+
+<!-- QUEST SUCCESS INTERACTION -->
+<div class="victory-screen" id="victory-layer" onclick="dismissAll()">
+    <div class="victory-box">
+        <div class="victory-title">[QUEST CLEARED]</div>
+        <div class="victory-msg">
+            YOU HAVE SURVIVED THE PENALTY ZONE.<br>
+            ALL REWARDS AND PROTOCOLS RESTORED.<br><br>
+            (Tap anywhere to return)
+        </div>
+    </div>
 </div>
 
 <script>
@@ -718,6 +643,10 @@ const button = document.getElementById("music-btn");
 let audioCtx = null;
 let alarmInterval = null;
 let jumpscareTimeout = null;
+
+// Game State Setup
+let bossHp = 100;
+let isGameOver = false;
 
 function toggleMusic(){
     if(music.paused){
@@ -729,17 +658,19 @@ function toggleMusic(){
     }
 }
 
-/* AUTO PLAY AFTER FIRST TAP */
 document.body.addEventListener("click", () => {
     music.play().catch(() => {});
 }, { once:true });
 
-/* PROCEDURAL EMERGENCIES + JUMPSCARE TIMING */
 function triggerEmergency() {
+    // Reset boss values
+    bossHp = 100;
+    isGameOver = false;
+    document.getElementById('boss-hp').style.width = '100%';
+    
     document.body.classList.add('emergency');
     document.getElementById('warning-screen').style.display = 'flex';
     
-    // Kill original profile track immediately
     music.pause();
     button.innerHTML = "🔈 AUDIO: OFF";
 
@@ -747,25 +678,48 @@ function triggerEmergency() {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
     
-    // Steady build-up pulse alarm
     if(!alarmInterval) {
         alarmInterval = setInterval(() => {
             playSirenTone(520, 0.3);
         }, 600);
     }
 
-    // After 3 seconds... JUMPSCARE!
     jumpscareTimeout = setTimeout(() => {
         clearInterval(alarmInterval);
         alarmInterval = null;
         
-        // Flash full-screen image
         document.getElementById('warning-screen').style.display = 'none';
         document.getElementById('jumpscare').style.display = 'flex';
 
-        // Play horrifying, explosive glitch burst sound effect procedurally
         playHorrorScreech();
     }, 3000);
+}
+
+// Fight Code Mechanics
+function attackBoss() {
+    if (isGameOver) return;
+
+    // Deduct HP points per hit
+    bossHp -= 8; 
+    if (bossHp < 0) bossHp = 0;
+
+    // Update HP UI display
+    document.getElementById('boss-hp').style.width = bossHp + '%';
+
+    // Flash screen red as hit impact indicator
+    const gameScreen = document.getElementById('jumpscare');
+    gameScreen.classList.add('hit');
+    setTimeout(() => gameScreen.classList.remove('hit'), 80);
+
+    // Dynamic procedural sword punch/hit sounds
+    playHitSound();
+
+    if (bossHp <= 0) {
+        isGameOver = true;
+        // Trigger win layer display sequence
+        document.getElementById('jumpscare').style.display = 'none';
+        document.getElementById('victory-layer').style.display = 'flex';
+    }
 }
 
 function playSirenTone(freq, duration) {
@@ -785,19 +739,14 @@ function playSirenTone(freq, duration) {
 
 function playHorrorScreech() {
     if (!audioCtx) return;
-    // Layer multiple distorted oscillators together to build an explosive crash screech
     for (let i = 0; i < 4; i++) {
         let osc = audioCtx.createOscillator();
         let gain = audioCtx.createGain();
-        
         osc.type = (i % 2 === 0) ? 'sawtooth' : 'triangle';
-        // Random discordant heavy high frequencies
         osc.frequency.setValueAtTime(100 + (i * 350), audioCtx.currentTime);
         osc.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 2.5);
-        
         gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
-        
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
@@ -805,11 +754,26 @@ function playHorrorScreech() {
     }
 }
 
-// Click anywhere on the horror face layout to revert back to normal safely
+function playHitSound() {
+    if (!audioCtx) return;
+    let osc = audioCtx.createOscillator();
+    let gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
+}
+
 function dismissAll() {
     document.body.classList.remove('emergency');
     document.getElementById('warning-screen').style.display = 'none';
     document.getElementById('jumpscare').style.display = 'none';
+    document.getElementById('victory-layer').style.display = 'none';
     if(alarmInterval) clearInterval(alarmInterval);
     if(jumpscareTimeout) clearTimeout(jumpscareTimeout);
     alarmInterval = null;
