@@ -131,7 +131,7 @@ body::before{
     box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 15px rgba(0,195,255,0.1);
 }
 
-/* ADVANCED 3-TIER HALF RING SYSTEM */
+/* ADVANCED 3-TIER HALF RING SYSTEM + NEON BLUE LOGO STYLING */
 .avatar-container {
     position: relative;
     width: 130px;
@@ -140,6 +140,7 @@ body::before{
     display: flex;
     justify-content: center;
     align-items: center;
+    filter: drop-shadow(0 0 15px #00c3ff); /* NEON BLUE GLOW */
 }
 
 .ring-layer-1 {
@@ -170,7 +171,7 @@ body::before{
     inset: 15px;
     border-radius: 50%;
     border: 2px dashed transparent;
-    border-top-color: #ffffff;
+    border-top-color: #00c3ff;
     animation: ringSpinClockwise 1.5s linear infinite;
     will-change: transform;
 }
@@ -190,7 +191,8 @@ body::before{
     height:92px;
     border-radius:50%;
     object-fit:cover;
-    border:2px solid #fff;
+    border:2px solid #00c3ff;
+    box-shadow: 0 0 15px #00c3ff;
     z-index:2;
 }
 
@@ -246,6 +248,22 @@ body::before{
     background:rgba(0,195,255,0.2);
     border-color:#00c3ff;
     box-shadow: 0 0 18px rgba(0,195,255,0.6);
+}
+
+/* VISITOR COUNTER STYLING */
+.visit-counter {
+    margin-top: 15px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #00c3ff;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 195, 255, 0.7);
+    background: rgba(0, 195, 255, 0.05);
+    border: 1px solid rgba(0, 195, 255, 0.3);
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
 }
 
 /* INTENSIFIED ACTIONS BUTTON */
@@ -467,6 +485,10 @@ body::before{
             <a href="https://www.instagram.com/anoskami?igsh=MWVwYWhzbzluZTE3aQ==" target="_blank">Instagram</a>
             <a href="https://www.youtube.com/@anosamvedit" target="_blank">YouTube Channel</a>
         </div>
+        <!-- VISITOR COUNTER -->
+        <div class="visit-counter">
+            👁️ VISITS: <span id="visit-count">...</span>
+        </div>
     </div>
 </div>
 
@@ -518,8 +540,24 @@ let gameStartTime = 0;
 let lastClearTime = 0;
 let audioUnlocked = true;
 
-const targetRedirectUrl = "https://youtu.be/KJc4Dsocn_o?si=_EzprnC5VCGGqG5u";
+// UPDATED REDIRECT TARGET LINK
+const targetRedirectUrl = "https://youtu.be/1WDCEtDUoAI?si=7AvhhVKzw3nyaUut";
 const videoElement = document.getElementById("bg-video");
+
+// VISIT COUNTER LOGIC
+async function fetchVisitCount() {
+    try {
+        const response = await fetch("https://api.countapi.xyz/hit/anoskami_profile/visits");
+        const data = await response.json();
+        document.getElementById("visit-count").innerText = data.value;
+    } catch (err) {
+        // Fallback to local visitor counter if API fails
+        let visits = parseInt(localStorage.getItem('page_visits') || '0') + 1;
+        localStorage.setItem('page_visits', visits);
+        document.getElementById("visit-count").innerText = visits;
+    }
+}
+fetchVisitCount();
 
 function unlockAudioEngine() {
     if (!audioCtx) {
@@ -687,4 +725,4 @@ function handleScoreAndRouting(time) {
 function closeVictoryScreen() { document.getElementById('victory-layer').style.display = 'none'; }
 </script>
 </body>
-</html>
+    </html>
