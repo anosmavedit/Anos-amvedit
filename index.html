@@ -13,7 +13,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 html {
@@ -30,8 +30,7 @@ body{
     overflow-x: hidden; 
     overflow-y: auto;
     background:#000;
-    padding: 25px 20px;
-    contain: content;
+    padding: 20px 15px;
 }
 
 /* HARDWARE-ACCELERATED BACKGROUND VIDEO */
@@ -44,38 +43,17 @@ body{
     width: auto;
     height: auto;
     z-index: -5;
-    transform: translate3d(-50%, -50%, 0); 
-    filter: brightness(25%) contrast(1.05);
+    transform: translate(-50%, -50%); 
+    filter: brightness(30%) contrast(1.1);
     pointer-events: none;
-    will-change: transform;
     object-fit: cover;
 }
 
-/* BRIGHTENED CYBER GRID BACKGROUND LINES */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:
-    linear-gradient(rgba(0,195,255,0.12) 1.5px, transparent 1.5px),
-    linear-gradient(90deg, rgba(0,195,255,0.12) 1.5px, transparent 1.5px);
-    background-size:50px 50px;
-    transform: translate3d(0,0,0);
-    animation:gridMove 20s linear infinite;
-    z-index:-3;
-    pointer-events:none;
-}
-
-@keyframes gridMove{
-    from{ transform: translate3d(0,0,0); }
-    to{ transform: translate3d(0,50px,0); }
-}
-
+/* LIGHTWEIGHT OVERLAY - NO HEAVY ANIMATIONS FOR LOW-END PHONES */
 .overlay{
     position:fixed;
     inset:0;
-    background: rgba(0, 4, 10, 0.25);
-    backdrop-filter: blur(1px);
+    background: rgba(0, 4, 10, 0.45);
     z-index:-4;
 }
 
@@ -87,81 +65,102 @@ body::before{
     flex-direction: column;
     gap: 10px;
     z-index: 10;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .nav-row {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
 }
 
+/* ULTRA COOL CYBER BUTTONS */
 .nav-btn {
+    position: relative;
     flex: 1;
-    border: none;
+    border: 1px solid #00c3ff;
     outline: none;
     cursor: pointer;
-    background: rgba(0,195,255,0.1);
-    border: 1.5px solid rgba(0,195,255,0.65);
+    background: linear-gradient(135deg, rgba(0, 195, 255, 0.2), rgba(0, 20, 40, 0.85));
     color: #00c3ff;
-    padding: 12px 8px;
-    border-radius: 12px;
+    padding: 12px 6px;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 10px rgba(0,195,255,0.2);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
+    text-shadow: 0 0 8px rgba(0, 195, 255, 0.8);
+    box-shadow: 0 0 12px rgba(0, 195, 255, 0.35), inset 0 0 10px rgba(0, 195, 255, 0.15);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    transition: all 0.2s ease;
     user-select: none;
+    overflow: hidden;
+}
+
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.4s ease;
+}
+
+.nav-btn:hover::before {
+    left: 100%;
 }
 
 .nav-btn:hover {
-    transform: translateY(-2px) scale(1.03);
-    background: rgba(0,195,255,0.3);
-    border-color: #00c3ff;
-    box-shadow: 0 0 25px rgba(0,195,255,0.85), inset 0 0 10px rgba(0,195,255,0.5);
-    color: #ffffff;
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(0, 195, 255, 0.45), rgba(0, 100, 180, 0.9));
+    color: #fff;
+    box-shadow: 0 0 25px rgba(0, 195, 255, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 10px #fff;
 }
 
+.nav-btn:active {
+    transform: scale(0.96);
+}
+
+/* HUD VOLUME CONTROL BAR */
 .vol-control {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(0,195,255,0.08);
-    border: 1.5px solid rgba(0,195,255,0.5);
-    border-radius: 12px;
+    background: rgba(0, 15, 30, 0.85);
+    border: 1px solid rgba(0, 195, 255, 0.5);
     padding: 6px 12px;
-    backdrop-filter: blur(8px);
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    box-shadow: 0 0 10px rgba(0, 195, 255, 0.2);
 }
 
 .vol-btn {
-    background: rgba(0,195,255,0.2);
+    background: rgba(0, 195, 255, 0.15);
     border: 1px solid #00c3ff;
     color: #00c3ff;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
     font-weight: bold;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
     transition: all 0.2s ease;
 }
 
 .vol-btn:hover {
     background: #00c3ff;
     color: #000;
-    box-shadow: 0 0 12px #00c3ff;
+    box-shadow: 0 0 15px #00c3ff;
 }
 
 .vol-display {
     color: #00c3ff;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 8px rgba(0, 195, 255, 0.7);
 }
 
 /* PROFILE CARD DESIGN */
@@ -174,59 +173,33 @@ body::before{
 }
 
 .card{
-    background:rgba(0,8,20,0.76);
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    border-radius:22px;
-    padding:35px 24px;
-    text-align:center;
-    border: 1px solid rgba(0,195,255,0.25);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 15px rgba(0,195,255,0.1);
+    background: rgba(2, 10, 20, 0.88);
+    border-radius: 18px;
+    padding: 30px 20px;
+    text-align: center;
+    border: 1px solid rgba(0, 195, 255, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 195, 255, 0.2);
 }
 
-/* AVATAR & RING SYSTEM */
+/* AVATAR RING */
 .avatar-container {
     position: relative;
-    width: 130px;
-    height: 130px;
-    margin: 0 auto 20px;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 18px;
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 0 15px #00c3ff);
 }
 
 .ring-layer-1 {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 3px solid transparent;
+    border: 2px solid transparent;
     border-top-color: #00c3ff;
     border-bottom-color: #00c3ff;
-    filter: drop-shadow(0 0 12px rgba(0, 195, 255, 0.8));
     animation: ringSpinClockwise 4s linear infinite;
-    will-change: transform;
-}
-
-.ring-layer-2 {
-    position: absolute;
-    inset: 8px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    border-left-color: rgba(0, 195, 255, 0.85);
-    border-right-color: rgba(0, 195, 255, 0.85);
-    animation: ringSpinCounter 3s linear infinite;
-    will-change: transform;
-}
-
-.ring-layer-3 {
-    position: absolute;
-    inset: 15px;
-    border-radius: 50%;
-    border: 2px dashed transparent;
-    border-top-color: #00c3ff;
-    animation: ringSpinClockwise 1.5s linear infinite;
-    will-change: transform;
 }
 
 @keyframes ringSpinClockwise {
@@ -234,93 +207,89 @@ body::before{
     to { transform: rotate(360deg); }
 }
 
-@keyframes ringSpinCounter {
-    from { transform: rotate(360deg); }
-    to { transform: rotate(0deg); }
-}
-
 .avatar{
-    width:92px;
-    height:92px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid #00c3ff;
-    box-shadow: 0 0 15px #00c3ff;
-    z-index:2;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00c3ff;
+    box-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
+    z-index: 2;
 }
 
 .name{
-    color:#fff;
-    font-size:24px;
-    font-weight:800;
-    margin-bottom:8px;
-    letter-spacing:1px;
-    text-shadow:0 0 12px rgba(0,195,255,0.6);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(0,195,255,0.8);
 }
 
 .bio{
-    color:rgba(255,255,255,0.85);
-    font-size:11px;
-    line-height:1.6;
-    margin-bottom:15px;
-    font-style:italic;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    font-style: italic;
 }
 
 .role{
-    color:#00c3ff;
-    font-size:10px;
-    font-weight:bold;
-    text-transform:uppercase;
-    letter-spacing:4px;
-    margin-bottom:20px;
+    color: #00c3ff;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
 }
 
 /* LINK TABS */
 .links {
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .links a{
-    text-decoration:none;
-    color:#fff;
-    background:rgba(0,195,255,0.08);
-    border:1.5px solid rgba(0,195,255,0.5); 
-    padding:12px;
-    border-radius:10px;
-    font-size:12px;
-    font-weight:bold;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    box-shadow: 0 0 8px rgba(0,195,255,0.15);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(90deg, rgba(0,195,255,0.1), rgba(0,195,255,0.25), rgba(0,195,255,0.1));
+    border: 1px solid rgba(0, 195, 255, 0.6); 
+    padding: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    box-shadow: 0 0 10px rgba(0, 195, 255, 0.2);
+    transition: all 0.2s ease;
 }
 
 .links a:hover{
-    transform: translateY(-2px) scale(1.02);
-    background:rgba(0,195,255,0.25);
-    border-color:#00c3ff;
-    box-shadow: 0 0 22px rgba(0,195,255,0.8);
+    transform: translateY(-2px);
+    background: rgba(0, 195, 255, 0.4);
+    border-color: #00c3ff;
+    box-shadow: 0 0 20px rgba(0, 195, 255, 0.9);
+    color: #fff;
 }
 
 /* VISITOR COUNTER STYLING */
 .visit-counter {
     margin-top: 15px;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 2px;
     color: #00c3ff;
     text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(0, 195, 255, 0.7);
-    background: rgba(0, 195, 255, 0.05);
-    border: 1px solid rgba(0, 195, 255, 0.3);
-    padding: 8px 12px;
-    border-radius: 8px;
+    text-shadow: 0 0 8px rgba(0, 195, 255, 0.8);
+    background: rgba(0, 195, 255, 0.08);
+    border: 1px solid rgba(0, 195, 255, 0.4);
+    padding: 8px 14px;
     display: inline-block;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 
-/* BOTTOM NAVIGATION & BUTTONS */
+/* EXTREME DANGER BUTTON */
 .bottom-nav {
     width: 100%;
     max-width: 420px;
@@ -331,34 +300,52 @@ body::before{
 .warning-btn {
     position: relative;
     width: 100%;
-    background: linear-gradient(135deg, rgba(255, 0, 60, 0.25), rgba(20, 0, 5, 0.9));
-    border: 2.5px solid #ff003c; 
+    background: linear-gradient(135deg, #ff003c, #80001c);
+    border: 2px solid #ff4d73; 
     color: #ffffff;
     padding: 16px 20px;
-    border-radius: 6px;
     font-size: 14px;
     font-weight: 900;
-    letter-spacing: 5px;
+    letter-spacing: 4px;
     text-transform: uppercase;
     cursor: pointer;
-    text-shadow: 0 0 12px #ff003c;
-    box-shadow: 0 0 30px rgba(255, 0, 60, 0.65), inset 0 0 20px rgba(255, 0, 60, 0.4); 
-    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    text-shadow: 0 0 10px #ff003c;
+    box-shadow: 0 0 25px rgba(255, 0, 60, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.4); 
     clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px);
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.warning-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+}
+
+.warning-btn:hover::after {
+    left: 100%;
 }
 
 .warning-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    background: #ff003c;
+    transform: translateY(-2px) scale(1.02);
+    background: linear-gradient(135deg, #ff1a53, #b30027);
     box-shadow: 0 0 45px #ff003c, 0 0 20px #ffffff;
     text-shadow: 0 0 12px #fff;
+}
+
+.warning-btn:active {
+    transform: scale(0.97);
 }
 
 /* MODALS & WALL CONTAINER */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 4, 12, 0.96);
+    background: rgba(0, 4, 12, 0.92);
     z-index: 100;
     display: none;
     flex-direction: column;
@@ -370,81 +357,80 @@ body::before{
 .modal-box {
     width: 100%;
     max-width: 400px;
-    background: rgba(0, 8, 22, 0.95);
-    border: 1px solid rgba(0, 195, 255, 0.4);
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 0 25px rgba(0,195,255,0.2);
+    background: rgba(3, 14, 28, 0.95);
+    border: 1px solid #00c3ff;
+    padding: 22px;
+    box-shadow: 0 0 30px rgba(0, 195, 255, 0.3);
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
 }
 
 .modal-close {
     margin-top: 15px;
     width: 100%;
     padding: 10px;
-    background: transparent;
-    border: 1.5px solid #00c3ff;
-    color: #00c3ff;
-    border-radius: 8px;
+    background: rgba(255, 0, 60, 0.15);
+    border: 1px solid #ff003c;
+    color: #ff003c;
     cursor: pointer;
     font-weight: bold;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    box-shadow: 0 0 8px rgba(0,195,255,0.3);
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
     transition: all 0.2s ease;
 }
 
 .modal-close:hover {
-    background: #00c3ff;
-    color: #000;
-    box-shadow: 0 0 20px #00c3ff;
+    background: #ff003c;
+    color: #fff;
+    box-shadow: 0 0 20px #ff003c;
 }
 
 .modal-title {
     color: #00c3ff;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-align: center;
     margin-bottom: 15px;
-    text-shadow: 0 0 10px rgba(0,195,255,0.5);
+    text-shadow: 0 0 10px rgba(0,195,255,0.6);
 }
 
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .leaderboard-table th {
-    color: rgba(0, 195, 255, 0.6);
+    color: rgba(0, 195, 255, 0.8);
     text-transform: uppercase;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
     border-bottom: 1px solid rgba(0, 195, 255, 0.3);
     text-align: left;
 }
 
-.leaderboard-table td { padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.leaderboard-table td { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
 
-/* WALL / GUESTBOOK STYLING */
+/* WALL & REPLIES SYSTEM */
 .wall-messages {
     max-height: 220px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     padding-right: 5px;
 }
 
 .wall-msg {
-    background: rgba(0, 195, 255, 0.05);
-    border: 1px solid rgba(0, 195, 255, 0.2);
-    border-radius: 8px;
+    background: rgba(0, 195, 255, 0.08);
+    border: 1px solid rgba(0, 195, 255, 0.3);
     padding: 10px;
     font-size: 12px;
     color: #fff;
-    word-break: break-word;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 
 .wall-author {
@@ -452,7 +438,37 @@ body::before{
     font-weight: bold;
     font-size: 11px;
     margin-bottom: 3px;
+    display: flex;
+    justify-content: space-between;
 }
+
+.reply-btn {
+    background: transparent;
+    border: none;
+    color: #00c3ff;
+    font-size: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.replies-container {
+    margin-top: 6px;
+    padding-left: 10px;
+    border-left: 1.5px solid rgba(0, 195, 255, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.reply-item {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.reply-author { color: #00c3ff; font-weight: bold; font-size: 10px; }
 
 .wall-input-container {
     display: flex;
@@ -463,35 +479,41 @@ body::before{
 .wall-input {
     width: 100%;
     padding: 10px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.8);
     border: 1px solid rgba(0,195,255,0.4);
     color: #fff;
-    border-radius: 8px;
     outline: none;
     font-size: 12px;
 }
 
 .wall-input:focus {
     border-color: #00c3ff;
-    box-shadow: 0 0 10px rgba(0,195,255,0.3);
+    box-shadow: 0 0 10px rgba(0,195,255,0.4);
+}
+
+.reply-target-indicator {
+    font-size: 10px;
+    color: #00c3ff;
+    display: none;
+    justify-content: space-between;
 }
 
 /* JUMPSCARE SLASH GRAPHICS */
 .slash-effect {
     position: absolute;
-    width: 260px;
+    width: 240px;
     height: 3px;
     background: #ffffff;
     box-shadow: 0 0 8px #00d2ff, 0 0 20px #0055ff;
     z-index: 10005;
     pointer-events: none;
     transform-origin: center;
-    transform: translate3d(-50%, -50%, 0) scaleX(0.05) rotate(var(--rot));
+    transform: translate(-50%, -50%) scaleX(0.05) rotate(var(--rot));
     animation: slashFade 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 @keyframes slashFade {
-    100% { transform: translate3d(-50%, -50%, 0) scaleX(1.3) rotate(var(--rot)); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scaleX(1.3) rotate(var(--rot)); opacity: 0; }
 }
 
 .jumpscare-overlay {
@@ -520,14 +542,13 @@ body::before{
     max-width: 460px;
     background: rgba(0, 0, 0, 0.9);
     padding: 16px 20px;
-    border-radius: 8px;
     border: 2px solid #ff003c;
     box-shadow: 0 0 20px #ff003c;
 }
 
 .boss-name {
     color: #fff;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
@@ -537,7 +558,7 @@ body::before{
 
 .hp-bar-outer {
     width: 100%;
-    height: 14px;
+    height: 12px;
     background: rgba(30, 0, 8, 0.8);
     border: 1px solid rgba(255, 0, 60, 0.4);
     margin-bottom: 8px;
@@ -554,19 +575,15 @@ body::before{
 .rage-bar-outer { width: 100%; height: 6px; background: rgba(0, 20, 35, 0.8); }
 .rage-bar-inner { width: 0%; height: 100%; background: #00c3ff; box-shadow: 0 0 8px #00c3ff; transition: width 0.1s ease; }
 
-.jumpscare-overlay.overdrive-active .jumpscare-img { animation: rageShake 0.1s infinite; filter: hue-rotate(180deg) brightness(1.3); }
-@keyframes rageShake { 0% { transform: translate(2px, 1px); } 50% { transform: translate(-1px, -2px); } 100% { transform: translate(1px, 2px); } }
-
 .input-box input {
-    width: 100%; padding: 12px; background: #000; border: 1.5px solid #00c3ff; color: #fff; border-radius: 8px; margin-bottom: 15px; text-align: center; box-shadow: 0 0 10px rgba(0,195,255,0.2);
+    width: 100%; padding: 12px; background: #000; border: 1.5px solid #00c3ff; color: #fff; margin-bottom: 15px; text-align: center; box-shadow: 0 0 10px rgba(0,195,255,0.2);
 }
-.input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px #00c3ff; border: none; transition: all 0.2s ease; }
-.input-box button:hover { background: #fff; box-shadow: 0 0 25px #00c3ff; }
+.input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px #00c3ff; border: none; }
 </style>
 </head>
 <body onclick="unlockAudioEngine()">
 
-<!-- HIGH-PERFORMANCE VIDEO BACKGROUND -->
+<!-- BACKGROUND VIDEO RETAINED -->
 <video id="bg-video" class="video-background" autoplay loop muted playsinline>
     <source src="https://files.catbox.moe/dbel8g.mp4" type="video/mp4">
 </video>
@@ -575,8 +592,8 @@ body::before{
 
 <div class="top-nav">
     <div class="nav-row">
-        <button id="music-btn" class="nav-btn" onclick="toggleAudioEngine(event)">🔊 AUDIO: ON</button>
-        <button class="nav-btn" onclick="openLeaderboard()">🏆 LEADERBOARD</button>
+        <button id="music-btn" class="nav-btn" onclick="toggleAudioEngine(event)">🔊 MUTE/UNMUTE</button>
+        <button class="nav-btn" onclick="openLeaderboard()">🏆 SCORES</button>
         <button class="nav-btn" onclick="openWall()">✍️ WALL</button>
     </div>
     
@@ -592,9 +609,6 @@ body::before{
     <div class="card">
         <div class="avatar-container">
             <div class="ring-layer-1"></div>
-            <div class="ring-layer-2"></div>
-            <div class="ring-layer-3"></div>
-            <!-- UPDATED PFP HERE -->
             <img src="https://i.postimg.cc/7PppjM3W/file-00000000e1a08211b82641b07d4f21a8.png" class="avatar" alt="Anosカミ">
         </div>
         
@@ -623,20 +637,26 @@ body::before{
 <!-- LEADERBOARD MODAL -->
 <div class="modal-overlay" id="board-modal">
     <div class="modal-box">
-        <div class="modal-title">Hunter Records</div>
+        <div class="modal-title">Global Hunter Records</div>
         <table class="leaderboard-table"><tbody id="leaderboard-entries"></tbody></table>
         <button class="modal-close" onclick="closeLeaderboard()">Close</button>
     </div>
 </div>
 
-<!-- PUBLIC WALL / GUESTBOOK MODAL -->
+<!-- PUBLIC WALL WITH REPLIES MODAL -->
 <div class="modal-overlay" id="wall-modal">
     <div class="modal-box">
         <div class="modal-title">Cyber Wall</div>
         <div class="wall-messages" id="wall-list"></div>
+        
+        <div class="reply-target-indicator" id="reply-indicator">
+            <span id="reply-target-text">Replying to...</span>
+            <span style="cursor:pointer; font-weight:bold;" onclick="cancelReply()">✕</span>
+        </div>
+
         <div class="wall-input-container">
             <input type="text" id="wall-name" class="wall-input" placeholder="Your Name / Tag" maxlength="16">
-            <input type="text" id="wall-text" class="wall-input" placeholder="Write something on the wall..." maxlength="120">
+            <input type="text" id="wall-text" class="wall-input" placeholder="Write on wall or reply..." maxlength="120">
             <button class="nav-btn" style="width:100%;" onclick="postToWall()">Post Message</button>
         </div>
         <button class="modal-close" onclick="closeWall()">Close</button>
@@ -681,11 +701,12 @@ let gameStartTime = 0;
 let lastClearTime = 0;
 let audioUnlocked = true;
 let currentVolume = 1.0;
+let activeReplyId = null;
 
 const targetRedirectUrl = "https://youtu.be/1WDCEtDUoAI?si=7AvhhVKzw3nyaUut";
 const videoElement = document.getElementById("bg-video");
 
-/* FIXED VISITOR COUNTER LOGIC */
+/* VISITOR COUNTER */
 async function fetchVisitCount() {
     try {
         const response = await fetch("https://api.counterapi.dev/v1/anoskami_profile/visits/up");
@@ -696,14 +717,13 @@ async function fetchVisitCount() {
         }
     } catch (err) {}
     
-    // Fallback if network/API fails
-    let visits = parseInt(localStorage.getItem('page_visits') || '104') + 1;
+    let visits = parseInt(localStorage.getItem('page_visits') || '120') + 1;
     localStorage.setItem('page_visits', visits);
     document.getElementById("visit-count").innerText = visits;
 }
 fetchVisitCount();
 
-/* AUDIO ENGINE & VOLUME */
+/* AUDIO CONTROLLER */
 function unlockAudioEngine() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -736,12 +756,9 @@ function toggleAudioEngine(e) {
     if(e) e.stopPropagation();
     unlockAudioEngine();
     
-    const btn = document.getElementById("music-btn");
     if (audioUnlocked) {
         if(videoElement) videoElement.muted = true;
         audioUnlocked = false;
-        btn.innerHTML = "🔈 AUDIO: OFF";
-        btn.style.borderColor = "rgba(0,195,255,0.3)";
     } else {
         if(videoElement) {
             videoElement.muted = false;
@@ -749,8 +766,6 @@ function toggleAudioEngine(e) {
             videoElement.play().catch(()=>{});
         }
         audioUnlocked = true;
-        btn.innerHTML = "🔊 AUDIO: ON";
-        btn.style.borderColor = "#00c3ff";
         playSciFiSlashSound();
     }
 }
@@ -764,12 +779,12 @@ function playSciFiSlashSound() {
         let osc = audioCtx.createOscillator();
         let gain = audioCtx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(1300 * factor, now);
-        osc.frequency.exponentialRampToValueAtTime(100 * factor, now + 0.12);
-        gain.gain.setValueAtTime(0.15 * currentVolume, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.frequency.setValueAtTime(1200 * factor, now);
+        osc.frequency.exponentialRampToValueAtTime(100 * factor, now + 0.1);
+        gain.gain.setValueAtTime(0.12 * currentVolume, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
         osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(now); osc.stop(now + 0.13);
+        osc.start(now); osc.stop(now + 0.11);
     } catch(err){}
 }
 
@@ -778,7 +793,11 @@ function openLeaderboard() {
     const entriesList = document.getElementById('leaderboard-entries');
     entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
     
-    let rawData = JSON.parse(localStorage.getItem('hunter_board')) || [{name: "Sung_Jinwoo", time: 3.82}];
+    let rawData = JSON.parse(localStorage.getItem('hunter_board')) || [
+        {name: "Sung_Jinwoo", time: 3.82},
+        {name: "Anos_Fan", time: 4.15},
+        {name: "Shadow_Hunter", time: 5.02}
+    ];
     
     let uniquePlayers = {};
     rawData.forEach(entry => {
@@ -799,7 +818,7 @@ function openLeaderboard() {
 
 function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
 
-/* WALL / GUESTBOOK FUNCTIONS */
+/* CYBER WALL WITH REPLY SYSTEM */
 function openWall() {
     renderWallMessages();
     document.getElementById('wall-modal').style.display = 'flex';
@@ -809,20 +828,48 @@ function closeWall() { document.getElementById('wall-modal').style.display = 'no
 
 function renderWallMessages() {
     const list = document.getElementById('wall-list');
-    let messages = JSON.parse(localStorage.getItem('anos_wall_posts')) || [
-        { name: "System", text: "Welcome to Anosカミ's Cyber Wall! Leave your mark here." }
+    let posts = JSON.parse(localStorage.getItem('anos_wall_posts_v2')) || [
+        { id: 1, name: "Anosカミ", text: "Welcome to the wall! Leave a message or reply to someone below.", replies: [] }
     ];
     
     list.innerHTML = '';
-    messages.forEach(m => {
+    posts.forEach(p => {
+        let repliesHtml = '';
+        if (p.replies && p.replies.length > 0) {
+            repliesHtml = '<div class="replies-container">';
+            p.replies.forEach(r => {
+                repliesHtml += `
+                    <div class="reply-item">
+                        <span class="reply-author">${escapeHtml(r.name)}:</span> ${escapeHtml(r.text)}
+                    </div>
+                `;
+            });
+            repliesHtml += '</div>';
+        }
+
         list.innerHTML += `
             <div class="wall-msg">
-                <div class="wall-author">${escapeHtml(m.name)}</div>
-                <div>${escapeHtml(m.text)}</div>
+                <div class="wall-author">
+                    <span>${escapeHtml(p.name)}</span>
+                    <button class="reply-btn" onclick="setupReply(${p.id}, '${escapeHtml(p.name)}')">Reply</button>
+                </div>
+                <div>${escapeHtml(p.text)}</div>
+                ${repliesHtml}
             </div>
         `;
     });
     list.scrollTop = list.scrollHeight;
+}
+
+function setupReply(id, author) {
+    activeReplyId = id;
+    document.getElementById('reply-target-text').innerText = `Replying to @${author}...`;
+    document.getElementById('reply-indicator').style.display = 'flex';
+}
+
+function cancelReply() {
+    activeReplyId = null;
+    document.getElementById('reply-indicator').style.display = 'none';
 }
 
 function postToWall() {
@@ -834,13 +881,22 @@ function postToWall() {
     
     if (!text) return;
     
-    let messages = JSON.parse(localStorage.getItem('anos_wall_posts')) || [
-        { name: "System", text: "Welcome to Anosカミ's Cyber Wall! Leave your mark here." }
+    let posts = JSON.parse(localStorage.getItem('anos_wall_posts_v2')) || [
+        { id: 1, name: "Anosカミ", text: "Welcome to the wall! Leave a message or reply to someone below.", replies: [] }
     ];
     
-    messages.push({ name: name, text: text });
-    localStorage.setItem('anos_wall_posts', JSON.stringify(messages));
+    if (activeReplyId) {
+        let targetPost = posts.find(p => p.id === activeReplyId);
+        if (targetPost) {
+            if (!targetPost.replies) targetPost.replies = [];
+            targetPost.replies.push({ name: name, text: text });
+        }
+        cancelReply();
+    } else {
+        posts.push({ id: Date.now(), name: name, text: text, replies: [] });
+    }
     
+    localStorage.setItem('anos_wall_posts_v2', JSON.stringify(posts));
     textInput.value = '';
     renderWallMessages();
 }
@@ -856,7 +912,6 @@ function triggerEmergency() {
     unlockAudioEngine();
     bossHp = 100; rageCombo = 0; overdriveMode = false; isGameOver = false;
     document.getElementById('boss-title-ui').innerText = "💥 BOSS: DEITY OF THE TEMPLES 💥";
-    document.getElementById('jumpscare').classList.remove('overdrive-active');
     document.getElementById('boss-hp').style.width = '100%';
     document.getElementById('rage-meter').style.width = '0%';
     document.getElementById('jumpscare').style.display = 'flex';
@@ -876,7 +931,6 @@ function registerHit(e) {
         if (rageCombo >= 100) {
             overdriveMode = true;
             document.getElementById('boss-title-ui').innerText = "⚡ OVERDRIVE ACTIVE ⚡";
-            document.getElementById('jumpscare').classList.add('overdrive-active');
         }
     }
 
