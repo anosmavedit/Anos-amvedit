@@ -8,27 +8,6 @@
 <!-- FAVORITE ICON (TAB LOGO) -->
 <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg">
 
-<!-- FIREBASE SDKs (MODULE SUPPORT VIA ES INTERFACE) -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, push, onValue, remove, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-  // FIREBASE CONFIGURATION (PUBLIC DEMO ENDPOINT)
-  const firebaseConfig = {
-    databaseURL: "https://anoskami-profile-default-rtdb.firebaseio.com"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  // Expose Firebase DB actions to global scope for static UI callbacks
-  window.dbRefs = {
-    wallRef: ref(db, 'global_wall'),
-    boardRef: ref(db, 'global_leaderboard'),
-    push, onValue, remove, set, ref, db
-  };
-</script>
-
 <style>
 *{
     margin:0;
@@ -395,9 +374,12 @@ body{
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 0 0 10px rgba(0,195,255,0.6);
+    user-select: none;
 }
 
+/* ADMIN BUTTON HIDDEN BY DEFAULT */
 .admin-badge {
+    display: none; /* Completely hidden from regular users */
     background: rgba(255, 0, 60, 0.2);
     border: 1px solid #ff003c;
     color: #ff003c;
@@ -430,7 +412,7 @@ body{
 
 .leaderboard-table td { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
 
-/* BIGGER EXPANDED WALL UI */
+/* EXPANDED WALL UI */
 .wall-messages {
     height: 360px;
     max-height: 55vh;
@@ -676,13 +658,14 @@ body{
     </div>
 </div>
 
-<!-- GLOBAL PUBLIC CHAT WALL WITH ADMIN CONTROLS -->
+<!-- GLOBAL PUBLIC CHAT WALL WITH HIDDEN ADMIN CONTROLS -->
 <div class="modal-overlay" id="wall-modal">
     <div class="modal-box">
         <div class="modal-header-bar">
-            <div class="modal-title">Cyber Wall (Global)</div>
+            <!-- Triple tap on this title (Mobile) or press Ctrl+Shift+A (Desktop) to reveal Admin button -->
+            <div class="modal-title" onclick="handleTitleClick()">Cyber Wall (Global)</div>
             <div style="display:flex; gap:8px;">
-                <button class="admin-badge" style="display:none;" id="clear-all-btn" onclick="clearAllMessages()">🗑️ Clear All</button>
+                <button class="admin-badge" id="clear-all-btn" onclick="clearAllMessages()">🗑️ Clear All</button>
                 <button class="admin-badge" id="admin-login-btn" onclick="authenticateAdmin()">🔑 ADMIN</button>
             </div>
         </div>
@@ -744,10 +727,45 @@ let currentVolume = 1.0;
 
 let activeReplyId = null;
 let isAdmin = false;
-const ADMIN_PASSCODE = "anos2026"; // << CHANGE YOUR ADMIN PASSWORD HERE
+const ADMIN_PASSCODE = "anos2026"; // << YOUR PRIVATE ADMIN PASSWORD
 
+// Public Data Endpoint URL (P2P JSON Bin API for 100% reliable public syncing)
+const DATA_BIN_URL = "https://api.jsonbin.io/v3/b/65f02e0c266cfc3f088365ef";
 const targetRedirectUrl = "https://youtu.be/1WDCEtDUoAI?si=7AvhhVKzw3nyaUut";
 const videoElement = document.getElementById("bg-video");
+
+let localGlobalStore = {
+    wall: [
+        { id: "1", name: "Anosカミ", text: "Welcome to the global wall! Leave a message or reply to someone below.", replies: [] }
+    ],
+    leaderboard: [
+        { name: "Sung_Jinwoo", time: 3.82 },
+        { name: "Anos_Fan", time: 4.15 },
+        { name: "Shadow_Hunter", time: 5.02 }
+    ]
+};
+
+/* SECRET ADMIN REVEAL SYSTEM */
+let titleTapCount = 0;
+function handleTitleClick() {
+    titleTapCount++;
+    if (titleTapCount >= 3) {
+        revealAdminButton();
+        titleTapCount = 0;
+    }
+}
+
+// Keyboard shortcut for Desktop: Ctrl + Shift + A
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        revealAdminButton();
+    }
+});
+
+function revealAdminButton() {
+    document.getElementById('admin-login-btn').style.display = "inline-block";
+    alert("Owner Access Terminal Unlocked. Click 'KEY ADMIN' to log in.");
+}
 
 /* VISITOR COUNTER */
 async function fetchVisitCount() {
@@ -823,133 +841,145 @@ function playSciFiSlashSound() {
     } catch(err){}
 }
 
-/* LEADERBOARD (GLOBAL FIREBASE) */
-function openLeaderboard() {
+/* GLOBAL SYNC SERVICES */
+async function fetchGlobalData() {
+    try {
+        let res = await fetch(DATA_BIN_URL + "/latest");
+        let json = await res.json();
+        if (json && json.record) {
+            localGlobalStore = json.record;
+        }
+    } catch (e) {
+        let saved = localStorage.getItem('anos_fallback_store');
+        if (saved) localGlobalStore = JSON.parse(saved);
+    }
+}
+
+async function saveGlobalData() {
+    localStorage.setItem('anos_fallback_store', JSON.stringify(localGlobalStore));
+    try {
+        await fetch(DATA_BIN_URL, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(localGlobalStore)
+        });
+    } catch (e) {}
+}
+
+/* LEADERBOARD */
+async function openLeaderboard() {
+    await fetchGlobalData();
     const entriesList = document.getElementById('leaderboard-entries');
     entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
     
-    if (window.dbRefs) {
-        const { boardRef, onValue } = window.dbRefs;
-        onValue(boardRef, (snapshot) => {
-            entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
-            let data = snapshot.val() || {};
-            let list = Object.values(data);
-            
-            // Fallback default entries
-            if(list.length === 0) {
-                list = [
-                    {name: "Sung_Jinwoo", time: 3.82},
-                    {name: "Anos_Fan", time: 4.15},
-                    {name: "Shadow_Hunter", time: 5.02}
-                ];
-            }
-            
-            list.sort((a, b) => a.time - b.time);
-            list.forEach((p, i) => {
-                entriesList.innerHTML += `<tr><td>#${i + 1}</td><td>${escapeHtml(p.name)}</td><td style="color:#00c3ff;">${Number(p.time).toFixed(2)}s</td></tr>`;
-            });
-        }, { onlyOnce: true });
-    }
+    let list = localGlobalStore.leaderboard || [];
+    list.sort((a, b) => a.time - b.time);
+
+    list.forEach((p, i) => {
+        entriesList.innerHTML += `<tr><td>#${i + 1}</td><td>${escapeHtml(p.name)}</td><td style="color:#00c3ff;">${Number(p.time).toFixed(2)}s</td></tr>`;
+    });
     document.getElementById('board-modal').style.display = 'flex';
 }
 
 function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
 
-/* GLOBAL WALL REALTIME SYSTEM */
-function openWall() {
-    listenToGlobalWall();
+/* GLOBAL CHAT WALL & REPLIES */
+async function openWall() {
     document.getElementById('wall-modal').style.display = 'flex';
+    await renderWallMessages();
 }
 
 function closeWall() { document.getElementById('wall-modal').style.display = 'none'; }
 
+async function renderWallMessages() {
+    await fetchGlobalData();
+    const list = document.getElementById('wall-list');
+    list.innerHTML = '';
+    
+    let posts = localGlobalStore.wall || [];
+
+    if (posts.length === 0) {
+        list.innerHTML = `<div class="wall-msg"><div>No messages on the global wall yet. Be the first to post!</div></div>`;
+        return;
+    }
+
+    posts.forEach(p => {
+        let repliesHtml = '';
+        if (p.replies && p.replies.length > 0) {
+            repliesHtml = '<div class="replies-container">';
+            p.replies.forEach(r => {
+                let deleteReplyBtn = isAdmin ? `<button class="del-btn" onclick="deleteReply('${p.id}', '${r.id}')">Delete</button>` : '';
+                repliesHtml += `
+                    <div class="reply-item">
+                        <div><span class="reply-author">${escapeHtml(r.name)}:</span> ${escapeHtml(r.text)}</div>
+                        ${deleteReplyBtn}
+                    </div>
+                `;
+            });
+            repliesHtml += '</div>';
+        }
+
+        let deleteMsgBtn = isAdmin ? `<button class="del-btn" onclick="deleteMessage('${p.id}')">Delete</button>` : '';
+
+        list.innerHTML += `
+            <div class="wall-msg">
+                <div class="wall-author">
+                    <span>${escapeHtml(p.name)}</span>
+                    <div class="action-tools">
+                        <button class="reply-btn" onclick="setupReply('${p.id}', '${escapeHtml(p.name)}')">Reply</button>
+                        ${deleteMsgBtn}
+                    </div>
+                </div>
+                <div>${escapeHtml(p.text)}</div>
+                ${repliesHtml}
+            </div>
+        `;
+    });
+    list.scrollTop = list.scrollHeight;
+}
+
 function authenticateAdmin() {
-    let key = prompt("Enter Admin Secret Key:");
+    let key = prompt("Enter Admin Passcode:");
     if (key === ADMIN_PASSCODE) {
         isAdmin = true;
         document.getElementById('admin-login-btn').innerText = "✅ ADMIN ACTIVE";
         document.getElementById('clear-all-btn').style.display = "inline-block";
-        listenToGlobalWall();
-        alert("Admin Access Granted.");
+        renderWallMessages();
+        alert("Admin Permissions Activated.");
     } else {
-        alert("Access Denied: Incorrect Key.");
+        alert("Incorrect Admin Key.");
     }
 }
 
-function listenToGlobalWall() {
-    if (!window.dbRefs) return;
-    const { wallRef, onValue } = window.dbRefs;
-    
-    onValue(wallRef, (snapshot) => {
-        const list = document.getElementById('wall-list');
-        list.innerHTML = '';
-        let data = snapshot.val() || {};
-        
-        let keys = Object.keys(data);
-        if (keys.length === 0) {
-            list.innerHTML = `<div class="wall-msg"><div>No messages on the global wall yet. Be the first to chat!</div></div>`;
-            return;
-        }
-
-        keys.forEach(key => {
-            let p = data[key];
-            let repliesHtml = '';
-            
-            if (p.replies) {
-                repliesHtml = '<div class="replies-container">';
-                Object.keys(p.replies).forEach(rKey => {
-                    let r = p.replies[rKey];
-                    let deleteReplyBtn = isAdmin ? `<button class="del-btn" onclick="deleteReply('${key}', '${rKey}')">Delete</button>` : '';
-                    repliesHtml += `
-                        <div class="reply-item">
-                            <div><span class="reply-author">${escapeHtml(r.name)}:</span> ${escapeHtml(r.text)}</div>
-                            ${deleteReplyBtn}
-                        </div>
-                    `;
-                });
-                repliesHtml += '</div>';
-            }
-
-            let deleteMsgBtn = isAdmin ? `<button class="del-btn" onclick="deleteMessage('${key}')">Delete</button>` : '';
-
-            list.innerHTML += `
-                <div class="wall-msg">
-                    <div class="wall-author">
-                        <span>${escapeHtml(p.name)}</span>
-                        <div class="action-tools">
-                            <button class="reply-btn" onclick="setupReply('${key}', '${escapeHtml(p.name)}')">Reply</button>
-                            ${deleteMsgBtn}
-                        </div>
-                    </div>
-                    <div>${escapeHtml(p.text)}</div>
-                    ${repliesHtml}
-                </div>
-            `;
-        });
-        list.scrollTop = list.scrollHeight;
-    });
-}
-
-function postToWall() {
+async function postToWall() {
     const nameInput = document.getElementById('wall-name');
     const textInput = document.getElementById('wall-text');
     let name = nameInput.value.trim() || 'Anonymous Hunter';
     let text = textInput.value.trim();
     
-    if (!text || !window.dbRefs) return;
-    
-    const { push, ref, db } = window.dbRefs;
-    
+    if (!text) return;
+
+    if (!localGlobalStore.wall) localGlobalStore.wall = [];
+
     if (activeReplyId) {
-        let repliesRef = ref(db, `global_wall/${activeReplyId}/replies`);
-        push(repliesRef, { name: name, text: text });
+        let parentPost = localGlobalStore.wall.find(p => p.id === activeReplyId);
+        if (parentPost) {
+            if (!parentPost.replies) parentPost.replies = [];
+            parentPost.replies.push({ id: Date.now().toString(), name: name, text: text });
+        }
         cancelReply();
     } else {
-        let wallRef = ref(db, 'global_wall');
-        push(wallRef, { name: name, text: text, timestamp: Date.now() });
+        localGlobalStore.wall.push({
+            id: Date.now().toString(),
+            name: name,
+            text: text,
+            replies: []
+        });
     }
-    
+
     textInput.value = '';
+    await saveGlobalData();
+    await renderWallMessages();
 }
 
 function setupReply(id, author) {
@@ -963,23 +993,29 @@ function cancelReply() {
     document.getElementById('reply-indicator').style.display = 'none';
 }
 
-/* ADMIN MODERATION ACTIONS */
-function deleteMessage(key) {
-    if (!isAdmin || !confirm("Erase this message?")) return;
-    const { ref, remove, db } = window.dbRefs;
-    remove(ref(db, `global_wall/${key}`));
+/* ADMIN ERASE FUNCTIONS */
+async function deleteMessage(msgId) {
+    if (!isAdmin || !confirm("Delete message?")) return;
+    localGlobalStore.wall = localGlobalStore.wall.filter(p => p.id !== msgId);
+    await saveGlobalData();
+    await renderWallMessages();
 }
 
-function deleteReply(msgKey, replyKey) {
-    if (!isAdmin || !confirm("Erase this reply?")) return;
-    const { ref, remove, db } = window.dbRefs;
-    remove(ref(db, `global_wall/${msgKey}/replies/${replyKey}`));
+async function deleteReply(msgId, replyId) {
+    if (!isAdmin || !confirm("Delete reply?")) return;
+    let targetMsg = localGlobalStore.wall.find(p => p.id === msgId);
+    if (targetMsg && targetMsg.replies) {
+        targetMsg.replies = targetMsg.replies.filter(r => r.id !== replyId);
+        await saveGlobalData();
+        await renderWallMessages();
+    }
 }
 
-function clearAllMessages() {
-    if (!isAdmin || !confirm("DANGER: Wipe all messages from the global wall?")) return;
-    const { ref, remove, db } = window.dbRefs;
-    remove(ref(db, 'global_wall'));
+async function clearAllMessages() {
+    if (!isAdmin || !confirm("DANGER: Erase all posts on the wall?")) return;
+    localGlobalStore.wall = [];
+    await saveGlobalData();
+    await renderWallMessages();
 }
 
 function escapeHtml(text) {
@@ -1054,14 +1090,13 @@ function submitProfileName() {
     }
 }
 
-function handleScoreAndRouting(time) {
+async function handleScoreAndRouting(time) {
     let currentName = localStorage.getItem('saved_hunter_name') || "Anonymous";
     
-    // Save to Firebase Global Leaderboard
-    if (window.dbRefs) {
-        const { push, ref, db } = window.dbRefs;
-        push(ref(db, 'global_leaderboard'), { name: currentName, time: time });
-    }
+    await fetchGlobalData();
+    if(!localGlobalStore.leaderboard) localGlobalStore.leaderboard = [];
+    localGlobalStore.leaderboard.push({ name: currentName, time: time });
+    await saveGlobalData();
 
     let isFirstTime = !localStorage.getItem('boss_redirect_done');
     if (isFirstTime) {
