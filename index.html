@@ -9,11 +9,31 @@
 <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/pXBrdS2z/v8Yw-Jb.jpg">
 
 <style>
+:root {
+    --bg-color: #000000;
+    --card-bg: rgba(2, 10, 20, 0.88);
+    --primary-color: #00c3ff;
+    --text-color: #ffffff;
+    --border-color: rgba(0, 195, 255, 0.35);
+    --overlay-color: rgba(0, 4, 10, 0.45);
+}
+
+/* WHITE THEME SWITCHED VIA 7 PFP TAPS */
+body.white-theme {
+    --bg-color: #ffffff;
+    --card-bg: rgba(240, 245, 255, 0.95);
+    --primary-color: #0056b3;
+    --text-color: #111111;
+    --border-color: rgba(0, 86, 179, 0.4);
+    --overlay-color: rgba(255, 255, 255, 0.7);
+}
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html {
@@ -29,7 +49,7 @@ body{
     align-items:center;
     overflow-x: hidden; 
     overflow-y: auto;
-    background:#000;
+    background: var(--bg-color);
     padding: 20px 15px;
 }
 
@@ -49,10 +69,14 @@ body{
     object-fit: cover;
 }
 
+body.white-theme .video-background {
+    filter: brightness(90%) contrast(0.9);
+}
+
 .overlay{
     position:fixed;
     inset:0;
-    background: rgba(0, 4, 10, 0.45);
+    background: var(--overlay-color);
     z-index:-4;
 }
 
@@ -76,64 +100,50 @@ body{
 .nav-btn {
     position: relative;
     flex: 1;
-    border: 1px solid #00c3ff;
+    border: 1px solid var(--primary-color);
     outline: none;
     cursor: pointer;
     background: linear-gradient(135deg, rgba(0, 195, 255, 0.2), rgba(0, 20, 40, 0.85));
-    color: #00c3ff;
+    color: var(--primary-color);
     padding: 12px 6px;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    text-shadow: 0 0 8px rgba(0, 195, 255, 0.8);
-    box-shadow: 0 0 12px rgba(0, 195, 255, 0.35), inset 0 0 10px rgba(0, 195, 255, 0.15);
+    text-shadow: 0 0 8px var(--primary-color);
+    box-shadow: 0 0 12px rgba(0, 195, 255, 0.35);
     clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
     transition: all 0.2s ease;
     user-select: none;
     overflow: hidden;
 }
 
-.nav-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.4s ease;
-}
-
-.nav-btn:hover::before {
-    left: 100%;
+body.white-theme .nav-btn {
+    background: linear-gradient(135deg, rgba(230, 240, 255, 0.9), rgba(200, 225, 255, 0.9));
+    text-shadow: none;
 }
 
 .nav-btn:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(0, 195, 255, 0.45), rgba(0, 100, 180, 0.9));
+    background: var(--primary-color);
     color: #fff;
-    box-shadow: 0 0 25px rgba(0, 195, 255, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.5);
-    text-shadow: 0 0 10px #fff;
-}
-
-.nav-btn:active {
-    transform: scale(0.96);
+    box-shadow: 0 0 25px var(--primary-color);
 }
 
 .vol-control {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(0, 15, 30, 0.85);
-    border: 1px solid rgba(0, 195, 255, 0.5);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     padding: 6px 12px;
     clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-    box-shadow: 0 0 10px rgba(0, 195, 255, 0.2);
 }
 
 .vol-btn {
     background: rgba(0, 195, 255, 0.15);
-    border: 1px solid #00c3ff;
-    color: #00c3ff;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
     width: 32px;
     height: 32px;
     font-size: 14px;
@@ -143,21 +153,13 @@ body{
     align-items: center;
     justify-content: center;
     clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
-    transition: all 0.2s ease;
-}
-
-.vol-btn:hover {
-    background: #00c3ff;
-    color: #000;
-    box-shadow: 0 0 15px #00c3ff;
 }
 
 .vol-display {
-    color: #00c3ff;
+    color: var(--primary-color);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 1.5px;
-    text-shadow: 0 0 8px rgba(0, 195, 255, 0.7);
 }
 
 /* PROFILE CARD DESIGN */
@@ -170,12 +172,12 @@ body{
 }
 
 .card{
-    background: rgba(2, 10, 20, 0.88);
+    background: var(--card-bg);
     border-radius: 18px;
     padding: 30px 20px;
     text-align: center;
-    border: 1px solid rgba(0, 195, 255, 0.35);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 195, 255, 0.2);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .avatar-container {
@@ -186,6 +188,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer; /* Clickable 7 times for admin/theme */
 }
 
 .ring-layer-1 {
@@ -193,8 +196,8 @@ body{
     inset: 0;
     border-radius: 50%;
     border: 2px solid transparent;
-    border-top-color: #00c3ff;
-    border-bottom-color: #00c3ff;
+    border-top-color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
     animation: ringSpinClockwise 4s linear infinite;
 }
 
@@ -208,22 +211,23 @@ body{
     height: 90px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #00c3ff;
-    box-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
     z-index: 2;
+    user-select: none;
 }
 
 .name{
-    color: #fff;
+    color: var(--text-color);
     font-size: 24px;
     font-weight: 800;
     margin-bottom: 6px;
     letter-spacing: 1px;
-    text-shadow: 0 0 12px rgba(0,195,255,0.8);
 }
 
 .bio{
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--text-color);
+    opacity: 0.85;
     font-size: 11px;
     line-height: 1.5;
     margin-bottom: 15px;
@@ -231,7 +235,7 @@ body{
 }
 
 .role{
-    color: #00c3ff;
+    color: var(--primary-color);
     font-size: 10px;
     font-weight: bold;
     text-transform: uppercase;
@@ -247,24 +251,21 @@ body{
 
 .links a{
     text-decoration: none;
-    color: #fff;
-    background: linear-gradient(90deg, rgba(0,195,255,0.1), rgba(0,195,255,0.25), rgba(0,195,255,0.1));
-    border: 1px solid rgba(0, 195, 255, 0.6); 
+    color: var(--text-color);
+    background: rgba(0,195,255,0.1);
+    border: 1px solid var(--primary-color); 
     padding: 12px;
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 2px;
     text-transform: uppercase;
     clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-    box-shadow: 0 0 10px rgba(0, 195, 255, 0.2);
     transition: all 0.2s ease;
 }
 
 .links a:hover{
     transform: translateY(-2px);
-    background: rgba(0, 195, 255, 0.4);
-    border-color: #00c3ff;
-    box-shadow: 0 0 20px rgba(0, 195, 255, 0.9);
+    background: var(--primary-color);
     color: #fff;
 }
 
@@ -273,11 +274,10 @@ body{
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 2px;
-    color: #00c3ff;
+    color: var(--primary-color);
     text-transform: uppercase;
-    text-shadow: 0 0 8px rgba(0, 195, 255, 0.8);
     background: rgba(0, 195, 255, 0.08);
-    border: 1px solid rgba(0, 195, 255, 0.4);
+    border: 1px solid var(--border-color);
     padding: 8px 14px;
     display: inline-block;
     clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
@@ -302,21 +302,12 @@ body{
     letter-spacing: 4px;
     text-transform: uppercase;
     cursor: pointer;
-    text-shadow: 0 0 10px #ff003c;
-    box-shadow: 0 0 25px rgba(255, 0, 60, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.4); 
+    box-shadow: 0 0 25px rgba(255, 0, 60, 0.7); 
     clip-path: polygon(15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%, 0% 15px);
     transition: all 0.2s ease;
-    overflow: hidden;
 }
 
-.warning-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    background: linear-gradient(135deg, #ff1a53, #b30027);
-    box-shadow: 0 0 45px #ff003c, 0 0 20px #ffffff;
-    text-shadow: 0 0 12px #fff;
-}
-
-/* MODALS & EXPANDED WALL CONTAINER */
+/* MODALS & WALL CONTAINER */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -329,13 +320,17 @@ body{
     padding: 15px;
 }
 
+body.white-theme .modal-overlay {
+    background: rgba(240, 245, 255, 0.95);
+}
+
 .modal-box {
     width: 100%;
     max-width: 520px;
-    background: rgba(3, 14, 28, 0.95);
-    border: 1px solid #00c3ff;
+    background: var(--card-bg);
+    border: 1px solid var(--primary-color);
     padding: 22px;
-    box-shadow: 0 0 30px rgba(0, 195, 255, 0.3);
+    box-shadow: 0 0 30px rgba(0, 195, 255, 0.2);
     clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
 }
 
@@ -351,13 +346,6 @@ body{
     letter-spacing: 2px;
     text-transform: uppercase;
     clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
-    transition: all 0.2s ease;
-}
-
-.modal-close:hover {
-    background: #ff003c;
-    color: #fff;
-    box-shadow: 0 0 20px #ff003c;
 }
 
 .modal-header-bar {
@@ -368,54 +356,47 @@ body{
 }
 
 .modal-title {
-    color: #00c3ff;
+    color: var(--primary-color);
     font-size: 16px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(0,195,255,0.6);
-    user-select: none;
 }
 
-/* ADMIN BUTTON HIDDEN BY DEFAULT */
+/* ADMIN CONTROLS */
 .admin-badge {
-    display: none; /* Completely hidden from regular users */
+    display: none;
     background: rgba(255, 0, 60, 0.2);
     border: 1px solid #ff003c;
     color: #ff003c;
-    padding: 3px 8px;
+    padding: 4px 10px;
     font-size: 10px;
     font-weight: bold;
     letter-spacing: 1px;
     cursor: pointer;
 }
 
-.admin-badge:hover {
-    background: #ff003c;
-    color: #fff;
-}
-
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
-    color: #fff;
+    color: var(--text-color);
     font-size: 12px;
 }
 
 .leaderboard-table th {
-    color: rgba(0, 195, 255, 0.8);
+    color: var(--primary-color);
     text-transform: uppercase;
     padding-bottom: 8px;
-    border-bottom: 1px solid rgba(0, 195, 255, 0.3);
+    border-bottom: 1px solid var(--border-color);
     text-align: left;
 }
 
-.leaderboard-table td { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.leaderboard-table td { padding: 8px 0; border-bottom: 1px solid rgba(150, 150, 150, 0.2); }
 
-/* EXPANDED WALL UI */
+/* WALL MESSAGES */
 .wall-messages {
-    height: 360px;
-    max-height: 55vh;
+    height: 340px;
+    max-height: 50vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -426,15 +407,15 @@ body{
 
 .wall-msg {
     background: rgba(0, 195, 255, 0.08);
-    border: 1px solid rgba(0, 195, 255, 0.3);
+    border: 1px solid var(--border-color);
     padding: 12px;
     font-size: 13px;
-    color: #fff;
+    color: var(--text-color);
     clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 
 .wall-author {
-    color: #00c3ff;
+    color: var(--primary-color);
     font-weight: bold;
     font-size: 12px;
     margin-bottom: 5px;
@@ -457,15 +438,13 @@ body{
     font-weight: bold;
 }
 
-.reply-btn { color: #00c3ff; }
-.reply-btn:hover { text-decoration: underline; }
-.del-btn { color: #ff003c; }
-.del-btn:hover { text-decoration: underline; }
+.reply-btn { color: var(--primary-color); }
+.del-btn { color: #ff003c; display: none; }
 
 .replies-container {
     margin-top: 8px;
     padding-left: 10px;
-    border-left: 2px solid rgba(0, 195, 255, 0.4);
+    border-left: 2px solid var(--primary-color);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -473,8 +452,8 @@ body{
 
 .reply-item {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.9);
-    background: rgba(0, 0, 0, 0.5);
+    color: var(--text-color);
+    background: rgba(0, 0, 0, 0.2);
     padding: 6px 10px;
     border-radius: 4px;
     display: flex;
@@ -482,7 +461,7 @@ body{
     align-items: center;
 }
 
-.reply-author { color: #00c3ff; font-weight: bold; }
+.reply-author { color: var(--primary-color); font-weight: bold; }
 
 .wall-input-container {
     display: flex;
@@ -493,46 +472,24 @@ body{
 .wall-input {
     width: 100%;
     padding: 10px 12px;
-    background: rgba(0,0,0,0.85);
-    border: 1px solid rgba(0,195,255,0.4);
-    color: #fff;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
     outline: none;
     font-size: 12px;
 }
 
-.wall-input:focus {
-    border-color: #00c3ff;
-    box-shadow: 0 0 10px rgba(0,195,255,0.4);
-}
-
 .reply-target-indicator {
     font-size: 11px;
-    color: #00c3ff;
+    color: var(--primary-color);
     display: none;
     justify-content: space-between;
     background: rgba(0, 195, 255, 0.1);
     padding: 4px 8px;
-    border: 1px dashed rgba(0, 195, 255, 0.5);
+    border: 1px dashed var(--primary-color);
 }
 
 /* JUMPSCARE & BOSS GRAPHICS */
-.slash-effect {
-    position: absolute;
-    width: 240px;
-    height: 3px;
-    background: #ffffff;
-    box-shadow: 0 0 8px #00d2ff, 0 0 20px #0055ff;
-    z-index: 10005;
-    pointer-events: none;
-    transform-origin: center;
-    transform: translate(-50%, -50%) scaleX(0.05) rotate(var(--rot));
-    animation: slashFade 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-@keyframes slashFade {
-    100% { transform: translate(-50%, -50%) scaleX(1.3) rotate(var(--rot)); opacity: 0; }
-}
-
 .jumpscare-overlay {
     position: fixed;
     inset: 0;
@@ -570,32 +527,20 @@ body{
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 10px;
-    text-shadow: 0 0 8px #ff003c;
 }
 
 .hp-bar-outer {
-    width: 100%;
-    height: 12px;
-    background: rgba(30, 0, 8, 0.8);
-    border: 1px solid rgba(255, 0, 60, 0.4);
-    margin-bottom: 8px;
+    width: 100%; height: 12px; background: rgba(30, 0, 8, 0.8); border: 1px solid rgba(255, 0, 60, 0.4); margin-bottom: 8px;
 }
 
-.hp-bar-inner {
-    width: 100%;
-    height: 100%;
-    background: #ff003c;
-    box-shadow: 0 0 12px #ff003c;
-    transition: width 0.04s ease-out;
-}
-
+.hp-bar-inner { width: 100%; height: 100%; background: #ff003c; transition: width 0.04s ease-out; }
 .rage-bar-outer { width: 100%; height: 6px; background: rgba(0, 20, 35, 0.8); }
-.rage-bar-inner { width: 0%; height: 100%; background: #00c3ff; box-shadow: 0 0 8px #00c3ff; transition: width 0.1s ease; }
+.rage-bar-inner { width: 0%; height: 100%; background: #00c3ff; transition: width 0.1s ease; }
 
 .input-box input {
-    width: 100%; padding: 12px; background: #000; border: 1.5px solid #00c3ff; color: #fff; margin-bottom: 15px; text-align: center; box-shadow: 0 0 10px rgba(0,195,255,0.2);
+    width: 100%; padding: 12px; background: #000; border: 1.5px solid #00c3ff; color: #fff; margin-bottom: 15px; text-align: center;
 }
-.input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px #00c3ff; border: none; }
+.input-box button { width: 100%; padding: 12px; background: #00c3ff; color: #000; font-weight: bold; cursor: pointer; border: none; }
 </style>
 </head>
 <body onclick="unlockAudioEngine()">
@@ -623,7 +568,8 @@ body{
 
 <div class="card-container">
     <div class="card">
-        <div class="avatar-container">
+        <!-- Tap PFP 7 times to toggle theme & admin password prompt -->
+        <div class="avatar-container" onclick="handlePfpTaps()">
             <div class="ring-layer-1"></div>
             <img src="https://i.postimg.cc/7PppjM3W/file-00000000e1a08211b82641b07d4f21a8.png" class="avatar" alt="Anosカミ">
         </div>
@@ -658,19 +604,17 @@ body{
     </div>
 </div>
 
-<!-- GLOBAL PUBLIC CHAT WALL WITH HIDDEN ADMIN CONTROLS -->
+<!-- PUBLIC CHAT WALL -->
 <div class="modal-overlay" id="wall-modal">
     <div class="modal-box">
         <div class="modal-header-bar">
-            <!-- Triple tap on this title (Mobile) or press Ctrl+Shift+A (Desktop) to reveal Admin button -->
-            <div class="modal-title" onclick="handleTitleClick()">Cyber Wall (Global)</div>
-            <div style="display:flex; gap:8px;">
-                <button class="admin-badge" id="clear-all-btn" onclick="clearAllMessages()">🗑️ Clear All</button>
-                <button class="admin-badge" id="admin-login-btn" onclick="authenticateAdmin()">🔑 ADMIN</button>
-            </div>
+            <div class="modal-title">Wall</div>
+            <button class="admin-badge" id="clear-all-btn" onclick="clearAllMessages()">🗑️ Clear All</button>
         </div>
         
-        <div class="wall-messages" id="wall-list"></div>
+        <div class="wall-messages" id="wall-list">
+            <div style="color:var(--primary-color); text-align:center; font-size:12px; padding:20px;">Loading wall messages...</div>
+        </div>
         
         <div class="reply-target-indicator" id="reply-indicator">
             <span id="reply-target-text">Replying to...</span>
@@ -679,8 +623,8 @@ body{
 
         <div class="wall-input-container">
             <input type="text" id="wall-name" class="wall-input" placeholder="Your Name / Tag" maxlength="16">
-            <input type="text" id="wall-text" class="wall-input" placeholder="Write global chat message..." maxlength="200">
-            <button class="nav-btn" style="width:100%;" onclick="postToWall()">Send Global Message</button>
+            <input type="text" id="wall-text" class="wall-input" placeholder="Write a message..." maxlength="200">
+            <button class="nav-btn" style="width:100%;" onclick="postToWall()">Send Message</button>
         </div>
         <button class="modal-close" onclick="closeWall()">Close</button>
     </div>
@@ -702,15 +646,15 @@ body{
         <div class="hp-bar-outer"><div class="hp-bar-inner" id="boss-hp"></div></div>
         <div class="rage-bar-outer"><div class="rage-bar-inner" id="rage-meter"></div></div>
     </div>
-    <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img" id="boss-image-element">
+    <img src="https://i.postimg.cc/yYbnstQd/images-(10).jpg" class="jumpscare-img">
 </div>
 
 <!-- VICTORY MODAL -->
 <div class="modal-overlay" id="victory-layer">
     <div class="modal-box" style="text-align:center;">
-        <div class="modal-title" style="color:#00c3ff;">[QUEST CLEARED]</div>
-        <p style="color:#fff; font-size:13px; margin-bottom:20px;" id="victory-time-msg"></p>
-        <button class="warning-btn" style="border-color:#00c3ff; color:#00c3ff;" onclick="closeVictoryScreen()">Return</button>
+        <div class="modal-title">-[QUEST CLEARED]-</div>
+        <p style="color:var(--text-color); font-size:13px; margin: 15px 0;" id="victory-time-msg"></p>
+        <button class="warning-btn" onclick="closeVictoryScreen()">Return</button>
     </div>
 </div>
 
@@ -727,44 +671,37 @@ let currentVolume = 1.0;
 
 let activeReplyId = null;
 let isAdmin = false;
-const ADMIN_PASSCODE = "anos2026"; // << YOUR PRIVATE ADMIN PASSWORD
+const ADMIN_PASSCODE = "rafid"; // Password
+let pfpTapCount = 0;
+let pfpTapTimer = null;
 
-// Public Data Endpoint URL (P2P JSON Bin API for 100% reliable public syncing)
-const DATA_BIN_URL = "https://api.jsonbin.io/v3/b/65f02e0c266cfc3f088365ef";
+// FIREBASE REALTIME DATABASE ENDPOINTS
+const FIREBASE_WALL_URL = "https://anos-profile-wall-default-rtdb.firebaseio.com/wall.json";
+const FIREBASE_SCORES_URL = "https://anos-profile-wall-default-rtdb.firebaseio.com/scores.json";
 const targetRedirectUrl = "https://youtu.be/1WDCEtDUoAI?si=7AvhhVKzw3nyaUut";
 const videoElement = document.getElementById("bg-video");
 
-let localGlobalStore = {
-    wall: [
-        { id: "1", name: "Anosカミ", text: "Welcome to the global wall! Leave a message or reply to someone below.", replies: [] }
-    ],
-    leaderboard: [
-        { name: "Sung_Jinwoo", time: 3.82 },
-        { name: "Anos_Fan", time: 4.15 },
-        { name: "Shadow_Hunter", time: 5.02 }
-    ]
-};
+/* 7 PFP TAP SECRET TRIGGER */
+function handlePfpTaps() {
+    pfpTapCount++;
+    clearTimeout(pfpTapTimer);
 
-/* SECRET ADMIN REVEAL SYSTEM */
-let titleTapCount = 0;
-function handleTitleClick() {
-    titleTapCount++;
-    if (titleTapCount >= 3) {
-        revealAdminButton();
-        titleTapCount = 0;
+    if (pfpTapCount >= 7) {
+        pfpTapCount = 0;
+        document.body.classList.toggle('white-theme'); // Toggle white background theme
+        
+        let enteredKey = prompt("Theme toggled to light mode.\nEnter Admin Password to activate Admin Mode:");
+        if (enteredKey === ADMIN_PASSCODE) {
+            isAdmin = true;
+            alert("✅ Admin Activated!");
+            document.getElementById('clear-all-btn').style.display = "inline-block";
+            renderWallMessages();
+        } else if (enteredKey !== null) {
+            alert("❌ Incorrect Password. Admin access denied.");
+        }
+    } else {
+        pfpTapTimer = setTimeout(() => { pfpTapCount = 0; }, 3000);
     }
-}
-
-// Keyboard shortcut for Desktop: Ctrl + Shift + A
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-        revealAdminButton();
-    }
-});
-
-function revealAdminButton() {
-    document.getElementById('admin-login-btn').style.display = "inline-block";
-    alert("Owner Access Terminal Unlocked. Click 'KEY ADMIN' to log in.");
 }
 
 /* VISITOR COUNTER */
@@ -777,7 +714,7 @@ async function fetchVisitCount() {
             return;
         }
     } catch (err) {}
-    let visits = parseInt(localStorage.getItem('page_visits') || '120') + 1;
+    let visits = parseInt(localStorage.getItem('page_visits') || '150') + 1;
     localStorage.setItem('page_visits', visits);
     document.getElementById("visit-count").innerText = visits;
 }
@@ -803,7 +740,6 @@ function changeVolume(delta, e) {
         videoElement.muted = currentVolume === 0;
     }
     document.getElementById("vol-text").innerText = `VOL: ${Math.round(currentVolume * 100)}%`;
-    playSciFiSlashSound();
 }
 
 function toggleAudioEngine(e) {
@@ -819,71 +755,10 @@ function toggleAudioEngine(e) {
             videoElement.play().catch(()=>{});
         }
         audioUnlocked = true;
-        playSciFiSlashSound();
     }
 }
 
-function playSciFiSlashSound() {
-    unlockAudioEngine();
-    if (!audioCtx || !audioUnlocked || currentVolume === 0) return;
-    try {
-        let now = audioCtx.currentTime;
-        let factor = overdriveMode ? 1.4 : 1.0;
-        let osc = audioCtx.createOscillator();
-        let gain = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(1200 * factor, now);
-        osc.frequency.exponentialRampToValueAtTime(100 * factor, now + 0.1);
-        gain.gain.setValueAtTime(0.12 * currentVolume, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(now); osc.stop(now + 0.11);
-    } catch(err){}
-}
-
-/* GLOBAL SYNC SERVICES */
-async function fetchGlobalData() {
-    try {
-        let res = await fetch(DATA_BIN_URL + "/latest");
-        let json = await res.json();
-        if (json && json.record) {
-            localGlobalStore = json.record;
-        }
-    } catch (e) {
-        let saved = localStorage.getItem('anos_fallback_store');
-        if (saved) localGlobalStore = JSON.parse(saved);
-    }
-}
-
-async function saveGlobalData() {
-    localStorage.setItem('anos_fallback_store', JSON.stringify(localGlobalStore));
-    try {
-        await fetch(DATA_BIN_URL, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(localGlobalStore)
-        });
-    } catch (e) {}
-}
-
-/* LEADERBOARD */
-async function openLeaderboard() {
-    await fetchGlobalData();
-    const entriesList = document.getElementById('leaderboard-entries');
-    entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
-    
-    let list = localGlobalStore.leaderboard || [];
-    list.sort((a, b) => a.time - b.time);
-
-    list.forEach((p, i) => {
-        entriesList.innerHTML += `<tr><td>#${i + 1}</td><td>${escapeHtml(p.name)}</td><td style="color:#00c3ff;">${Number(p.time).toFixed(2)}s</td></tr>`;
-    });
-    document.getElementById('board-modal').style.display = 'flex';
-}
-
-function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
-
-/* GLOBAL CHAT WALL & REPLIES */
+/* FIREBASE CHAT WALL */
 async function openWall() {
     document.getElementById('wall-modal').style.display = 'flex';
     await renderWallMessages();
@@ -892,93 +767,84 @@ async function openWall() {
 function closeWall() { document.getElementById('wall-modal').style.display = 'none'; }
 
 async function renderWallMessages() {
-    await fetchGlobalData();
     const list = document.getElementById('wall-list');
-    list.innerHTML = '';
-    
-    let posts = localGlobalStore.wall || [];
+    try {
+        let res = await fetch(FIREBASE_WALL_URL);
+        let data = await res.json();
+        list.innerHTML = '';
 
-    if (posts.length === 0) {
-        list.innerHTML = `<div class="wall-msg"><div>No messages on the global wall yet. Be the first to post!</div></div>`;
-        return;
-    }
-
-    posts.forEach(p => {
-        let repliesHtml = '';
-        if (p.replies && p.replies.length > 0) {
-            repliesHtml = '<div class="replies-container">';
-            p.replies.forEach(r => {
-                let deleteReplyBtn = isAdmin ? `<button class="del-btn" onclick="deleteReply('${p.id}', '${r.id}')">Delete</button>` : '';
-                repliesHtml += `
-                    <div class="reply-item">
-                        <div><span class="reply-author">${escapeHtml(r.name)}:</span> ${escapeHtml(r.text)}</div>
-                        ${deleteReplyBtn}
-                    </div>
-                `;
-            });
-            repliesHtml += '</div>';
+        if (!data) {
+            list.innerHTML = `<div class="wall-msg"><div>No messages on the wall yet. Leave a message below!</div></div>`;
+            return;
         }
 
-        let deleteMsgBtn = isAdmin ? `<button class="del-btn" onclick="deleteMessage('${p.id}')">Delete</button>` : '';
+        let posts = Object.keys(data).map(key => ({ firebaseKey: key, ...data[key] }));
+        posts.sort((a, b) => a.timestamp - b.timestamp);
 
-        list.innerHTML += `
-            <div class="wall-msg">
-                <div class="wall-author">
-                    <span>${escapeHtml(p.name)}</span>
-                    <div class="action-tools">
-                        <button class="reply-btn" onclick="setupReply('${p.id}', '${escapeHtml(p.name)}')">Reply</button>
-                        ${deleteMsgBtn}
+        posts.forEach(p => {
+            let repliesHtml = '';
+            if (p.replies) {
+                repliesHtml = '<div class="replies-container">';
+                Object.keys(p.replies).forEach(rKey => {
+                    let r = p.replies[rKey];
+                    let deleteReplyBtn = isAdmin ? `<button class="del-btn" style="display:inline-block;" onclick="deleteReply('${p.firebaseKey}', '${rKey}')">Delete</button>` : '';
+                    repliesHtml += `
+                        <div class="reply-item">
+                            <div><span class="reply-author">${escapeHtml(r.name)}:</span> ${escapeHtml(r.text)}</div>
+                            ${deleteReplyBtn}
+                        </div>
+                    `;
+                });
+                repliesHtml += '</div>';
+            }
+
+            let deleteMsgBtn = isAdmin ? `<button class="del-btn" style="display:inline-block;" onclick="deleteMessage('${p.firebaseKey}')">Delete</button>` : '';
+
+            list.innerHTML += `
+                <div class="wall-msg">
+                    <div class="wall-author">
+                        <span>${escapeHtml(p.name)}</span>
+                        <div class="action-tools">
+                            <button class="reply-btn" onclick="setupReply('${p.firebaseKey}', '${escapeHtml(p.name)}')">Reply</button>
+                            ${deleteMsgBtn}
+                        </div>
                     </div>
+                    <div>${escapeHtml(p.text)}</div>
+                    ${repliesHtml}
                 </div>
-                <div>${escapeHtml(p.text)}</div>
-                ${repliesHtml}
-            </div>
-        `;
-    });
-    list.scrollTop = list.scrollHeight;
-}
-
-function authenticateAdmin() {
-    let key = prompt("Enter Admin Passcode:");
-    if (key === ADMIN_PASSCODE) {
-        isAdmin = true;
-        document.getElementById('admin-login-btn').innerText = "✅ ADMIN ACTIVE";
-        document.getElementById('clear-all-btn').style.display = "inline-block";
-        renderWallMessages();
-        alert("Admin Permissions Activated.");
-    } else {
-        alert("Incorrect Admin Key.");
+            `;
+        });
+        list.scrollTop = list.scrollHeight;
+    } catch(e) {
+        list.innerHTML = `<div class="wall-msg"><div>Unable to load messages. Please try again.</div></div>`;
     }
 }
 
 async function postToWall() {
     const nameInput = document.getElementById('wall-name');
     const textInput = document.getElementById('wall-text');
-    let name = nameInput.value.trim() || 'Anonymous Hunter';
+    let name = nameInput.value.trim() || 'Anonymous';
     let text = textInput.value.trim();
-    
+
     if (!text) return;
 
-    if (!localGlobalStore.wall) localGlobalStore.wall = [];
-
     if (activeReplyId) {
-        let parentPost = localGlobalStore.wall.find(p => p.id === activeReplyId);
-        if (parentPost) {
-            if (!parentPost.replies) parentPost.replies = [];
-            parentPost.replies.push({ id: Date.now().toString(), name: name, text: text });
-        }
+        let replyUrl = `https://anos-profile-wall-default-rtdb.firebaseio.com/wall/${activeReplyId}/replies.json`;
+        await fetch(replyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, text: text, timestamp: Date.now() })
+        });
         cancelReply();
     } else {
-        localGlobalStore.wall.push({
-            id: Date.now().toString(),
-            name: name,
-            text: text,
-            replies: []
+        await fetch(FIREBASE_WALL_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, text: text, timestamp: Date.now() })
         });
     }
 
     textInput.value = '';
-    await saveGlobalData();
     await renderWallMessages();
 }
 
@@ -993,28 +859,21 @@ function cancelReply() {
     document.getElementById('reply-indicator').style.display = 'none';
 }
 
-/* ADMIN ERASE FUNCTIONS */
-async function deleteMessage(msgId) {
-    if (!isAdmin || !confirm("Delete message?")) return;
-    localGlobalStore.wall = localGlobalStore.wall.filter(p => p.id !== msgId);
-    await saveGlobalData();
+async function deleteMessage(key) {
+    if (!isAdmin || !confirm("Delete post?")) return;
+    await fetch(`https://anos-profile-wall-default-rtdb.firebaseio.com/wall/${key}.json`, { method: 'DELETE' });
     await renderWallMessages();
 }
 
-async function deleteReply(msgId, replyId) {
+async function deleteReply(msgKey, replyKey) {
     if (!isAdmin || !confirm("Delete reply?")) return;
-    let targetMsg = localGlobalStore.wall.find(p => p.id === msgId);
-    if (targetMsg && targetMsg.replies) {
-        targetMsg.replies = targetMsg.replies.filter(r => r.id !== replyId);
-        await saveGlobalData();
-        await renderWallMessages();
-    }
+    await fetch(`https://anos-profile-wall-default-rtdb.firebaseio.com/wall/${msgKey}/replies/${replyKey}.json`, { method: 'DELETE' });
+    await renderWallMessages();
 }
 
 async function clearAllMessages() {
-    if (!isAdmin || !confirm("DANGER: Erase all posts on the wall?")) return;
-    localGlobalStore.wall = [];
-    await saveGlobalData();
+    if (!isAdmin || !confirm("Erase all wall posts?")) return;
+    await fetch(FIREBASE_WALL_URL, { method: 'DELETE' });
     await renderWallMessages();
 }
 
@@ -1023,6 +882,27 @@ function escapeHtml(text) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
     }) : '';
 }
+
+/* LEADERBOARD */
+async function openLeaderboard() {
+    document.getElementById('board-modal').style.display = 'flex';
+    const entriesList = document.getElementById('leaderboard-entries');
+    entriesList.innerHTML = '<tr><th>Rank</th><th>Hunter</th><th>Time</th></tr>';
+
+    try {
+        let res = await fetch(FIREBASE_SCORES_URL);
+        let data = await res.json();
+        if (data) {
+            let list = Object.values(data);
+            list.sort((a, b) => a.time - b.time);
+            list.forEach((p, i) => {
+                entriesList.innerHTML += `<tr><td>#${i + 1}</td><td>${escapeHtml(p.name)}</td><td style="color:var(--primary-color);">${Number(p.time).toFixed(2)}s</td></tr>`;
+            });
+        }
+    } catch(e) {}
+}
+
+function closeLeaderboard() { document.getElementById('board-modal').style.display = 'none'; }
 
 /* BOSS GAME LOGIC */
 function triggerEmergency() {
@@ -1052,11 +932,6 @@ function registerHit(e) {
     }
 
     document.getElementById('boss-hp').style.width = Math.max(bossHp, 0) + '%';
-    
-    let x = e.clientX || (e.touches && e.touches[0].clientX);
-    let y = e.clientY || (e.touches && e.touches[0].clientY);
-    if(x && y) spawnSlash(x, y);
-    playSciFiSlashSound();
 
     if (bossHp <= 0) {
         isGameOver = true;
@@ -1072,15 +947,6 @@ function registerHit(e) {
     }
 }
 
-function spawnSlash(x, y) {
-    const s = document.createElement('div');
-    s.className = 'slash-effect';
-    s.style.left = x + 'px'; s.style.top = y + 'px';
-    s.style.setProperty('--rot', Math.random() * 360 + 'deg');
-    document.getElementById('jumpscare').appendChild(s);
-    setTimeout(() => s.remove(), 160);
-}
-
 function submitProfileName() {
     let name = document.getElementById('username-input').value.trim();
     if(name) {
@@ -1093,17 +959,20 @@ function submitProfileName() {
 async function handleScoreAndRouting(time) {
     let currentName = localStorage.getItem('saved_hunter_name') || "Anonymous";
     
-    await fetchGlobalData();
-    if(!localGlobalStore.leaderboard) localGlobalStore.leaderboard = [];
-    localGlobalStore.leaderboard.push({ name: currentName, time: time });
-    await saveGlobalData();
+    try {
+        await fetch(FIREBASE_SCORES_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: currentName, time: time, timestamp: Date.now() })
+        });
+    } catch(e) {}
 
     let isFirstTime = !localStorage.getItem('boss_redirect_done');
     if (isFirstTime) {
         localStorage.setItem('boss_redirect_done', 'true');
         window.location.href = targetRedirectUrl;
     } else {
-        document.getElementById('victory-time-msg').innerHTML = `Protocol Clear: <strong>${time.toFixed(2)}s</strong><br><span style="color:#00c3ff; font-size:11px;">RECORD UPDATED GLOBALLY</span>`;
+        document.getElementById('victory-time-msg').innerHTML = `Protocol Clear: <strong>${time.toFixed(2)}s</strong><br><span style="color:var(--primary-color); font-size:11px;">RECORD SAVED GLOBALLY</span>`;
         document.getElementById('victory-layer').style.display = 'flex';
     }
 }
